@@ -16,6 +16,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public Account getByAccountName(String name) {
+		System.out.println(name);
 		return null;
 	}
 
