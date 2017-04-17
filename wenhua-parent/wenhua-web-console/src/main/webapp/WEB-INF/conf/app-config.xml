@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+					 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+    <context:property-placeholder location="classpath:app-*.properties" />
+
+    <context:component-scan base-package="com.wenhua" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository" />
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service" />
+    </context:component-scan>
+
+    <!-- 国际化（i18n）资源工具 -->
+    <bean id="messageSource" class="com.wenhua.util.i18n.ResourceBundleMessageSource">
+        <!--property name="useCodeAsDefaultMessage" value="true" /-->
+        <property name="cacheSeconds" value="3600" />
+        <property name="basenames">
+            <list>
+                <value>lang/common</value>
+                <value>lang/module</value>
+            </list>
+        </property>
+        <property name="defaultEncoding" value="UTF-8" />
+    </bean>
+
+    <bean class="com.wenhua.util.i18n.MessageSourceUtils" factory-method="getInstance">
+        <property name="messageSource" ref="messageSource" />
+    </bean>
+    
+    <bean id="appConfig" class="com.wenhua.base.web.util.DefaultAppConfigExt" factory-method="getInstance">
+        <property name="rootDomain" value="${app.root.domain}" />
+        <property name="siteDomain" value="${app.cookie.root.domain}" />
+        <property name="themeName" value="${app.theme.name}" />
+        <property name="siteUrl" value="${app.site.url}" />
+        <property name="imagesUrl" value="${app.site.static}${app.images.dir}" />
+        <property name="stylesUrl" value="${app.site.static}${app.styles.dir}" />
+        <property name="scriptsUrl" value="${app.site.static}${app.scripts.dir}" />
+        <property name="captchaCount" value="${app.captcha.count}" />
+        <property name="excelDownloadUrl" value="${excel.download.dir.path}" />
+        <property name="tempDir" value="${app.temp.dir}" />
+    </bean>
+
+</beans>

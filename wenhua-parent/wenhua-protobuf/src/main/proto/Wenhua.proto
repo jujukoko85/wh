@@ -1,0 +1,89 @@
+﻿// version	1.1
+// protoc.exe --cpp_out=./wenhua  Wenhua.proto
+
+syntax = "proto3";
+
+message AuthenInfo {
+	int32 barID = 1;	
+	string when = 2;	
+	string sign = 3;	
+	string svrMac = 4;	
+}
+
+
+
+
+
+message BarConfig {
+	int32 freqInstantPcInfo = 1;	
+}
+
+
+
+
+
+message ServerInfo {
+	string mac = 1;			
+	string ip = 2;			
+	string pcname = 3;		
+	int32 os = 4;			
+	string windows = 5;		
+}
+
+
+
+
+
+message PcInfoList {
+	repeated PcInfo infos = 1;
+}
+message PcInfo {			
+	string mac = 1;			
+	string ip = 2;			
+	string pcname = 3;		
+	int32 os = 4;			
+	string windows = 5;		
+}
+
+
+
+
+
+message PcInstantInfoList {
+	repeated PcInstantInfo infos = 1;
+}
+message PcInstantInfo {			
+	string mac = 1;				
+	bool  isPowerOn = 2;		
+	bool  isRunWenhua = 3;		
+	bool  isUserLogin = 4;		
+	int32 wenhuaDuration = 5;	
+}
+
+
+
+
+
+message SoftwareVersion {
+	string serverVersion = 1;	
+	string clientVersion = 2;	
+}
+message FileInfoList {
+	repeated FileInfo infos = 1;
+	repeated FileBar fileBars = 2;
+}
+message FileInfo {
+	int32 id = 1;				
+	string filename = 2;		
+	string version = 3;			
+	string md5 = 4;				
+	int32 flag = 5;				
+	int32 type = 6;				
+	int32 action = 7;			
+	bool applyAllBar = 8;		
+}
+message FileBar {
+	int32 fileID = 1;			
+	repeated int32 barID = 2;	
+}
+
