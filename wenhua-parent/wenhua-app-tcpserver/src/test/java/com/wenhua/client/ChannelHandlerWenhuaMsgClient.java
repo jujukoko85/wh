@@ -23,6 +23,9 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 				.setContent(ByteString.copyFromUtf8("hello")).setExceptCode(0).setExceptMsg("OK").build();
 		
 		System.out.println(ByteUtil.bytes2hex(message.toByteArray()));
+		
+//		String hello = "hello world";
+//		System.out.println(ByteUtil.bytes2hex(hello.getBytes()));
 
 		ctx.writeAndFlush(message);
 
