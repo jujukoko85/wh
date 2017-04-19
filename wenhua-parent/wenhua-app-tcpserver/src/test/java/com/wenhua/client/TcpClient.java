@@ -1,5 +1,8 @@
 package com.wenhua.client;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.wenhua.proto.WenhuaMsg;
 
 import io.netty.bootstrap.Bootstrap;
@@ -14,10 +17,23 @@ import io.netty.handler.codec.LengthFieldPrepender;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 
-public class TcpClient {
+public class TcpClient implements Runnable {
+	
+	private String remoteAddress;
+	private int port;
+	private int clientNum;
+	
+	private Logger logger = LoggerFactory.getLogger(getClass());
+	
+	public TcpClient(String remoteAddress, int port, int clientNum) {
+		this.remoteAddress = remoteAddress;
+		this.port = port;
+		this.clientNum = clientNum;
+		System.out.println("Create " + clientNum + "; " + remoteAddress + " ;" + port);
+	}
 
 	public void start(String remoteAddress, int port) throws Exception {
-		NioEventLoopGroup group = new NioEventLoopGroup();
+		NioEventLoopGroup group = new NioEventLoopGroup(1);
 		
 		try {
 			Bootstrap b = new Bootstrap();
@@ -52,13 +68,24 @@ public class TcpClient {
 		}
 	}
 	
-	public static void main(String[] args) {
-		TcpClient client = new TcpClient();
+	public static void main(String[] args) throws InterruptedException {
+//		for(int i = 0; i < 10000; i++) {
+			TcpClient client = new TcpClient("127.0.0.1", 9527, 1);
+			Thread t = new Thread(client);
+			t.start();
+			
+			Thread.sleep(60 * 1000);
+			
+//		}
+		
+	}
+
+	@Override
+	public void run() {
 		try {
-//			client.start("202.109.114.115", 9527);
-			client.start("127.0.0.1", 9527);
+			start(remoteAddress, port);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("ClientNum: " + clientNum + " Msg: " + e.getMessage());
 		}
 	}
 }

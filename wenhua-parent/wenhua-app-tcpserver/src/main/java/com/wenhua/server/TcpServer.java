@@ -37,6 +37,8 @@ public class TcpServer {
 				.channel(NioServerSocketChannel.class) // (3)
 				.childHandler(initializer)
 				.option(ChannelOption.SO_BACKLOG, 128) // (5)
+				/** 如果端口忙，但TCP状态位于 TIME_WAIT ，可以重用端口 */
+				.option(ChannelOption.SO_REUSEADDR, true)
 				.childOption(ChannelOption.SO_KEEPALIVE, true); // (6)
 
 			// Bind and start to accept incoming connections.

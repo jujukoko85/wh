@@ -13,7 +13,7 @@
 
 	<context:property-placeholder location="classpath*:app-database.properties" />
 	
-	<context:component-scan base-package="com.wenhua.service" use-default-filters="false">
+	<context:component-scan base-package="com.wenhua.svr.service" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository" />
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service" />

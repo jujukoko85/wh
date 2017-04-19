@@ -10,4 +10,11 @@ public class TestTcpMethod {
 	public void test1() {
 		assertEquals("Authentication", TcpMethod.Authentication.toString());
 	}
+	
+	@Test
+	public void test2() {
+		int num = Runtime.getRuntime().availableProcessors() * 2;
+		System.out.println(num);
+	}
+	
 }

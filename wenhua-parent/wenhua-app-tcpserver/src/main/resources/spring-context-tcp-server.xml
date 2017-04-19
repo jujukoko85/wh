@@ -14,7 +14,7 @@
 
 	<!-- 消息处理 -->
 	<bean id="channelHandlerWenhuaMsg" class="com.wenhua.server.ChannelHandlerWenhuaMsg" scope="prototype">
-		<!-- <property name="authService" ref="authService" /> -->
+		<property name="authService" ref="authService" />
 	</bean>
 
 </beans>
