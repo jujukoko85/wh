@@ -12,7 +12,13 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public void auth(BarAuthInfo barAuthInfo) throws AuthBarNotExistException, AuthSignNotValidException {
+		if(null == barAuthInfo) throw new AuthBarNotExistException();
 		
+		//TODO 获取 KEY
+		
+		if(!barAuthInfo.isValid("hn123wh")) {
+			throw new AuthSignNotValidException();
+		}
 	}
 
 }
