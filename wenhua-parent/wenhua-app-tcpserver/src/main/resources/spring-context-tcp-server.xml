@@ -15,6 +15,17 @@
 	<!-- 消息处理 -->
 	<bean id="channelHandlerWenhuaMsg" class="com.wenhua.server.ChannelHandlerWenhuaMsg" scope="prototype">
 		<property name="authService" ref="authService" />
+		<property name="codeMaps">
+			<map>
+				<entry key="0" 		value="调用成功" />
+				<entry key="1001" 	value="Message无接口名称或序列号" />
+				<entry key="1002" 	value="中心无此网吧" />
+				<entry key="1003" 	value="sign无效" />
+				<entry key="1004" 	value="网络链接错误" />
+				<entry key="1005" 	value="客户端未验证" />
+			</map>
+		</property>
 	</bean>
+	
 
 </beans>

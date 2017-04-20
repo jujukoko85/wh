@@ -32,6 +32,7 @@ public class TcpServer {
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		try {
 			ServerBootstrap b = new ServerBootstrap(); // (2)
+			
 			b
 				.group(bossGroup, workerGroup)
 				.channel(NioServerSocketChannel.class) // (3)

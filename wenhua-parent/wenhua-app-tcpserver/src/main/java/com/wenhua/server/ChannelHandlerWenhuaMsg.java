@@ -1,6 +1,9 @@
 package com.wenhua.server;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,102 +12,433 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.wenhua.proto.Wenhua;
 import com.wenhua.proto.Wenhua.AuthInfo;
+import com.wenhua.proto.Wenhua.FileBar;
+import com.wenhua.proto.Wenhua.FileInfo;
+import com.wenhua.proto.Wenhua.FileInfoList;
+import com.wenhua.proto.Wenhua.FileInfoList.Builder;
+import com.wenhua.proto.Wenhua.PcInfo;
+import com.wenhua.proto.Wenhua.PcInfoList;
+import com.wenhua.proto.Wenhua.PcInstantInfo;
+import com.wenhua.proto.Wenhua.PcInstantInfoList;
+import com.wenhua.proto.Wenhua.ServerInfo;
+import com.wenhua.proto.Wenhua.SoftwareVersion;
 import com.wenhua.proto.WenhuaMsg;
 import com.wenhua.proto.WenhuaMsg.Message;
 import com.wenhua.svr.domain.BarAuthInfo;
+import com.wenhua.svr.domain.BarConfig;
+import com.wenhua.svr.domain.BarFileBar;
+import com.wenhua.svr.domain.BarFileInfo;
+import com.wenhua.svr.domain.BarPcInfo;
+import com.wenhua.svr.domain.BarPcInstantInfo;
+import com.wenhua.svr.domain.BarServerInfo;
+import com.wenhua.svr.domain.BarSoftwareVersion;
 import com.wenhua.svr.exception.AuthBarNotExistException;
 import com.wenhua.svr.exception.AuthSignNotValidException;
 import com.wenhua.svr.service.AuthService;
+import com.wenhua.util.tools.NumberUtil;
 
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelId;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
+	private static final String METHOD_NAME_IS_NULL = "MethodNameIsNull";
+	
+	private Map<Integer, String> codeMaps;
+	
 	private AuthService authService;
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		logger.debug("##Active");
+		
+		logger.debug(String.format("##Active ChannelShortId: %s remoteId: %s", getChannelShortId(ctx), getRemoteIp(ctx)));
 		
 		super.channelActive(ctx);
+	}
+
+	private String getChannelShortId(ChannelHandlerContext ctx) {
+		Channel channel = ctx.channel();
+		ChannelId id = channel.id();
+		String shortId = id.asShortText();
+		return shortId;
+	}
+	
+	@Override
+	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+		logger.debug(String.format("##Inactive ChannelShortId: %s remoteId: %s", getChannelShortId(ctx), getRemoteIp(ctx)));
+		super.channelInactive(ctx);
 	}
 	
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		logger.debug("##read");
+		logger.debug(String.format("##Read ChannelShortId: %s remoteId: %s", getChannelShortId(ctx), getRemoteIp(ctx)));
 		WenhuaMsg.Message message = (WenhuaMsg.Message) msg;
 		
-		boolean close = false; //是否需要关闭当前链接
 		long id = message.getId();
-		int exceptCode = 0;
-		String exceptMsg = null;
 		ByteString content = null;
 		String methodName = message.getMethod();
 		
-		
-		InetSocketAddress remoteAddress = (InetSocketAddress)ctx.channel().remoteAddress();
-		logMsg(remoteAddress.getAddress().getHostAddress(), message);
+		String ip = getRemoteIp(ctx);
+		logMsg(ip, message);
 		
 		TcpMethod method = TcpMethod.getEnumFromString(methodName);
 		
 		if(null == method || 0 == id) {
-			close = true;
-			exceptCode = 1001;
-			methodName = "MethodNameIsNull";
-			exceptMsg = "Message无接口名称或序列号";
+			invalidRequestCloseChannel(ctx, id, content);
 		} else {
 			
 			switch(method) {
-				case Authentication : 
-				try {
-					doAuthentication(message);
-					exceptCode = 0;
-					exceptMsg = "验证成功";
-				} catch (AuthBarNotExistException e) {
-					close = true;
-					exceptCode = 1002;
-					exceptMsg = "中心无此网吧";
-				} catch (AuthSignNotValidException e) {
-					close = true;
-					exceptCode = 1003;
-					exceptMsg = "sign无效";
-				} catch (Exception e) {
-					logger.error(e.getMessage(), e);
-					close = true;
-					exceptCode = 1004;
-					exceptMsg = "网络链接错误";
-					e.printStackTrace();
-				}
-				case GetVersinInfo : ;
-				case SetInstantPcInfoList : ;
-				case SetPcInfoList : ;
-				case SetServerInfo : ;
-				default : ;
-			}
+				/** 身份验证 */
+				case Authentication :
+					doAuthentication(ctx, message);
+					
+				break;
+				/** 获取信息 */
+				case GetConfig : 
+					doGetConfig(ctx, message);
+					
+				break;
+				case GetFileInfoList : 
+					doGetFileInfoList(ctx, message);
+					
+				break;
+				/** 上报客户机实时信息列表 */
+				case SetInstantPcInfoList : 
+					doSetInstantPcInfoList(ctx, message);
+					
+				break;
+				/** 上报客户机实时信息列表 */
+				case SetPcInfoList : 
+					doSetPcInfoList(ctx, message);
+					
+				break;
+				/** 上报服务器信息 */
+				case SetServerInfo : 
+					doSetServerInfo(ctx, message);
+					
+				break;
+				default : 
+					;
+				break;
+			} //switch end
 			
 		}
 		
+		super.channelRead(ctx, msg);
+	}
+
+	/**
+	 * 请求不合法 关闭Channel
+	 * @param ctx
+	 * @param id
+	 * @param content
+	 */
+	private void invalidRequestCloseChannel(ChannelHandlerContext ctx, long id, ByteString content) {
+		int exceptCode;
+		String exceptMsg;
+		String methodName;
+		exceptCode = 1001;
+		methodName = METHOD_NAME_IS_NULL;
+		exceptMsg = codeMaps.get(exceptCode);
+		
+		Message responseMsg = getResponseMsg(id, exceptCode, exceptMsg, content, methodName);
+		ChannelFuture future = ctx.writeAndFlush(responseMsg);
+		future.addListener(ChannelFutureListener.CLOSE);
+	}
+
+	private Message getResponseMsg(long id, int exceptCode, String exceptMsg, ByteString content, String methodName) {
 		Message response = WenhuaMsg.Message.newBuilder()
 			.setId(id)
-			.setMethod(methodName)
+			.setMethod(null == methodName ? METHOD_NAME_IS_NULL : methodName)
 			.setContent(null == content ? ByteString.copyFrom(exceptMsg.getBytes()) : content)
 			.setExceptCode(exceptCode)
 			.setExceptMsg(exceptMsg)
 			.build();
+		return response;
+	}
+
+	private FileInfoList getFromPair(List<BarFileInfo> list1, List<BarFileBar> list2) {
 		
-		ChannelFuture future = ctx.writeAndFlush(response);
+		Builder builder = Wenhua.FileInfoList.newBuilder();
 		
-		if (close) {
-			// future.addListener(ChannelFutureListener.CLOSE).sync().channel().closeFuture().sync();
-			future.addListener(ChannelFutureListener.CLOSE);
+		if(null != list1 && 0 != list1.size()) {
+			for(BarFileInfo fileInfo : list1) {
+				FileInfo f = Wenhua.FileInfo.newBuilder()
+					.setAction(fileInfo.getAction())
+					.setApplyAllBar(fileInfo.isApplyAllBar())
+					.setFilename(fileInfo.getFileName())
+					.setFlag(fileInfo.getFlag())
+					.setId(fileInfo.getId())
+					.setMd5(fileInfo.getMd5())
+					.setType(fileInfo.getType())
+					.setVersion(fileInfo.getVersion())
+					.build();
+				
+				builder.addInfos(f);
+			}
 		}
 		
-		super.channelRead(ctx, msg);
+		if(null != list2 && 0 != list2.size()) {
+			for(BarFileBar fileBar : list2) {
+				com.wenhua.proto.Wenhua.FileBar.Builder b = Wenhua.FileBar.newBuilder()
+					.setFileID(fileBar.getFileId());
+				
+				for(Integer i : fileBar.getBarIdList()) {
+					b.addBarID(i);
+				}
+				FileBar fb = b.build();
+				
+				builder.addFileBars(fb);
+			}
+		}
+		
+		return builder.build();
+	}
+
+	/**
+	 * 获取文件信息列表
+	 * @param ctx
+	 * @param message
+	 */
+	private void doGetFileInfoList(ChannelHandlerContext ctx, Message message) {
+		SoftwareVersion softwareVersion = null;
+		try {
+			softwareVersion = Wenhua.SoftwareVersion.parseFrom(message.getContent());
+		} catch (InvalidProtocolBufferException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String clientVersion = null == softwareVersion ? null : softwareVersion.getClientVersion();
+		String serverVersion = null == softwareVersion ? null : softwareVersion.getServerVersion();
+		logger.info(String.format("##GetFileInfoList ChannelShortId: %s  RemoteIp: %s ClientVersion: %s ServerVersion: %s", getChannelShortId(ctx), getRemoteIp(ctx), clientVersion, serverVersion));
+		if(null == softwareVersion) return;
+		
+		BarSoftwareVersion version = new BarSoftwareVersion();
+		version.setClientVersion(softwareVersion.getClientVersion());
+		version.setServerVersion(softwareVersion.getServerVersion());
+		
+		int exceptCode =0;
+		String exceptMsg = null;
+		ByteString content = null;
+		
+		try {
+			List<BarFileInfo> barFileInfoList = authService.getBarFileInfoList(version);
+			List<BarFileBar> barFileBarList = authService.getBarFileBarList(version);
+			
+			Wenhua.FileInfoList fileInfoList = getFromPair(barFileInfoList, barFileBarList);
+			exceptCode = 0;
+			exceptMsg = codeMaps.get(exceptCode);
+			content = fileInfoList.toByteString();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			exceptCode = 1004;
+			exceptMsg = codeMaps.get(exceptCode);
+			content = ByteString.copyFromUtf8(String.valueOf(false));
+		}
+		
+		Message response = getResponseMsg(message.getId(), exceptCode, exceptMsg, content, message.getMethod());
+		ctx.writeAndFlush(response);
+		
+	}
+
+	/**
+	 * 上报客户机实时信息列表
+	 * @param ctx
+	 * @param message
+	 */
+	private void doSetInstantPcInfoList(ChannelHandlerContext ctx, Message message) {
+		PcInstantInfoList pcInstantInfoList = null;
+		try {
+			pcInstantInfoList = Wenhua.PcInstantInfoList.parseFrom(message.getContent());
+		} catch (InvalidProtocolBufferException e) {
+			e.printStackTrace();
+			//TODO
+		}
+		List<PcInstantInfo> infosList = pcInstantInfoList.getInfosList();
+		logger.info(String.format("##SetInstantPcInfoList ChannelShortId: %s RemoteIp: %s PcInstantInfoListSize: %d", getChannelShortId(ctx), getRemoteIp(ctx), null == infosList ? 0 : infosList.size()));
+		
+		if(null == infosList || 0 == infosList.size()) return;
+		
+		List<BarPcInstantInfo> barPcInstantInfoList = new ArrayList<BarPcInstantInfo>(infosList.size());
+		
+		for(PcInstantInfo info : infosList) {
+			BarPcInstantInfo pc = new BarPcInstantInfo();
+			pc.setMac(info.getMac());
+			pc.setPowerOn(info.getIsPowerOn());
+			pc.setPowerDuration(info.getPoweronDuration());
+			pc.setWenhuaDuration(info.getWenhuaDuration());
+			pc.setRunWenhua(info.getIsRunWenhua());
+			pc.setUserLogin(info.getIsUserLogin());
+			
+			barPcInstantInfoList.add(pc);
+		}
+	
+		int exceptCode = 0;
+		String exceptMsg = null;
+		ByteString content = null;
+		try {
+			authService.updatePcInstantInfoList(barPcInstantInfoList);
+			content = ByteString.copyFromUtf8(String.valueOf(true));
+			exceptCode = 0;
+			exceptMsg = codeMaps.get(exceptCode);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			exceptCode = 1004;
+			exceptMsg = codeMaps.get(exceptCode);
+			content = ByteString.copyFromUtf8(String.valueOf(false));
+		}
+		
+		Message response = getResponseMsg(message.getId(), exceptCode, exceptMsg, content, message.getMethod());
+		ctx.writeAndFlush(response);
+		
+	}
+
+	/**
+	 * 上报客户机实时信息列表
+	 * @param ctx
+	 * @param message
+	 */
+	private void doSetPcInfoList(ChannelHandlerContext ctx, Message message) {
+		PcInfoList pcInfoList = null;
+		try {
+			pcInfoList = Wenhua.PcInfoList.parseFrom(message.getContent());
+		} catch (InvalidProtocolBufferException e) {
+			e.printStackTrace();
+			//TODO 
+		}
+		List<PcInfo> infosList = pcInfoList.getInfosList();
+		logger.info(String.format("##SetPcInfoList ChannelShortId: %s RemoteIp: %s PcInfoListSize: %d", getChannelShortId(ctx), getRemoteIp(ctx), null == infosList ? 0 : infosList.size()));
+		
+		if(null == infosList || 0 == infosList.size()) return;
+		
+		List<BarPcInfo> barPcInfoList = new ArrayList<BarPcInfo>(infosList.size());
+		for(PcInfo info : infosList) {
+			BarPcInfo pc = new BarPcInfo();
+			pc.setIp(info.getIp());
+			pc.setMac(info.getMac());
+			pc.setOsType(info.getOsType());
+			pc.setOsVersion(info.getOsVersion());
+			pc.setPcName(info.getPcname());
+			
+			barPcInfoList.add(pc);
+		}
+		
+		int exceptCode = 0;
+		String exceptMsg = null;
+		ByteString content = null;
+		
+		try {
+			authService.updatePcInfoList(barPcInfoList);
+			exceptCode = 0;
+			exceptMsg = codeMaps.get(exceptCode);
+			content = ByteString.copyFromUtf8(String.valueOf(true));
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			exceptCode = 1004;
+			exceptMsg = codeMaps.get(exceptCode);
+			content = ByteString.copyFromUtf8(String.valueOf(false));
+		}
+		
+		Message response = getResponseMsg(message.getId(), exceptCode, exceptMsg, content, message.getMethod());
+		ctx.writeAndFlush(response);
+		
+	}
+
+	/**
+	 * 上报服务器信息
+	 * @param ctx
+	 * @param message
+	 * @throws AuthBarNotExistException 
+	 */
+	private void doSetServerInfo(ChannelHandlerContext ctx, Message message) throws AuthBarNotExistException {
+		ServerInfo serverInfo = null;
+		try {
+			serverInfo = Wenhua.ServerInfo.parseFrom(message.getContent());
+		} catch (InvalidProtocolBufferException e) {
+			e.printStackTrace();
+			//TODO
+		}
+		logger.info(
+				String.format(
+						"##SetServerInfo ChannelShortId: %s remoteId: %s mac: %s ip: %s pcname: %s ostype: %d osversion:%s", 
+						getChannelShortId(ctx),
+						getRemoteIp(ctx), 
+						serverInfo.getMac(), 
+						serverInfo.getIp(), 
+						serverInfo.getPcname(), 
+						serverInfo.getOsType(), 
+						serverInfo.getOsVersion())
+				);
+		
+		BarServerInfo barServerInfo = new BarServerInfo();
+		barServerInfo.setMac(serverInfo.getMac());
+		barServerInfo.setIp(serverInfo.getIp());
+		barServerInfo.setPcName(serverInfo.getPcname());
+		barServerInfo.setOsType(serverInfo.getOsType());
+		barServerInfo.setOsVersion(serverInfo.getOsVersion());
+		
+		int exceptCode = 0;
+		String exceptMsg = null;
+		ByteString content = null;
+		try {
+			authService.setServerInfo(barServerInfo);
+			exceptCode = 0;
+			exceptMsg = codeMaps.get(exceptCode);
+			content = ByteString.copyFromUtf8(String.valueOf(true));
+		} catch (AuthBarNotExistException e) {
+			exceptCode = 1002;
+			exceptMsg = codeMaps.get(exceptCode);
+			content = ByteString.copyFromUtf8(String.valueOf(false));
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			exceptMsg = codeMaps.get(exceptCode);
+			content = ByteString.copyFromUtf8(String.valueOf(false));
+		}
+		
+		Message response = getResponseMsg(message.getId(), exceptCode, exceptMsg, content, message.getMethod());
+		
+		ctx.writeAndFlush(response);
+	}
+
+	private String getRemoteIp(ChannelHandlerContext ctx) {
+		InetSocketAddress remoteAddress = (InetSocketAddress)ctx.channel().remoteAddress();
+		String ip = remoteAddress.getAddress().getHostAddress();
+		return ip;
+	}
+
+	private void doGetConfig(ChannelHandlerContext ctx, Message message) throws AuthBarNotExistException {
+		ByteString content = message.getContent();
+		int barId = NumberUtil.byte4ToInt(content.toByteArray(), 0);
+		logger.info(String.format("##GetConfig ChannelShortId: %s RemoteIp: %s BarId: %d", getChannelShortId(ctx), getRemoteIp(ctx), barId));
+		
+		int exceptCode = 0;
+		String exceptMsg = null;
+		try {
+			BarConfig myConfig = authService.getBarConfig(barId);
+			exceptCode = 0;
+			exceptMsg = codeMaps.get(exceptCode);
+			com.wenhua.proto.Wenhua.BarConfig config = Wenhua.BarConfig.newBuilder().setFreqInstantPcInfo(myConfig.getFreqInstantPcInfo()).build();
+			content = config.toByteString();
+			
+		} catch (AuthBarNotExistException e) {
+			exceptCode = 1002;
+			exceptMsg = codeMaps.get(exceptCode);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			exceptCode = 1004;
+			exceptMsg = codeMaps.get(exceptCode);
+			content = ByteString.copyFromUtf8(String.valueOf(false));
+		}
+		
+		Message response = getResponseMsg(message.getId(), exceptCode, exceptMsg, content, message.getMethod());
+		
+		ctx.writeAndFlush(response);
 	}
 
 	/**
@@ -113,22 +447,55 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 	 * @throws AuthSignNotValidException 
 	 * @throws AuthBarNotExistException 
 	 */
-	private void doAuthentication(Message message) throws AuthBarNotExistException, AuthSignNotValidException {
+	private void doAuthentication(ChannelHandlerContext ctx, Message message) {
 		AuthInfo authInfo = null;
 		try {
 			authInfo = Wenhua.AuthInfo.parseFrom(message.getContent());
 		} catch (InvalidProtocolBufferException e) {
 			e.printStackTrace();
+			//TODO
 		}
-		logger.info(String.format("##Authentication BarId: %d When: %s Sign: %s", authInfo.getBarID(), authInfo.getWhen(), authInfo.getSign()));
+		logger.info(String.format("##Authentication ChannelShortId: %s RemoteIp: %s BarId: %d When: %s Sign: %s", getChannelShortId(ctx), getRemoteIp(ctx), authInfo.getBarID(), authInfo.getWhen(), authInfo.getSign()));
 		
-		authService.auth(new BarAuthInfo(authInfo.getBarID(), authInfo.getWhen(), authInfo.getSign()));
+		int exceptCode = 0;
+		String exceptMsg = null;
+		ByteString content = null;
+		boolean close = false;
 		
+		try {
+			authService.auth(new BarAuthInfo(authInfo.getBarID(), authInfo.getWhen(), authInfo.getSign()));
+			exceptCode = 0;
+			exceptMsg = codeMaps.get(exceptCode);
+			content = ByteString.copyFromUtf8(String.valueOf(true));
+		} catch (AuthBarNotExistException e) {
+			close = true;
+			exceptCode = 102;
+			exceptMsg = codeMaps.get(exceptCode);
+			content = ByteString.copyFromUtf8(String.valueOf(false));
+		} catch (AuthSignNotValidException e) {
+			close = true;
+			exceptCode = 1003;
+			exceptMsg = codeMaps.get(exceptCode);
+			content = ByteString.copyFromUtf8(String.valueOf(false));
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			close = true;
+			exceptCode = 1004;
+			exceptMsg = codeMaps.get(exceptCode);
+			content = ByteString.copyFromUtf8(String.valueOf(false));
+		}
+		
+		Message response = getResponseMsg(message.getId(), exceptCode, exceptMsg, content, message.getMethod());
+		ChannelFuture future = ctx.writeAndFlush(response);
+		
+		if(close) {
+			future.addListener(ChannelFutureListener.CLOSE);
+		}
 	}
 	
 	private void logMsg(String remoteIp, WenhuaMsg.Message message) {
 		String content = String.format(
-			"##From [%s] ReceivedMsg: Id[%d] Method[%s] Content[%s] ReturnCode[%d] ReturnMsg[%s]", 
+			"##From ChannelShortId: %s remoteIp: [%s] ReceivedMsg: Id[%d] Method[%s] Content[%s] ReturnCode[%d] ReturnMsg[%s]", 
 			remoteIp,
 			message.getId(),
 			message.getMethod(), 
@@ -143,19 +510,27 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 	
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-		logger.debug("##readComplete");
-		
+		logger.debug(String.format("##readComplete ChannelShortId: %s remoteId: %s", getChannelShortId(ctx), getRemoteIp(ctx)));
 		super.channelReadComplete(ctx);
 	}
 	
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		logger.error("##exceptionCaught", cause);
+		logger.debug(String.format("##exceptionCaught ChannelShortId: %s remoteId: %s", getChannelShortId(ctx), getRemoteIp(ctx)));
 		super.exceptionCaught(ctx, cause);
 	}
 
 	public void setAuthService(AuthService authService) {
 		this.authService = authService;
 	}
+
+	public Map<Integer, String> getCodeMaps() {
+		return codeMaps;
+	}
+
+	public void setCodeMaps(Map<Integer, String> codeMaps) {
+		this.codeMaps = codeMaps;
+	}
+	
 	
 }

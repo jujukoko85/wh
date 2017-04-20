@@ -9,13 +9,18 @@ import com.google.protobuf.ByteString;
 import com.wenhua.proto.Wenhua;
 import com.wenhua.proto.Wenhua.AuthInfo;
 import com.wenhua.proto.Wenhua.AuthInfo.Builder;
+import com.wenhua.proto.Wenhua.PcInfo;
+import com.wenhua.proto.Wenhua.PcInfoList;
+import com.wenhua.proto.Wenhua.PcInstantInfo;
+import com.wenhua.proto.Wenhua.PcInstantInfoList;
+import com.wenhua.proto.Wenhua.SoftwareVersion;
 import com.wenhua.proto.WenhuaMsg;
-import com.wenhua.server.ChannelHandlerWenhuaMsg;
+import com.wenhua.proto.WenhuaMsg.Message;
 import com.wenhua.svr.domain.BarAuthInfo;
 import com.wenhua.util.ByteUtil;
 import com.wenhua.util.RandomNumberGenerator;
 import com.wenhua.util.tools.DateUtils;
-import com.wenhua.util.tools.Md5Util;
+import com.wenhua.util.tools.NumberUtil;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -29,13 +34,104 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 
 		logger.info("MessageProto channelActive");
 
-		WenhuaMsg.Message message = getAuthInfoMessage();
+		WenhuaMsg.Message message = getFileInfoList();
 		
 		System.out.println(ByteUtil.bytes2hex(message.toByteArray()));
 
 		ctx.writeAndFlush(message);
 
 		super.channelActive(ctx);
+	}
+	
+	private WenhuaMsg.Message getFileInfoList() {
+		
+		SoftwareVersion version = Wenhua.SoftwareVersion.newBuilder()
+			.setClientVersion("client version")
+			.setServerVersion("Server version")
+			.build();
+		
+		Message message = getNormalMessageBuilder(System.currentTimeMillis(), "GetFileInfoList", version.toByteString(), 0, "OK").build();
+		
+		return message;
+	}
+	
+	private WenhuaMsg.Message setPcInstantInfoList() {
+		
+		PcInstantInfoList list = Wenhua.PcInstantInfoList.newBuilder()
+			.addInfos(getPcInstantInfo())
+			.addInfos(getPcInstantInfo())
+			.addInfos(getPcInstantInfo())
+			.addInfos(getPcInstantInfo())
+			.build();
+		
+		com.wenhua.proto.WenhuaMsg.Message message = getNormalMessageBuilder(System.currentTimeMillis(), "SetInstantPcInfoList", list.toByteString(), 0, "OK").build();
+		
+		return message;
+	}
+	
+	private PcInstantInfo getPcInstantInfo() {
+		PcInstantInfo pcInstantInfo = Wenhua.PcInstantInfo.newBuilder()
+			.setIsPowerOn(true)
+			.setIsUserLogin(true)
+			.setWenhuaDuration(3600)
+			.setPoweronDuration(3600)
+			.setIsRunWenhua(true)
+			.setMac("AA-BB-CC-DD-EE-FF")
+			.build();
+		return pcInstantInfo;
+	}
+
+	private WenhuaMsg.Message setPcInfoList() {
+		
+		PcInfoList pcInfoList = Wenhua.PcInfoList.newBuilder()
+			.addInfos(getPcInfo())
+			.addInfos(getPcInfo())
+			.build();
+		
+		com.wenhua.proto.WenhuaMsg.Message message = getNormalMessageBuilder(System.currentTimeMillis(), "SetPcInfoList", pcInfoList.toByteString(), 0, "OK").build();
+		
+		return message;
+	}
+	
+	private Wenhua.PcInfo getPcInfo() {
+		
+		PcInfo pcInfo = Wenhua.PcInfo.newBuilder()
+			.setIp("192.168.1.2")
+			.setMac("11-22-33-44-55-66")
+			.setPcname("PC-TEST")
+			.setOsType(1)
+			.setOsVersion("OS X")
+			.build();
+		
+		return pcInfo;
+	}
+	
+	/**
+	 * 获取配置请求消息体
+	 * @return
+	 */
+	private WenhuaMsg.Message getBarConfig() {
+//		Integer barId = Integer.valueOf(RandomNumberGenerator.generateNumber());
+		Integer barId = 30;
+		com.wenhua.proto.WenhuaMsg.Message.Builder builder = getNormalMessageBuilder(System.currentTimeMillis(), "GetConfig", ByteString.copyFrom(NumberUtil.intToByte4(barId)), 0, "OK");
+		
+		return builder.build();
+	}
+	
+	/**
+	 * 获取上报服务器配置消息体
+	 * @return
+	 */
+	private WenhuaMsg.Message getServerInfoMessage() {
+		com.wenhua.proto.Wenhua.ServerInfo serverInfo = Wenhua.ServerInfo.newBuilder()
+			.setIp("192.168.1.2")
+			.setMac("00-AA-DD-FF-GG-HH")
+			.setPcname("BOSS-PC")
+			.setOsType(1)
+			.setOsVersion("windows 7")
+			.build();
+		
+		return getNormalMessageBuilder(System.currentTimeMillis(), "SetServerInfo", serverInfo.toByteString(), 0, "OK").build();
 	}
 	
 	/**

@@ -9,10 +9,12 @@ public enum TcpMethod {
 	
 	/** 网吧服务端身份验证 */
 	Authentication("Authentication"),
+	/** 获取网吧配置 */
+	GetConfig("GetConfig"),
 	/** 上报服务器基本信息，没有变化则不会上报 */
 	SetServerInfo("SetServerInfo"),
-	/** 获取网吧端软件最新版本信息 */
-	GetVersinInfo("SetServerInfo"),
+	/** 获取文件信息列表 */
+	GetFileInfoList("GetFileInfoList"),
 	/** 上报客户机基本信息列表，没有变化则不会上报 */
 	SetPcInfoList("SetPcInfoList"),
 	/** 上报客户机实时信息列表 */
