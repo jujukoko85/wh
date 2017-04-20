@@ -529,8 +529,8 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 	
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		logger.debug(String.format("##exceptionCaught ChannelShortId: %s remoteId: %s", getChannelShortId(ctx), getRemoteIp(ctx)));
-		super.exceptionCaught(ctx, cause);
+		logger.debug(String.format("##exceptionCaught ChannelShortId: %s remoteId: %s excpetionMsg: %s", getChannelShortId(ctx), getRemoteIp(ctx), cause.getMessage()));
+//		super.exceptionCaught(ctx, cause);
 	}
 
 	public void setAuthService(AuthService authService) {
