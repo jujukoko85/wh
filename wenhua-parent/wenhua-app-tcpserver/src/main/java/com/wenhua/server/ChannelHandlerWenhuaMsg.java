@@ -43,12 +43,16 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelId;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.util.Attribute;
+import io.netty.util.AttributeKey;
 
 public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	private static final String METHOD_NAME_IS_NULL = "MethodNameIsNull";
+	
+	private static final String BAR_ID = "BAR_ID";
 	
 	private Map<Integer, String> codeMaps;
 	
@@ -81,24 +85,28 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		WenhuaMsg.Message message = (WenhuaMsg.Message) msg;
 		
 		long id = message.getId();
-		ByteString content = null;
 		String methodName = message.getMethod();
-		
-		String ip = getRemoteIp(ctx);
-		logMsg(ip, message);
+
+		logMsg(ctx, message);
 		
 		TcpMethod method = TcpMethod.getEnumFromString(methodName);
 		
 		if(null == method || 0 == id) {
-			invalidRequestCloseChannel(ctx, id, content);
+			invalidRequestCloseChannel(ctx, id, 1001);
+			
+		} else if(TcpMethod.Authentication.equals(method)) {
+			doAuthentication(ctx, message);
+			
 		} else {
 			
+			Object barId = ctx.channel().attr(AttributeKey.valueOf(BAR_ID)).get();
+			if(null == barId) {
+				invalidRequestCloseChannel(ctx, id, 1005);
+				return;
+			}
+			logger.debug(String.format("##BarId exist ChannelShortId: %s remoteId: %s barId: %d", getChannelShortId(ctx), getRemoteIp(ctx), (Integer)barId));
+			
 			switch(method) {
-				/** 身份验证 */
-				case Authentication :
-					doAuthentication(ctx, message);
-					
-				break;
 				/** 获取信息 */
 				case GetConfig : 
 					doGetConfig(ctx, message);
@@ -137,17 +145,16 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 	 * 请求不合法 关闭Channel
 	 * @param ctx
 	 * @param id
+	 * @param exceptCode
 	 * @param content
 	 */
-	private void invalidRequestCloseChannel(ChannelHandlerContext ctx, long id, ByteString content) {
-		int exceptCode;
+	private void invalidRequestCloseChannel(ChannelHandlerContext ctx, long id, int exceptCode) {
 		String exceptMsg;
 		String methodName;
-		exceptCode = 1001;
 		methodName = METHOD_NAME_IS_NULL;
 		exceptMsg = codeMaps.get(exceptCode);
 		
-		Message responseMsg = getResponseMsg(id, exceptCode, exceptMsg, content, methodName);
+		Message responseMsg = getResponseMsg(id, exceptCode, exceptMsg, null, methodName);
 		ChannelFuture future = ctx.writeAndFlush(responseMsg);
 		future.addListener(ChannelFutureListener.CLOSE);
 	}
@@ -467,6 +474,11 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			exceptCode = 0;
 			exceptMsg = codeMaps.get(exceptCode);
 			content = ByteString.copyFromUtf8(String.valueOf(true));
+			
+			/** 將Channel关联BarId */
+			Attribute<Object> attr = ctx.channel().attr(AttributeKey.valueOf(BAR_ID));
+			attr.set(authInfo.getBarID());
+			
 		} catch (AuthBarNotExistException e) {
 			close = true;
 			exceptCode = 102;
@@ -493,10 +505,11 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		}
 	}
 	
-	private void logMsg(String remoteIp, WenhuaMsg.Message message) {
+	private void logMsg(ChannelHandlerContext ctx, WenhuaMsg.Message message) {
 		String content = String.format(
 			"##From ChannelShortId: %s remoteIp: [%s] ReceivedMsg: Id[%d] Method[%s] Content[%s] ReturnCode[%d] ReturnMsg[%s]", 
-			remoteIp,
+			getChannelShortId(ctx),
+			getRemoteIp(ctx),
 			message.getId(),
 			message.getMethod(), 
 			message.getContent().toStringUtf8(), 

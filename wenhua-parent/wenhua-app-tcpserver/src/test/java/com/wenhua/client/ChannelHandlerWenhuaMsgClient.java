@@ -34,13 +34,45 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 
 		logger.info("MessageProto channelActive");
 
-		WenhuaMsg.Message message = getFileInfoList();
+		WenhuaMsg.Message message = getAuthInfoMessage();
 		
 		System.out.println(ByteUtil.bytes2hex(message.toByteArray()));
 
 		ctx.writeAndFlush(message);
 
 		super.channelActive(ctx);
+	}
+	
+	@Override
+	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+		logger.info("##read");
+		WenhuaMsg.Message message = (WenhuaMsg.Message) msg;
+		String content = String.format(
+			"Id[%d] Method[%s] Content[%s] ReturnCode[%d] ReturnMsg[%s]", 
+			message.getId(),
+			message.getMethod(), 
+			message.getContent().toString(), 
+			message.getExceptCode(),
+			message.getExceptMsg()
+			);
+		logger.info(
+				content
+				);
+		
+		message = getFileInfoList();
+		System.out.println(ByteUtil.bytes2hex(message.toByteArray()));
+		ctx.writeAndFlush(message);
+		logger.info("send to server");
+		super.channelRead(ctx, msg);
+	}
+	
+	@Override
+	public void channelWritabilityChanged(ChannelHandlerContext ctx) throws Exception {
+		
+		logger.info("begin write");
+		
+		
+		super.channelWritabilityChanged(ctx);
 	}
 	
 	private WenhuaMsg.Message getFileInfoList() {
@@ -144,12 +176,10 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 		String when = DateUtils.getString(new Date());
 		String key = "hn123wh";
 		
-		byte[] target = BarAuthInfo.getByteArray(barId, when, key);
-		
 		Builder builder = Wenhua.AuthInfo.newBuilder()
 			.setBarID(barId)
 //			.setSign(Md5Util.getMD5HexString(target))
-			.setSign("hello")
+			.setSign(BarAuthInfo.getMD5(barId, when, key))
 			.setWhen(when);
 			
 		
@@ -174,24 +204,6 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 				.setExceptCode(exceptCode)
 				.setExceptMsg(exceptMsg);
 		return builder;
-	}
-
-	@Override
-	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		logger.info("##read");
-		WenhuaMsg.Message message = (WenhuaMsg.Message) msg;
-		String content = String.format(
-			"Id[%d] Method[%s] Content[%s] ReturnCode[%d] ReturnMsg[%s]", 
-			message.getId(),
-			message.getMethod(), 
-			message.getContent().toString(), 
-			message.getExceptCode(),
-			message.getExceptMsg()
-			);
-		logger.info(
-				content
-				);
-		super.channelRead(ctx, msg);
 	}
 
 }

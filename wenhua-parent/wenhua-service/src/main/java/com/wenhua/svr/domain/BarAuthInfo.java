@@ -27,7 +27,7 @@ public class BarAuthInfo {
 		if(null == getSign() || 0 == getSign().length()) {
 			return false;
 		}
-		String targetMD5 = getMD5(key);
+		String targetMD5 = getMD5(barId, when, key);
 		
 		if(!getSign().equals(targetMD5)) {
 			return false;
@@ -35,8 +35,8 @@ public class BarAuthInfo {
 		return true;
 	}
 
-	private String getMD5(String key) {
-		String targetMD5 = Md5Util.getMD5HexString(getByteArray(getBarId(), getWhen(), key));
+	public static String getMD5(Integer barId, String when, String key) {
+		String targetMD5 = Md5Util.getMD5HexString(getByteArray(barId, when, key));
 		return targetMD5.toUpperCase();
 	}
 	
