@@ -211,8 +211,8 @@ public class AjaxResult implements Serializable {
                 values.remove(key);
                 return;
             }
-            values.put(key, value);
         }
+        values.put(key, value);
     }
 
     /** 返回Ajax操作返回的后续动作名称。 */

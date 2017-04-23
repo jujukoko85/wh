@@ -4,10 +4,20 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans  
             http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<description>TCP服务</description>
+	<description>NETTY服务</description>
 
+	
+	<bean id="bossGroup" class="io.netty.channel.nio.NioEventLoopGroup" />
+	<bean id="workerGroup" class="io.netty.channel.nio.NioEventLoopGroup" />
+
+	<!-- ############################################################### -->
+	<!-- ##############            TCP SERVER            ############### -->
+	<!-- ############################################################### -->
+	
 	<bean id="tcpServer" class="com.wenhua.server.TcpServer">
 		<property name="initializer" ref="tcpServerInitializer" />
+		<property name="bossGroup" ref="bossGroup" />
+		<property name="workerGroup" ref="workerGroup" />
 	</bean>
 
 	<bean id="tcpServerInitializer" class="com.wenhua.server.TcpServerInitializer" />
@@ -23,9 +33,26 @@
 				<entry key="1003" 	value="sign无效" />
 				<entry key="1004" 	value="网络链接错误" />
 				<entry key="1005" 	value="客户端未验证" />
+				<entry key="1006" 	value="文件未找到" />
+				<entry key="1007" 	value="系统异常" />
 			</map>
 		</property>
 	</bean>
 	
+	<!-- ############################################################### -->
+	<!-- ##############           HTTP SERVER            ############### -->
+	<!-- ############################################################### -->
+	
+	<bean id="httpServer" class="com.wenhua.server.HttpServer">
+		<property name="initializer" ref="httpServerInitializer" />
+		<property name="bossGroup" ref="bossGroup" />
+		<property name="workerGroup" ref="workerGroup" />
+	</bean>
 
+	<bean id="httpServerInitializer" class="com.wenhua.server.HttpServerInitializer" />
+
+	<!-- 消息处理 -->
+	<bean id="channelHandlerHttp" class="com.wenhua.server.ChannelHandlerHttp" scope="prototype">
+	</bean>
+	
 </beans>

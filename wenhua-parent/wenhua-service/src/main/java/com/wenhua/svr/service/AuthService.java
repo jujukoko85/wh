@@ -12,6 +12,8 @@ import com.wenhua.svr.domain.BarServerInfo;
 import com.wenhua.svr.domain.BarSoftwareVersion;
 import com.wenhua.svr.exception.AuthBarNotExistException;
 import com.wenhua.svr.exception.AuthSignNotValidException;
+import com.wenhua.svr.exception.FileNotExistException;
+import com.wenhua.svr.exception.SystemException;
 
 /**
  * 验证接口
@@ -68,4 +70,13 @@ public interface AuthService {
 	 * @return
 	 */
 	public List<BarFileBar> getBarFileBarList(BarSoftwareVersion version);
+	
+	/**
+	 * 根据文件ID获取文件字节数组
+	 * @param fileId
+	 * @return
+	 * @throws FileNotExistException 
+	 * @throws SystemException 
+	 */
+	public byte[]	getFileById(int fileId) throws FileNotExistException, SystemException;
 }

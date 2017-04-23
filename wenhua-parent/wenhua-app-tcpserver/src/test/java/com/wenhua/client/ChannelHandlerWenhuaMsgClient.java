@@ -34,7 +34,7 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 
 		logger.info("MessageProto channelActive");
 
-		WenhuaMsg.Message message = getAuthInfoMessage();
+		WenhuaMsg.Message message = getGetFileMessage();
 		
 		System.out.println(ByteUtil.bytes2hex(message.toByteArray()));
 
@@ -43,6 +43,12 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 		super.channelActive(ctx);
 	}
 	
+	private Message getGetFileMessage() {
+		com.wenhua.proto.WenhuaMsg.Message message = getNormalMessageBuilder(System.currentTimeMillis(), "GetFile", ByteString.copyFrom(NumberUtil.intToByte4(1000)), 0, "OK").build();
+		
+		return message;
+	}
+
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		logger.info("##read");
@@ -59,10 +65,10 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 				content
 				);
 		
-		message = getFileInfoList();
-		System.out.println(ByteUtil.bytes2hex(message.toByteArray()));
-		ctx.writeAndFlush(message);
-		logger.info("send to server");
+//		message = getFileInfoList();
+//		System.out.println(ByteUtil.bytes2hex(message.toByteArray()));
+//		ctx.writeAndFlush(message);
+//		logger.info("send to server");
 		super.channelRead(ctx, msg);
 	}
 	

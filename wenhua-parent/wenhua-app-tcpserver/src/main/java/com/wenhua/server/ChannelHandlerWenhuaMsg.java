@@ -34,7 +34,10 @@ import com.wenhua.svr.domain.BarServerInfo;
 import com.wenhua.svr.domain.BarSoftwareVersion;
 import com.wenhua.svr.exception.AuthBarNotExistException;
 import com.wenhua.svr.exception.AuthSignNotValidException;
+import com.wenhua.svr.exception.FileNotExistException;
+import com.wenhua.svr.exception.SystemException;
 import com.wenhua.svr.service.AuthService;
+import com.wenhua.util.ByteUtil;
 import com.wenhua.util.tools.NumberUtil;
 
 import io.netty.channel.Channel;
@@ -63,9 +66,11 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		
 		logger.debug(String.format("##Active ChannelShortId: %s remoteId: %s", getChannelShortId(ctx), getRemoteIp(ctx)));
 		
+		ChannelGroups.add(ctx.channel());
+		
 		super.channelActive(ctx);
 	}
-
+	
 	private String getChannelShortId(ChannelHandlerContext ctx) {
 		Channel channel = ctx.channel();
 		ChannelId id = channel.id();
@@ -76,6 +81,9 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 		logger.debug(String.format("##Inactive ChannelShortId: %s remoteId: %s", getChannelShortId(ctx), getRemoteIp(ctx)));
+		
+		ChannelGroups.discard(ctx.channel());
+		
 		super.channelInactive(ctx);
 	}
 	
@@ -99,14 +107,18 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			
 		} else {
 			
-			Object barId = ctx.channel().attr(AttributeKey.valueOf(BAR_ID)).get();
-			if(null == barId) {
-				invalidRequestCloseChannel(ctx, id, 1005);
-				return;
-			}
-			logger.debug(String.format("##BarId exist ChannelShortId: %s remoteId: %s barId: %d", getChannelShortId(ctx), getRemoteIp(ctx), (Integer)barId));
+//			Object barId = ctx.channel().attr(AttributeKey.valueOf(BAR_ID)).get();
+//			if(null == barId) {
+//				invalidRequestCloseChannel(ctx, id, 1005);
+//				return;
+//			}
+//			logger.debug(String.format("##BarId exist ChannelShortId: %s remoteId: %s barId: %d", getChannelShortId(ctx), getRemoteIp(ctx), (Integer)barId));
 			
 			switch(method) {
+			
+				/** 获取文件 */
+				case GetFile :
+					doGetFile(ctx, message);
 				/** 获取信息 */
 				case GetConfig : 
 					doGetConfig(ctx, message);
@@ -139,6 +151,34 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		}
 		
 		super.channelRead(ctx, msg);
+	}
+
+	/**
+	 * 获取文件
+	 * @param ctx
+	 * @param message
+	 */
+	private void doGetFile(ChannelHandlerContext ctx, Message message) {
+		ByteString fileIdByteString = message.getContent();
+		logger.info(String.format("##GetFile ChannelShortId: %s  RemoteIp: %s fildIdByteStr: %s", getChannelShortId(ctx), getRemoteIp(ctx), ByteUtil.bytes2hex(fileIdByteString.toByteArray())));;
+		int fileId = NumberUtil.byte4ToInt(fileIdByteString.toByteArray(), 0);
+		logger.info(String.format("##GetFile ChannelShortId: %s  RemoteIp: %s fildId: %s", getChannelShortId(ctx), getRemoteIp(ctx), String.valueOf(fileId)));;
+		
+		byte[] target = null;
+		Message response = null;
+		try {
+			target = authService.getFileById(fileId);
+			response = getResponseMsg(message.getId(), 1006, codeMaps.get(1006), ByteString.copyFrom(target), message.getMethod());
+		} catch (FileNotExistException e) {
+			logger.error(String.format("##GetFile ChannelShortId: %s  RemoteIp: %s fildId: %s error FileNotFound", getChannelShortId(ctx), getRemoteIp(ctx), String.valueOf(fileId)));
+			response = getResponseMsg(message.getId(), 0, codeMaps.get(0), ByteString.copyFrom(target), message.getMethod());
+		} catch (SystemException e) {
+			response = getResponseMsg(message.getId(), 1007, codeMaps.get(1007), ByteString.copyFrom(target), message.getMethod());
+		}
+		
+		
+		ctx.writeAndFlush(response);
+	
 	}
 
 	/**

@@ -15,6 +15,8 @@ public enum TcpMethod {
 	SetServerInfo("SetServerInfo"),
 	/** 获取文件信息列表 */
 	GetFileInfoList("GetFileInfoList"),
+	/** 获取文件 */
+	GetFile("GetFile"),
 	/** 上报客户机基本信息列表，没有变化则不会上报 */
 	SetPcInfoList("SetPcInfoList"),
 	/** 上报客户机实时信息列表 */

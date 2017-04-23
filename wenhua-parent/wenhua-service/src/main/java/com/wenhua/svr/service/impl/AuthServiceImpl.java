@@ -1,9 +1,13 @@
 package com.wenhua.svr.service.impl;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.util.ResourceUtils;
 
 import com.google.common.collect.Lists;
 import com.wenhua.svr.domain.BarAuthInfo;
@@ -16,10 +20,14 @@ import com.wenhua.svr.domain.BarServerInfo;
 import com.wenhua.svr.domain.BarSoftwareVersion;
 import com.wenhua.svr.exception.AuthBarNotExistException;
 import com.wenhua.svr.exception.AuthSignNotValidException;
+import com.wenhua.svr.exception.FileNotExistException;
+import com.wenhua.svr.exception.SystemException;
 import com.wenhua.svr.service.AuthService;
 
 @Service("authService")
 public class AuthServiceImpl implements AuthService {
+	
+//	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public void auth(BarAuthInfo barAuthInfo) throws AuthBarNotExistException, AuthSignNotValidException {
@@ -95,6 +103,20 @@ public class AuthServiceImpl implements AuthService {
 		
 		list.add(bfb1);
 		return list;
+	}
+
+	@Override
+	public byte[] getFileById(int fileId) throws FileNotExistException, SystemException {
+		byte[] target = null;
+		try {
+			File cfgFile = ResourceUtils.getFile("classpath:test.txt");
+			target = FileCopyUtils.copyToByteArray(cfgFile);
+		} catch (FileNotFoundException e) {
+			throw new FileNotExistException();
+		} catch (IOException e) {
+			throw new SystemException();
+		}
+		return target;
 	}
 
 }
