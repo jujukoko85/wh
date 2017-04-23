@@ -107,12 +107,12 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			
 		} else {
 			
-//			Object barId = ctx.channel().attr(AttributeKey.valueOf(BAR_ID)).get();
-//			if(null == barId) {
-//				invalidRequestCloseChannel(ctx, id, 1005);
-//				return;
-//			}
-//			logger.debug(String.format("##BarId exist ChannelShortId: %s remoteId: %s barId: %d", getChannelShortId(ctx), getRemoteIp(ctx), (Integer)barId));
+			Object barId = ctx.channel().attr(AttributeKey.valueOf(BAR_ID)).get();
+			if(null == barId) {
+				invalidRequestCloseChannel(ctx, id, 1005);
+				return;
+			}
+			logger.debug(String.format("##BarId exist ChannelShortId: %s remoteId: %s barId: %d", getChannelShortId(ctx), getRemoteIp(ctx), (Integer)barId));
 			
 			switch(method) {
 			
