@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.wenhua.svr.domain.NetBar">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="net_bar_name" jdbcType="VARCHAR" property="netBarName" />
-    <result column="bar_id" jdbcType="VARCHAR" property="barId" />
+    <result column="business_reg_no" jdbcType="VARCHAR" property="businessRegNo" />
     <result column="address_code" jdbcType="VARCHAR" property="addressCode" />
     <result column="address_name" jdbcType="VARCHAR" property="addressName" />
     <result column="contact_name" jdbcType="VARCHAR" property="contactName" />
@@ -18,7 +18,7 @@
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, net_bar_name, bar_id, address_code, address_name, contact_name, contact_tel, 
+    id, net_bar_name, business_reg_no, address_code, address_name, contact_name, contact_tel, 
     client_total, outside_network, inside_network, server_mac, creator, create_time, 
     status
   </sql>
@@ -28,34 +28,23 @@
     from t_net_bar
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  
-  <select id="selectByBarId" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from t_net_bar
-    where bar_id = #{bar_id,jdbcType=VARCHAR}
-  </select>
-  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from t_net_bar
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.wenhua.svr.domain.base.BaseNetBar">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into t_net_bar (net_bar_name, bar_id, address_code, 
+  <insert id="insert" parameterType="com.wenhua.svr.domain.NetBar">
+    insert into t_net_bar (id, net_bar_name, business_reg_no, address_code, 
       address_name, contact_name, contact_tel, 
       client_total, outside_network, inside_network, 
       server_mac, creator, create_time, 
       status)
-    values (#{netBarName,jdbcType=VARCHAR}, #{barId,jdbcType=VARCHAR}, #{addressCode,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{netBarName,jdbcType=VARCHAR}, #{businessRegNo,jdbcType=VARCHAR}, #{addressCode,jdbcType=VARCHAR}, 
       #{addressName,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, #{contactTel,jdbcType=VARCHAR}, 
       #{clientTotal,jdbcType=INTEGER}, #{outsideNetwork,jdbcType=VARCHAR}, #{insideNetwork,jdbcType=VARCHAR}, 
       #{serverMac,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.wenhua.svr.domain.base.BaseNetBar">
+  <insert id="insertSelective" parameterType="com.wenhua.svr.domain.NetBar">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -64,8 +53,8 @@
       <if test="netBarName != null">
         net_bar_name,
       </if>
-      <if test="barId != null">
-        bar_id,
+      <if test="businessRegNo != null">
+        business_reg_no,
       </if>
       <if test="addressCode != null">
         address_code,
@@ -105,8 +94,8 @@
       <if test="netBarName != null">
         #{netBarName,jdbcType=VARCHAR},
       </if>
-      <if test="barId != null">
-        #{barId,jdbcType=VARCHAR},
+      <if test="businessRegNo != null">
+        #{businessRegNo,jdbcType=VARCHAR},
       </if>
       <if test="addressCode != null">
         #{addressCode,jdbcType=VARCHAR},
@@ -143,14 +132,14 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wenhua.svr.domain.base.BaseNetBar">
+  <update id="updateByPrimaryKeySelective" parameterType="com.wenhua.svr.domain.NetBar">
     update t_net_bar
     <set>
       <if test="netBarName != null">
         net_bar_name = #{netBarName,jdbcType=VARCHAR},
       </if>
-      <if test="barId != null">
-        bar_id = #{barId,jdbcType=VARCHAR},
+      <if test="businessRegNo != null">
+        business_reg_no = #{businessRegNo,jdbcType=VARCHAR},
       </if>
       <if test="addressCode != null">
         address_code = #{addressCode,jdbcType=VARCHAR},
@@ -188,10 +177,10 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wenhua.svr.domain.base.BaseNetBar">
+  <update id="updateByPrimaryKey" parameterType="com.wenhua.svr.domain.NetBar">
     update t_net_bar
     set net_bar_name = #{netBarName,jdbcType=VARCHAR},
-      bar_id = #{barId,jdbcType=VARCHAR},
+      business_reg_no = #{businessRegNo,jdbcType=VARCHAR},
       address_code = #{addressCode,jdbcType=VARCHAR},
       address_name = #{addressName,jdbcType=VARCHAR},
       contact_name = #{contactName,jdbcType=VARCHAR},

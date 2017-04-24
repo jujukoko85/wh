@@ -24,13 +24,13 @@ public class TestNetBarDao {
 	@Test
 	public void test1() {
 		System.out.println(netBarDao);
-		NetBar target = netBarDao.selectByPrimaryKey("1000");
+		NetBar target = netBarDao.selectByPrimaryKey("4101020001");
 		System.out.println(target.getAddressCode());
 	}
 	
 	@Test
 	public void test2() {
-		NetBar target = netBarDao.selectByBarId("1000");
+		NetBar target = netBarDao.selectByPrimaryKey("4101020001");
 		System.out.println(target.getContactName());
 	}
 }

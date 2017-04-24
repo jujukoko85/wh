@@ -49,7 +49,7 @@ public class AuthServiceImpl implements AuthService {
 			throw new AuthSignNotValidException();
 		}
 		
-		NetBar netBar = netBarDao.selectByBarId(String.valueOf(barAuthInfo.getBarId()));
+		NetBar netBar = netBarDao.selectByPrimaryKey(String.valueOf(barAuthInfo.getBarId()));
 		if(null == netBar) {
 			throw new AuthBarNotExistException();
 		}
@@ -70,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
 	public void setServerInfo(ServerInfo serverInfo) throws AuthBarNotExistException {
 		if(null == serverInfo || null == serverInfo.getId()) return;
 		
-		NetBar bar = netBarDao.selectByBarId(serverInfo.getBarId());
+		NetBar bar = netBarDao.selectByPrimaryKey(serverInfo.getBarId());
 		if(null == bar) {
 			throw new AuthBarNotExistException();
 		}

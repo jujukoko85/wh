@@ -11,7 +11,7 @@ public class BaseNetBar extends AbstractEntity<String, BaseNetBar> {
 
     private String netBarName;
 
-    private String barId;
+    private String businessRegNo;
 
     private String addressCode;
 
@@ -51,12 +51,12 @@ public class BaseNetBar extends AbstractEntity<String, BaseNetBar> {
         this.netBarName = netBarName;
     }
 
-    public String getBarId() {
-        return barId;
+    public String getBusinessRegNo() {
+        return businessRegNo;
     }
 
-    public void setBarId(String barId) {
-        this.barId = barId;
+    public void setBusinessRegNo(String businessRegNo) {
+        this.businessRegNo = businessRegNo;
     }
 
     public String getAddressCode() {

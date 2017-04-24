@@ -1,20 +1,17 @@
 package com.wenhua.svr.dao;
 
 import com.wenhua.svr.domain.NetBar;
-import com.wenhua.svr.domain.base.BaseNetBar;
 
 public interface NetBarDao {
     int deleteByPrimaryKey(String id);
 
-    int insert(BaseNetBar record);
+    int insert(NetBar record);
 
-    int insertSelective(BaseNetBar record);
+    int insertSelective(NetBar record);
 
     NetBar selectByPrimaryKey(String id);
 
-    int updateByPrimaryKeySelective(BaseNetBar record);
+    int updateByPrimaryKeySelective(NetBar record);
 
-    int updateByPrimaryKey(BaseNetBar record);
-    
-    NetBar selectByBarId(String barId);
+    int updateByPrimaryKey(NetBar record);
 }
