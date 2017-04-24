@@ -28,9 +28,7 @@ import com.wenhua.svr.domain.BarAuthInfo;
 import com.wenhua.svr.domain.BarConfig;
 import com.wenhua.svr.domain.BarFileBar;
 import com.wenhua.svr.domain.BarFileInfo;
-import com.wenhua.svr.domain.BarPcInfo;
 import com.wenhua.svr.domain.BarPcInstantInfo;
-import com.wenhua.svr.domain.BarServerInfo;
 import com.wenhua.svr.domain.BarSoftwareVersion;
 import com.wenhua.svr.exception.AuthBarNotExistException;
 import com.wenhua.svr.exception.AuthBarNotValidException;
@@ -57,6 +55,8 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 	private static final String METHOD_NAME_IS_NULL = "MethodNameIsNull";
 	
 	private static final String BAR_ID = "BAR_ID";
+	
+	private static final String TCP_SERVER = "TCP_SERVER";
 	
 	private Map<Integer, String> codeMaps;
 	
@@ -108,7 +108,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			
 		} else {
 			
-			Object barId = ctx.channel().attr(AttributeKey.valueOf(BAR_ID)).get();
+			Integer barId = getBarId(ctx);
 			if(null == barId) {
 				invalidRequestCloseChannel(ctx, id, 1005);
 				return;
@@ -152,6 +152,11 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		}
 		
 		super.channelRead(ctx, msg);
+	}
+
+	private Integer getBarId(ChannelHandlerContext ctx) {
+		Integer barId = (Integer) ctx.channel().attr(AttributeKey.valueOf(BAR_ID)).get();
+		return barId;
 	}
 
 	/**
@@ -365,14 +370,16 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		
 		if(null == infosList || 0 == infosList.size()) return;
 		
-		List<BarPcInfo> barPcInfoList = new ArrayList<BarPcInfo>(infosList.size());
+		List<com.wenhua.svr.domain.PcInfo> barPcInfoList = new ArrayList<com.wenhua.svr.domain.PcInfo>(infosList.size());
 		for(PcInfo info : infosList) {
-			BarPcInfo pc = new BarPcInfo();
-			pc.setIp(info.getIp());
-			pc.setMac(info.getMac());
-			pc.setOsType(info.getOsType());
-			pc.setOsVersion(info.getOsVersion());
-			pc.setPcName(info.getPcname());
+			com.wenhua.svr.domain.PcInfo pc = com.wenhua.svr.domain.PcInfo.newOne(
+					info.getMac(), 
+					info.getIp(), 
+					info.getPcname(), 
+					info.getOsType(), 
+					info.getOsVersion(), 
+					String.valueOf(getBarId(ctx)), 
+					TCP_SERVER);
 			
 			barPcInfoList.add(pc);
 		}
@@ -424,18 +431,20 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 						serverInfo.getOsVersion())
 				);
 		
-		BarServerInfo barServerInfo = new BarServerInfo();
-		barServerInfo.setMac(serverInfo.getMac());
-		barServerInfo.setIp(serverInfo.getIp());
-		barServerInfo.setPcName(serverInfo.getPcname());
-		barServerInfo.setOsType(serverInfo.getOsType());
-		barServerInfo.setOsVersion(serverInfo.getOsVersion());
+		com.wenhua.svr.domain.ServerInfo si = com.wenhua.svr.domain.ServerInfo.newOne(
+				String.valueOf(getBarId(ctx)),
+				serverInfo.getMac(), 
+				serverInfo.getIp(), 
+				serverInfo.getPcname(), 
+				serverInfo.getOsType(),
+				serverInfo.getOsVersion(), 
+				TCP_SERVER);
 		
 		int exceptCode = 0;
 		String exceptMsg = null;
 		ByteString content = null;
 		try {
-			authService.setServerInfo(barServerInfo);
+			authService.setServerInfo(si);
 			exceptCode = 0;
 			exceptMsg = codeMaps.get(exceptCode);
 			content = ByteString.copyFromUtf8(String.valueOf(true));

@@ -6,10 +6,10 @@ import com.wenhua.svr.domain.BarAuthInfo;
 import com.wenhua.svr.domain.BarConfig;
 import com.wenhua.svr.domain.BarFileBar;
 import com.wenhua.svr.domain.BarFileInfo;
-import com.wenhua.svr.domain.BarPcInfo;
 import com.wenhua.svr.domain.BarPcInstantInfo;
-import com.wenhua.svr.domain.BarServerInfo;
 import com.wenhua.svr.domain.BarSoftwareVersion;
+import com.wenhua.svr.domain.PcInfo;
+import com.wenhua.svr.domain.ServerInfo;
 import com.wenhua.svr.exception.AuthBarNotExistException;
 import com.wenhua.svr.exception.AuthBarNotValidException;
 import com.wenhua.svr.exception.AuthSignNotValidException;
@@ -42,16 +42,16 @@ public interface AuthService {
 	
 	/**
 	 * 上报网吧服务器信息
-	 * @param barServerInfo
+	 * @param serverInfo
 	 * @throws AuthBarNotExistException
 	 */
-	public void setServerInfo(BarServerInfo barServerInfo) throws AuthBarNotExistException;
+	public void setServerInfo(ServerInfo serverInfo) throws AuthBarNotExistException;
 	
 	/**
 	 * 更新网吧PC信息
 	 * @param barPcInfoList
 	 */
-	public void updatePcInfoList(List<BarPcInfo> barPcInfoList);
+	public void updatePcInfoList(List<PcInfo> pcInfoList);
 	
 	/**
 	 * 更新网吧实时PC信息

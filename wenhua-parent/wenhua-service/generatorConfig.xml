@@ -27,6 +27,7 @@
 			targetProject="wenhua-service/src/main/java" 
 			type="XMLMAPPER" />
 			
+		<!--
 		<table tableName="t_net_bar" domainObjectName="BaseNetBar" mapperName="NetBarDao"
 			enableCountByExample="false" 
 			enableUpdateByExample="false"  
@@ -35,6 +36,28 @@
             selectByExampleQueryId="false">
             <property name="rootClass" value="com.wenhua.svr.base.domain.AbstractEntity"/>
             <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
+        </table>
+        -->
+        <!--
+        <table tableName="t_server_info" domainObjectName="BaseServerInfo" mapperName="ServerInfoDao"
+			enableCountByExample="false" 
+			enableUpdateByExample="false"  
+            enableDeleteByExample="false" 
+            enableSelectByExample="false" 
+            selectByExampleQueryId="false">
+            <property name="rootClass" value="com.wenhua.svr.base.domain.AbstractEntity"/>
+            <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
+        </table>
+        -->
+        
+        <table tableName="t_pc_info" domainObjectName="BasePcInfo" mapperName="PcInfoDao"
+			enableCountByExample="false" 
+			enableUpdateByExample="false"  
+            enableDeleteByExample="false" 
+            enableSelectByExample="false" 
+            selectByExampleQueryId="false">
+            <property name="rootClass" value="com.wenhua.svr.base.domain.AbstractEntity"/>
+            <generatedKey column="ID" sqlStatement="MySql"/>
             <!-- 
 	            <columnOverride column="TYPEID" property="TYPEID" />  
 	            <columnOverride column="TYPENAME" property="TYPENAME" />

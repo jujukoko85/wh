@@ -10,15 +10,17 @@ import org.springframework.util.ResourceUtils;
 
 import com.google.common.collect.Lists;
 import com.wenhua.svr.dao.NetBarDao;
+import com.wenhua.svr.dao.PcInfoDao;
+import com.wenhua.svr.dao.ServerInfoDao;
 import com.wenhua.svr.domain.BarAuthInfo;
 import com.wenhua.svr.domain.BarConfig;
 import com.wenhua.svr.domain.BarFileBar;
 import com.wenhua.svr.domain.BarFileInfo;
-import com.wenhua.svr.domain.BarPcInfo;
 import com.wenhua.svr.domain.BarPcInstantInfo;
-import com.wenhua.svr.domain.BarServerInfo;
 import com.wenhua.svr.domain.BarSoftwareVersion;
 import com.wenhua.svr.domain.NetBar;
+import com.wenhua.svr.domain.PcInfo;
+import com.wenhua.svr.domain.ServerInfo;
 import com.wenhua.svr.exception.AuthBarNotExistException;
 import com.wenhua.svr.exception.AuthBarNotValidException;
 import com.wenhua.svr.exception.AuthSignNotValidException;
@@ -30,6 +32,10 @@ public class AuthServiceImpl implements AuthService {
 	
 //	private Logger logger = LoggerFactory.getLogger(getClass());
 	private NetBarDao netBarDao;
+	
+	private ServerInfoDao serverInfoDao;
+	
+	private PcInfoDao pcInfoDao;
 	
 	private String key = "hn123wh";
 
@@ -61,14 +67,35 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public void setServerInfo(BarServerInfo barServerInfo) throws AuthBarNotExistException {
-		// TODO 保存网吧服务器信息
+	public void setServerInfo(ServerInfo serverInfo) throws AuthBarNotExistException {
+		if(null == serverInfo || null == serverInfo.getId()) return;
 		
+		NetBar bar = netBarDao.selectByBarId(serverInfo.getBarId());
+		if(null == bar) {
+			throw new AuthBarNotExistException();
+		}
+
+		ServerInfo target = serverInfoDao.selectByPrimaryKey(serverInfo.getId());
+		if(null == target) {
+			serverInfoDao.insert(serverInfo);
+			return;
+		}
+		
+		serverInfoDao.updateByPrimaryKey(serverInfo);
 	}
 
 	@Override
-	public void updatePcInfoList(List<BarPcInfo> barPcInfoList) {
-		// TODO 更新网吧PC信息
+	public void updatePcInfoList(List<PcInfo> pcInfoList) {
+		if(null == pcInfoList || 0 == pcInfoList.size()) return;
+		
+		for(PcInfo pi : pcInfoList) {
+			PcInfo target = pcInfoDao.selectByPrimaryKey(pi.getId());
+			if(null == target) {
+				pcInfoDao.insert(pi);
+			} else {
+				pcInfoDao.updateByPrimaryKey(pi);
+			}
+		}
 		
 	}
 
@@ -143,6 +170,22 @@ public class AuthServiceImpl implements AuthService {
 
 	public void setKey(String key) {
 		this.key = key;
+	}
+
+	public ServerInfoDao getServerInfoDao() {
+		return serverInfoDao;
+	}
+
+	public void setServerInfoDao(ServerInfoDao serverInfoDao) {
+		this.serverInfoDao = serverInfoDao;
+	}
+
+	public PcInfoDao getPcInfoDao() {
+		return pcInfoDao;
+	}
+
+	public void setPcInfoDao(PcInfoDao pcInfoDao) {
+		this.pcInfoDao = pcInfoDao;
 	}
 
 }
