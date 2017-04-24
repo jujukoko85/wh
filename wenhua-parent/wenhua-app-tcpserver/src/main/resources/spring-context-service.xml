@@ -8,6 +8,7 @@
 
 	<bean id="authService" class="com.wenhua.svr.service.impl.AuthServiceImpl">
 		<property name="key" value="${auth.key}" />
+		<property name="freqInstantPcInfo" value="${freqInstantPcInfo}" />
 		<property name="netBarDao" ref="netBarDao" />
 		<property name="serverInfoDao" ref="serverInfoDao" />
 		<property name="pcInfoDao" ref="pcInfoDao" />

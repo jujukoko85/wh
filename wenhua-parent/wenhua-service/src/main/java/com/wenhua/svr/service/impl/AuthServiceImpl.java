@@ -38,6 +38,8 @@ public class AuthServiceImpl implements AuthService {
 	private PcInfoDao pcInfoDao;
 	
 	private String key = "hn123wh";
+	/** 客户机上报信息频率 */
+	private int freqInstantPcInfo = 60;
 
 	@Override
 	public void auth(BarAuthInfo barAuthInfo) throws AuthBarNotExistException, AuthSignNotValidException, AuthBarNotValidException {
@@ -59,10 +61,8 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public BarConfig getBarConfig(int barId) throws AuthBarNotExistException {
 		
-		//TODO 获取网吧配置信息
-		
 		BarConfig config = new BarConfig();
-		config.setFreqInstantPcInfo(60);
+		config.setFreqInstantPcInfo(this.getFreqInstantPcInfo());
 		return config;
 	}
 
@@ -186,6 +186,14 @@ public class AuthServiceImpl implements AuthService {
 
 	public void setPcInfoDao(PcInfoDao pcInfoDao) {
 		this.pcInfoDao = pcInfoDao;
+	}
+
+	public int getFreqInstantPcInfo() {
+		return freqInstantPcInfo;
+	}
+
+	public void setFreqInstantPcInfo(int freqInstantPcInfo) {
+		this.freqInstantPcInfo = freqInstantPcInfo;
 	}
 
 }
