@@ -43,7 +43,7 @@
 		<finalName>wenhua-app-tcpserver</finalName>
 		<resources>
 			<resource>
-				<targetPath>${project.build.directory}</targetPath>
+				<targetPath>${project.build.directory}/classes</targetPath>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
 				<includes>
@@ -96,4 +96,43 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<profiles>
+		<profile>
+			<id>env-dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>env</name>
+					<value>dev</value>
+				</property>
+			</activation>
+		</profile>
+		<profile>
+			<id>env-prod</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<property>
+					<name>env</name>
+					<value>prod</value>
+				</property>
+			</activation>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<excludes>
+							<exclude>app-database.properties</exclude>
+							<exclude>app-config.properties</exclude>
+						</excludes>
+						<targetPath>${project.build.directory}</targetPath>
+					</resource>
+					<resource>
+						<directory>src/main/prod-resources</directory>
+						<targetPath>${project.build.directory}</targetPath>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+	</profiles>
 </project>

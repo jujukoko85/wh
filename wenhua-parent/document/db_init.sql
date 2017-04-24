@@ -6,24 +6,24 @@ use wenhua;
 SET global auto_increment_increment=1;
 SET global auto_increment_offset=1;
 
-/** 创建数据库表  */
-drop table if exists HD_ACCOUNT;
-
-/*==============================================================*/
-/* Table: HD_ACCOUNT                                            */
-/*==============================================================*/
-create table HD_ACCOUNT
-(
-   ID                   bigint not null auto_increment comment 'ID',
-   ACCOUNT_NAME         varchar(50) not null comment '账户名',
-   PWD		            varchar(100) not null comment '密码',
-   LAST_LOGIN_IP        varchar(15) comment '上一次登录IP',
-   LAST_LOGIN_TIME      datetime comment '上一次登录时间',
-   IS_DELETED           bit(1) not null default 0 comment '是否禁用',
-   CREATED_TIME         datetime not null default now() comment '创建时间',
-   LAST_MODIFIED_TIME   datetime not null default now() comment '最后修改时间',
-   primary key (ID)
+CREATE TABLE `t_net_bar` (
+	`id` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '工商注册号',
+	`net_bar_name` VARCHAR(100) NULL DEFAULT NULL,
+	`bar_id` VARCHAR(10) NOT NULL,
+	`address_code` VARCHAR(500) NULL DEFAULT NULL,
+	`address_name` VARCHAR(100) NULL DEFAULT NULL,
+	`contact_name` VARCHAR(50) NULL DEFAULT NULL,
+	`contact_tel` VARCHAR(20) NULL DEFAULT NULL,
+	`client_total` INT(10) NULL DEFAULT NULL,
+	`outside_network` VARCHAR(50) NULL DEFAULT NULL,
+	`inside_network` VARCHAR(50) NULL DEFAULT NULL,
+	`server_mac` VARCHAR(50) NULL DEFAULT NULL,
+	`creator` VARCHAR(20) NULL DEFAULT NULL,
+	`create_time` TIMESTAMP NULL DEFAULT NULL,
+	`status` INT(1) NOT NULL DEFAULT '1' COMMENT '1：有效；0：无效',
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `bar_id` (`bar_id`)
 )
-ENGINE = InnoDB
-auto_increment = 10001; /** 起始ID */
-alter table HD_ACCOUNT comment '账号';
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;

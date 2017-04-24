@@ -5,9 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.ResourceUtils;
 
@@ -29,17 +26,18 @@ import com.wenhua.svr.exception.FileNotExistException;
 import com.wenhua.svr.exception.SystemException;
 import com.wenhua.svr.service.AuthService;
 
-@Service("authService")
 public class AuthServiceImpl implements AuthService {
 	
 //	private Logger logger = LoggerFactory.getLogger(getClass());
 	private NetBarDao netBarDao;
+	
+	private String key = "hn123wh";
 
 	@Override
 	public void auth(BarAuthInfo barAuthInfo) throws AuthBarNotExistException, AuthSignNotValidException, AuthBarNotValidException {
 		if(null == barAuthInfo) throw new AuthBarNotExistException();
 
-		if(!barAuthInfo.isValid("hn123wh")) {
+		if(!barAuthInfo.isValid(key)) {
 			throw new AuthSignNotValidException();
 		}
 		
@@ -135,9 +133,16 @@ public class AuthServiceImpl implements AuthService {
 		return netBarDao;
 	}
 
-	@Resource
 	public void setNetBarDao(NetBarDao netBarDao) {
 		this.netBarDao = netBarDao;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
 	}
 
 }
