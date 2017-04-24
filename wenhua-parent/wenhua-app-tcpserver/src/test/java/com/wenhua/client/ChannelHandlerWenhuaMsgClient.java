@@ -34,12 +34,20 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 
 		logger.info("MessageProto channelActive");
 
-		WenhuaMsg.Message message = getGetFileMessage();
+		WenhuaMsg.Message message = getAuthInfoMessage();
 		
 		System.out.println(ByteUtil.bytes2hex(message.toByteArray()));
 
 		ctx.writeAndFlush(message);
+		
+		Thread.sleep(5 * 1000);
+		
+		message = getGetFileMessage();
 
+		System.out.println(ByteUtil.bytes2hex(message.toByteArray()));
+		
+		ctx.writeAndFlush(message);
+		
 		super.channelActive(ctx);
 	}
 	
@@ -57,7 +65,7 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 			"Id[%d] Method[%s] Content[%s] ReturnCode[%d] ReturnMsg[%s]", 
 			message.getId(),
 			message.getMethod(), 
-			message.getContent().toString(), 
+			message.getContent().toStringUtf8(), 
 			message.getExceptCode(),
 			message.getExceptMsg()
 			);
@@ -178,7 +186,7 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 	 */
 	private WenhuaMsg.Message getAuthInfoMessage() {
 		
-		Integer barId = Integer.valueOf(RandomNumberGenerator.generateNumber());
+		Integer barId = 1000;
 		String when = DateUtils.getString(new Date());
 		String key = "hn123wh";
 		

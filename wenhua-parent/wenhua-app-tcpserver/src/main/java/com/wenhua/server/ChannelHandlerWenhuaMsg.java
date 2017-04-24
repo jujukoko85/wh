@@ -33,6 +33,7 @@ import com.wenhua.svr.domain.BarPcInstantInfo;
 import com.wenhua.svr.domain.BarServerInfo;
 import com.wenhua.svr.domain.BarSoftwareVersion;
 import com.wenhua.svr.exception.AuthBarNotExistException;
+import com.wenhua.svr.exception.AuthBarNotValidException;
 import com.wenhua.svr.exception.AuthSignNotValidException;
 import com.wenhua.svr.exception.FileNotExistException;
 import com.wenhua.svr.exception.SystemException;
@@ -527,6 +528,11 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		} catch (AuthSignNotValidException e) {
 			close = true;
 			exceptCode = 1003;
+			exceptMsg = codeMaps.get(exceptCode);
+			content = ByteString.copyFromUtf8(String.valueOf(false));
+		} catch (AuthBarNotValidException e) {
+			close = true;
+			exceptCode = 1008;
 			exceptMsg = codeMaps.get(exceptCode);
 			content = ByteString.copyFromUtf8(String.valueOf(false));
 		} catch (Exception e) {

@@ -11,6 +11,7 @@ import com.wenhua.svr.domain.BarPcInstantInfo;
 import com.wenhua.svr.domain.BarServerInfo;
 import com.wenhua.svr.domain.BarSoftwareVersion;
 import com.wenhua.svr.exception.AuthBarNotExistException;
+import com.wenhua.svr.exception.AuthBarNotValidException;
 import com.wenhua.svr.exception.AuthSignNotValidException;
 import com.wenhua.svr.exception.FileNotExistException;
 import com.wenhua.svr.exception.SystemException;
@@ -27,8 +28,9 @@ public interface AuthService {
 	 * @param barAuthInfo
 	 * @throws AuthBarNotExistException
 	 * @throws AuthSignNotValidException
+	 * @throws AuthBarNotValidException 
 	 */
-	public void auth(BarAuthInfo barAuthInfo) throws AuthBarNotExistException, AuthSignNotValidException;
+	public void auth(BarAuthInfo barAuthInfo) throws AuthBarNotExistException, AuthSignNotValidException, AuthBarNotValidException;
 	
 	/**
 	 * 获取网吧配置信息

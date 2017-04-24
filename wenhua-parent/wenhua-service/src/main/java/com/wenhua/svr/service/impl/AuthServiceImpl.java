@@ -5,11 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.ResourceUtils;
 
 import com.google.common.collect.Lists;
+import com.wenhua.svr.dao.NetBarDao;
 import com.wenhua.svr.domain.BarAuthInfo;
 import com.wenhua.svr.domain.BarConfig;
 import com.wenhua.svr.domain.BarFileBar;
@@ -18,7 +21,9 @@ import com.wenhua.svr.domain.BarPcInfo;
 import com.wenhua.svr.domain.BarPcInstantInfo;
 import com.wenhua.svr.domain.BarServerInfo;
 import com.wenhua.svr.domain.BarSoftwareVersion;
+import com.wenhua.svr.domain.NetBar;
 import com.wenhua.svr.exception.AuthBarNotExistException;
+import com.wenhua.svr.exception.AuthBarNotValidException;
 import com.wenhua.svr.exception.AuthSignNotValidException;
 import com.wenhua.svr.exception.FileNotExistException;
 import com.wenhua.svr.exception.SystemException;
@@ -28,15 +33,22 @@ import com.wenhua.svr.service.AuthService;
 public class AuthServiceImpl implements AuthService {
 	
 //	private Logger logger = LoggerFactory.getLogger(getClass());
+	private NetBarDao netBarDao;
 
 	@Override
-	public void auth(BarAuthInfo barAuthInfo) throws AuthBarNotExistException, AuthSignNotValidException {
+	public void auth(BarAuthInfo barAuthInfo) throws AuthBarNotExistException, AuthSignNotValidException, AuthBarNotValidException {
 		if(null == barAuthInfo) throw new AuthBarNotExistException();
-		
-		//TODO 获取 KEY
-		
+
 		if(!barAuthInfo.isValid("hn123wh")) {
 			throw new AuthSignNotValidException();
+		}
+		
+		NetBar netBar = netBarDao.selectByBarId(String.valueOf(barAuthInfo.getBarId()));
+		if(null == netBar) {
+			throw new AuthBarNotExistException();
+		}
+		if(!netBar.isValid()) {
+			throw new AuthBarNotValidException();
 		}
 	}
 
@@ -117,6 +129,15 @@ public class AuthServiceImpl implements AuthService {
 			throw new SystemException();
 		}
 		return target;
+	}
+
+	public NetBarDao getNetBarDao() {
+		return netBarDao;
+	}
+
+	@Resource
+	public void setNetBarDao(NetBarDao netBarDao) {
+		this.netBarDao = netBarDao;
 	}
 
 }

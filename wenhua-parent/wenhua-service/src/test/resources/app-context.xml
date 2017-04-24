@@ -117,6 +117,7 @@
 			<tx:method name="delAndRepair" propagation="REQUIRED" />
 
 			<tx:method name="get*" propagation="SUPPORTS" />
+			<tx:method name="select*" propagation="SUPPORTS" />
 			<tx:method name="find*" propagation="SUPPORTS" />
 			<tx:method name="load*" propagation="SUPPORTS" />
 			<tx:method name="search*" propagation="SUPPORTS" />
@@ -127,7 +128,7 @@
 	</tx:advice>
 	<aop:config>
 		<aop:pointcut id="transactionPointcut"
-			expression="execution(* com.howard.service..*Impl.*(..))" />
+			expression="execution(* com.wenhua.svr.service..*Impl.*(..))" />
 		<aop:advisor pointcut-ref="transactionPointcut"
 			advice-ref="transactionAdvice" />
 	</aop:config>
@@ -141,7 +142,7 @@
 		scope="prototype">
 		<property name="patterns">
 			<list>
-				<value>com.howard.service.*</value>
+				<value>com.wenhua.svr.service.*</value>
 			</list>
 		</property>
 	</bean>

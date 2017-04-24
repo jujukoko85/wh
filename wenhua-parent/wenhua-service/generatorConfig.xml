@@ -12,7 +12,7 @@
 			<property name="suppressAllComments" value="true" />
 		</commentGenerator>
 		<jdbcConnection 
-		connectionURL="jdbc:mysql://127.0.0.1:3306/wenhua" 
+		connectionURL="jdbc:mysql://127.0.0.1:3306/qcms" 
 		driverClass="com.mysql.jdbc.Driver"
 		password="fpe511" 
 		userId="root" />
@@ -27,7 +27,7 @@
 			targetProject="wenhua-service/src/main/java" 
 			type="XMLMAPPER" />
 			
-		<table tableName="HD_ACCOUNT" domainObjectName="BaseAccount" mapperName="AccountDao"
+		<table tableName="t_net_bar" domainObjectName="BaseNetBar" mapperName="NetBarDao"
 			enableCountByExample="false" 
 			enableUpdateByExample="false"  
             enableDeleteByExample="false" 
