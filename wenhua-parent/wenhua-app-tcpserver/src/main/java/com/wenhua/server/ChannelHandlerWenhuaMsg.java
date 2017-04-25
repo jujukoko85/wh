@@ -111,12 +111,12 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			
 		} else {
 			
-			Integer barId = getBarId(ctx);
+			String barId = getBarId(ctx);
 			if(null == barId) {
 				invalidRequestCloseChannel(ctx, id, 1005);
 				return;
 			}
-			logger.debug(String.format("##BarId exist ChannelShortId: %s remoteId: %s barId: %d", getChannelShortId(ctx), getRemoteIp(ctx), (Integer)barId));
+			logger.debug(String.format("##BarId exist ChannelShortId: %s remoteId: %s barId: %s", getChannelShortId(ctx), getRemoteIp(ctx), barId));
 			
 			switch(method) {
 			
@@ -157,8 +157,8 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		super.channelRead(ctx, msg);
 	}
 
-	private Integer getBarId(ChannelHandlerContext ctx) {
-		Integer barId = (Integer) ctx.channel().attr(AttributeKey.valueOf(BAR_ID)).get();
+	private String getBarId(ChannelHandlerContext ctx) {
+		String barId = (String)ctx.channel().attr(AttributeKey.valueOf(BAR_ID)).get();
 		return barId;
 	}
 
@@ -422,7 +422,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 	private void doGetConfig(ChannelHandlerContext ctx, Message message) throws AuthBarNotExistException {
 		ByteString content = message.getContent();
 		int barId = NumberUtil.byte4ToInt(content.toByteArray(), 0);
-		logger.info(String.format("##GetConfig ChannelShortId: %s RemoteIp: %s BarId: %d", getChannelShortId(ctx), getRemoteIp(ctx), barId));
+		logger.info(String.format("##GetConfig ChannelShortId: %s RemoteIp: %s BarId: %s", getChannelShortId(ctx), getRemoteIp(ctx), barId));
 		
 		int exceptCode = 0;
 		String exceptMsg = null;
@@ -462,7 +462,8 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			e.printStackTrace();
 			//TODO
 		}
-		logger.info(String.format("##Authentication ChannelShortId: %s RemoteIp: %s BarId: %d When: %s Sign: %s", getChannelShortId(ctx), getRemoteIp(ctx), authInfo.getBarID(), authInfo.getWhen(), authInfo.getSign()));
+		String barID = authInfo.getBarID();
+		logger.info(String.format("##Authentication ChannelShortId: %s RemoteIp: %s BarId: %s When: %s Sign: %s", getChannelShortId(ctx), getRemoteIp(ctx), barID, authInfo.getWhen(), authInfo.getSign()));
 		
 		int exceptCode = 0;
 		String exceptMsg = null;
@@ -470,14 +471,14 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		boolean close = false;
 		
 		try {
-			authService.auth(new BarAuthInfo(authInfo.getBarID(), authInfo.getWhen(), authInfo.getSign()));
+			authService.auth(new BarAuthInfo(barID, authInfo.getWhen(), authInfo.getSign()));
 			exceptCode = 0;
 			exceptMsg = codeMaps.get(exceptCode);
 			content = ByteString.copyFromUtf8(String.valueOf(true));
 			
 			/** 將Channel关联BarId */
 			Attribute<Object> attr = ctx.channel().attr(AttributeKey.valueOf(BAR_ID));
-			attr.set(authInfo.getBarID());
+			attr.set(barID);
 			
 		} catch (AuthBarNotExistException e) {
 			close = true;

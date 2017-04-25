@@ -32,9 +32,9 @@ public class StatNetBar extends BaseStatNetBar {
 	 * @param valid
 	 * @return
 	 */
-	public static StatNetBar newOne(int barId, Date statDate, int online, int offline, int valid) {
+	public static StatNetBar newOne(String barId, Date statDate, int online, int offline, int valid) {
 		StatNetBar s = new StatNetBar();
-		s.setBarId(String.valueOf(barId));
+		s.setBarId(barId);
 		s.setStatDate(statDate);
 		s.setOnline(online);
 		s.setOffline(offline);
@@ -81,14 +81,7 @@ public class StatNetBar extends BaseStatNetBar {
 		
 		if(!needUpdate) return null;
 		
-		return StatNetBar.newOne(this.getIntBarId(), this.getStatDate(), online, offline, valid);
+		return StatNetBar.newOne(this.getBarId(), this.getStatDate(), online, offline, valid);
 	}
 	
-	/**
-	 * 获取BarId的整数型
-	 * @return
-	 */
-	public Integer getIntBarId() {
-		return Integer.parseInt(getBarId());
-	}
 }

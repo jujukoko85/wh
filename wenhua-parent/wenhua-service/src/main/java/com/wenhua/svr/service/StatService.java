@@ -11,8 +11,8 @@ import com.wenhua.svr.domain.BarPcInstantInfo;
  */
 public interface StatService {
 
-	public void countBarDaily(int barId, List<BarPcInstantInfo> infos);
+	public void countBarDaily(String barId, List<BarPcInstantInfo> infos);
 	
-	public void countAreaDaily(int barId);
+	public void countAreaDaily(String barId);
 	
 }

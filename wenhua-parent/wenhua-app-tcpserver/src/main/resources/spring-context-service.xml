@@ -14,4 +14,9 @@
 		<property name="pcInfoDao" ref="pcInfoDao" />
 	</bean>
 	
+	<bean id="statService" class="com.wenhua.svr.service.impl.StatServiceImpl">
+		<property name="wenhuaDuration" value="${wenhuaDuration}" />
+		<property name="statNetBarDao" ref="statNetBarDao" />
+	</bean>
+	
 </beans>

@@ -27,14 +27,14 @@ public class TestStatNetBarDao {
 	public void test1() {
 		System.out.println(statNetBarDao);
 		
-		StatNetBar newOne = StatNetBar.newOne(1234567890, new Date(), 10, 2, 1);
+		StatNetBar newOne = StatNetBar.newOne("1234567890", new Date(), 10, 2, 1);
 		
 		statNetBarDao.insert(newOne);
 	}
 	
 	@Test
 	public void test2() {
-		StatNetBar newOne = StatNetBar.newOne(1234567890, new Date(), 101, 12, 11);
+		StatNetBar newOne = StatNetBar.newOne("1234567890", new Date(), 101, 12, 11);
 		statNetBarDao.updateByPrimaryKey(newOne);
 	}
 }

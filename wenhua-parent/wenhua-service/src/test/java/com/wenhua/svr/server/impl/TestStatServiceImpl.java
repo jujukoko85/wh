@@ -37,7 +37,7 @@ public class TestStatServiceImpl {
 		list.add(b2);
 		list.add(b3);
 		
-		statService.countBarDaily(1000001, list);
+		statService.countBarDaily("1000001", list);
 	}
 }
 
