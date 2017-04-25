@@ -18,36 +18,66 @@ public final class Wenhua {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * 网吧ID 
+     * </pre>
+     *
      * <code>string barID = 1;</code>
      */
     java.lang.String getBarID();
     /**
+     * <pre>
+     * 网吧ID 
+     * </pre>
+     *
      * <code>string barID = 1;</code>
      */
     com.google.protobuf.ByteString
         getBarIDBytes();
 
     /**
+     * <pre>
+     * 当时的时间 
+     * </pre>
+     *
      * <code>string when = 2;</code>
      */
     java.lang.String getWhen();
     /**
+     * <pre>
+     * 当时的时间 
+     * </pre>
+     *
      * <code>string when = 2;</code>
      */
     com.google.protobuf.ByteString
         getWhenBytes();
 
     /**
+     * <pre>
+     * 验证信息，大写hex编码的md5值。md5(barID + when + key)，key="hn123wh" 
+     * </pre>
+     *
      * <code>string sign = 3;</code>
      */
     java.lang.String getSign();
     /**
+     * <pre>
+     * 验证信息，大写hex编码的md5值。md5(barID + when + key)，key="hn123wh" 
+     * </pre>
+     *
      * <code>string sign = 3;</code>
      */
     com.google.protobuf.ByteString
         getSignBytes();
   }
   /**
+   * <pre>
+   * 接  口：bool Authentication(AuthenInfo auth)		网吧服务端身份验证: 
+   * 参  数：AuthInfo 
+   * 返回值：bool			如果验证失败，失败原因（“中心无此网吧”、“比如sign无效”）在Message.returnMsg里给出 
+   * </pre>
+   *
    * Protobuf type {@code AuthInfo}
    */
   public  static final class AuthInfo extends
@@ -133,6 +163,10 @@ public final class Wenhua {
     public static final int BARID_FIELD_NUMBER = 1;
     private volatile java.lang.Object barID_;
     /**
+     * <pre>
+     * 网吧ID 
+     * </pre>
+     *
      * <code>string barID = 1;</code>
      */
     public java.lang.String getBarID() {
@@ -148,6 +182,10 @@ public final class Wenhua {
       }
     }
     /**
+     * <pre>
+     * 网吧ID 
+     * </pre>
+     *
      * <code>string barID = 1;</code>
      */
     public com.google.protobuf.ByteString
@@ -167,6 +205,10 @@ public final class Wenhua {
     public static final int WHEN_FIELD_NUMBER = 2;
     private volatile java.lang.Object when_;
     /**
+     * <pre>
+     * 当时的时间 
+     * </pre>
+     *
      * <code>string when = 2;</code>
      */
     public java.lang.String getWhen() {
@@ -182,6 +224,10 @@ public final class Wenhua {
       }
     }
     /**
+     * <pre>
+     * 当时的时间 
+     * </pre>
+     *
      * <code>string when = 2;</code>
      */
     public com.google.protobuf.ByteString
@@ -201,6 +247,10 @@ public final class Wenhua {
     public static final int SIGN_FIELD_NUMBER = 3;
     private volatile java.lang.Object sign_;
     /**
+     * <pre>
+     * 验证信息，大写hex编码的md5值。md5(barID + when + key)，key="hn123wh" 
+     * </pre>
+     *
      * <code>string sign = 3;</code>
      */
     public java.lang.String getSign() {
@@ -216,6 +266,10 @@ public final class Wenhua {
       }
     }
     /**
+     * <pre>
+     * 验证信息，大写hex编码的md5值。md5(barID + when + key)，key="hn123wh" 
+     * </pre>
+     *
      * <code>string sign = 3;</code>
      */
     public com.google.protobuf.ByteString
@@ -390,6 +444,12 @@ public final class Wenhua {
       return builder;
     }
     /**
+     * <pre>
+     * 接  口：bool Authentication(AuthenInfo auth)		网吧服务端身份验证: 
+     * 参  数：AuthInfo 
+     * 返回值：bool			如果验证失败，失败原因（“中心无此网吧”、“比如sign无效”）在Message.returnMsg里给出 
+     * </pre>
+     *
      * Protobuf type {@code AuthInfo}
      */
     public static final class Builder extends
@@ -537,6 +597,10 @@ public final class Wenhua {
 
       private java.lang.Object barID_ = "";
       /**
+       * <pre>
+       * 网吧ID 
+       * </pre>
+       *
        * <code>string barID = 1;</code>
        */
       public java.lang.String getBarID() {
@@ -552,6 +616,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 网吧ID 
+       * </pre>
+       *
        * <code>string barID = 1;</code>
        */
       public com.google.protobuf.ByteString
@@ -568,6 +636,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 网吧ID 
+       * </pre>
+       *
        * <code>string barID = 1;</code>
        */
       public Builder setBarID(
@@ -581,6 +653,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 网吧ID 
+       * </pre>
+       *
        * <code>string barID = 1;</code>
        */
       public Builder clearBarID() {
@@ -590,6 +666,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 网吧ID 
+       * </pre>
+       *
        * <code>string barID = 1;</code>
        */
       public Builder setBarIDBytes(
@@ -606,6 +686,10 @@ public final class Wenhua {
 
       private java.lang.Object when_ = "";
       /**
+       * <pre>
+       * 当时的时间 
+       * </pre>
+       *
        * <code>string when = 2;</code>
        */
       public java.lang.String getWhen() {
@@ -621,6 +705,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 当时的时间 
+       * </pre>
+       *
        * <code>string when = 2;</code>
        */
       public com.google.protobuf.ByteString
@@ -637,6 +725,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 当时的时间 
+       * </pre>
+       *
        * <code>string when = 2;</code>
        */
       public Builder setWhen(
@@ -650,6 +742,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 当时的时间 
+       * </pre>
+       *
        * <code>string when = 2;</code>
        */
       public Builder clearWhen() {
@@ -659,6 +755,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 当时的时间 
+       * </pre>
+       *
        * <code>string when = 2;</code>
        */
       public Builder setWhenBytes(
@@ -675,6 +775,10 @@ public final class Wenhua {
 
       private java.lang.Object sign_ = "";
       /**
+       * <pre>
+       * 验证信息，大写hex编码的md5值。md5(barID + when + key)，key="hn123wh" 
+       * </pre>
+       *
        * <code>string sign = 3;</code>
        */
       public java.lang.String getSign() {
@@ -690,6 +794,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 验证信息，大写hex编码的md5值。md5(barID + when + key)，key="hn123wh" 
+       * </pre>
+       *
        * <code>string sign = 3;</code>
        */
       public com.google.protobuf.ByteString
@@ -706,6 +814,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 验证信息，大写hex编码的md5值。md5(barID + when + key)，key="hn123wh" 
+       * </pre>
+       *
        * <code>string sign = 3;</code>
        */
       public Builder setSign(
@@ -719,6 +831,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 验证信息，大写hex编码的md5值。md5(barID + when + key)，key="hn123wh" 
+       * </pre>
+       *
        * <code>string sign = 3;</code>
        */
       public Builder clearSign() {
@@ -728,6 +844,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 验证信息，大写hex编码的md5值。md5(barID + when + key)，key="hn123wh" 
+       * </pre>
+       *
        * <code>string sign = 3;</code>
        */
       public Builder setSignBytes(
@@ -795,11 +915,39 @@ public final class Wenhua {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * 单位：秒，上报客户机实时信息频率，默认1分钟 
+     * </pre>
+     *
      * <code>int32 freqInstantPcInfo = 1;</code>
      */
     int getFreqInstantPcInfo();
+
+    /**
+     * <pre>
+     * 网吧ID 
+     * </pre>
+     *
+     * <code>string barID = 2;</code>
+     */
+    java.lang.String getBarID();
+    /**
+     * <pre>
+     * 网吧ID 
+     * </pre>
+     *
+     * <code>string barID = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getBarIDBytes();
   }
   /**
+   * <pre>
+   * 接  口：BarConfig GetConfig(string barID)		获取网吧配置: 
+   * 参  数：string 网吧ID 
+   * 返回值：BarConfig 网吧配置 
+   * </pre>
+   *
    * Protobuf type {@code BarConfig}
    */
   public  static final class BarConfig extends
@@ -812,6 +960,7 @@ public final class Wenhua {
     }
     private BarConfig() {
       freqInstantPcInfo_ = 0;
+      barID_ = "";
     }
 
     @java.lang.Override
@@ -844,6 +993,12 @@ public final class Wenhua {
               freqInstantPcInfo_ = input.readInt32();
               break;
             }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              barID_ = s;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -870,10 +1025,56 @@ public final class Wenhua {
     public static final int FREQINSTANTPCINFO_FIELD_NUMBER = 1;
     private int freqInstantPcInfo_;
     /**
+     * <pre>
+     * 单位：秒，上报客户机实时信息频率，默认1分钟 
+     * </pre>
+     *
      * <code>int32 freqInstantPcInfo = 1;</code>
      */
     public int getFreqInstantPcInfo() {
       return freqInstantPcInfo_;
+    }
+
+    public static final int BARID_FIELD_NUMBER = 2;
+    private volatile java.lang.Object barID_;
+    /**
+     * <pre>
+     * 网吧ID 
+     * </pre>
+     *
+     * <code>string barID = 2;</code>
+     */
+    public java.lang.String getBarID() {
+      java.lang.Object ref = barID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        barID_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * 网吧ID 
+     * </pre>
+     *
+     * <code>string barID = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getBarIDBytes() {
+      java.lang.Object ref = barID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        barID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private byte memoizedIsInitialized = -1;
@@ -891,6 +1092,9 @@ public final class Wenhua {
       if (freqInstantPcInfo_ != 0) {
         output.writeInt32(1, freqInstantPcInfo_);
       }
+      if (!getBarIDBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, barID_);
+      }
     }
 
     public int getSerializedSize() {
@@ -901,6 +1105,9 @@ public final class Wenhua {
       if (freqInstantPcInfo_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, freqInstantPcInfo_);
+      }
+      if (!getBarIDBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, barID_);
       }
       memoizedSize = size;
       return size;
@@ -920,6 +1127,8 @@ public final class Wenhua {
       boolean result = true;
       result = result && (getFreqInstantPcInfo()
           == other.getFreqInstantPcInfo());
+      result = result && getBarID()
+          .equals(other.getBarID());
       return result;
     }
 
@@ -932,6 +1141,8 @@ public final class Wenhua {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + FREQINSTANTPCINFO_FIELD_NUMBER;
       hash = (53 * hash) + getFreqInstantPcInfo();
+      hash = (37 * hash) + BARID_FIELD_NUMBER;
+      hash = (53 * hash) + getBarID().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1015,6 +1226,12 @@ public final class Wenhua {
       return builder;
     }
     /**
+     * <pre>
+     * 接  口：BarConfig GetConfig(string barID)		获取网吧配置: 
+     * 参  数：string 网吧ID 
+     * 返回值：BarConfig 网吧配置 
+     * </pre>
+     *
      * Protobuf type {@code BarConfig}
      */
     public static final class Builder extends
@@ -1052,6 +1269,8 @@ public final class Wenhua {
         super.clear();
         freqInstantPcInfo_ = 0;
 
+        barID_ = "";
+
         return this;
       }
 
@@ -1075,6 +1294,7 @@ public final class Wenhua {
       public Wenhua.BarConfig buildPartial() {
         Wenhua.BarConfig result = new Wenhua.BarConfig(this);
         result.freqInstantPcInfo_ = freqInstantPcInfo_;
+        result.barID_ = barID_;
         onBuilt();
         return result;
       }
@@ -1119,6 +1339,10 @@ public final class Wenhua {
         if (other.getFreqInstantPcInfo() != 0) {
           setFreqInstantPcInfo(other.getFreqInstantPcInfo());
         }
+        if (!other.getBarID().isEmpty()) {
+          barID_ = other.barID_;
+          onChanged();
+        }
         onChanged();
         return this;
       }
@@ -1147,12 +1371,20 @@ public final class Wenhua {
 
       private int freqInstantPcInfo_ ;
       /**
+       * <pre>
+       * 单位：秒，上报客户机实时信息频率，默认1分钟 
+       * </pre>
+       *
        * <code>int32 freqInstantPcInfo = 1;</code>
        */
       public int getFreqInstantPcInfo() {
         return freqInstantPcInfo_;
       }
       /**
+       * <pre>
+       * 单位：秒，上报客户机实时信息频率，默认1分钟 
+       * </pre>
+       *
        * <code>int32 freqInstantPcInfo = 1;</code>
        */
       public Builder setFreqInstantPcInfo(int value) {
@@ -1162,11 +1394,104 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 单位：秒，上报客户机实时信息频率，默认1分钟 
+       * </pre>
+       *
        * <code>int32 freqInstantPcInfo = 1;</code>
        */
       public Builder clearFreqInstantPcInfo() {
         
         freqInstantPcInfo_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object barID_ = "";
+      /**
+       * <pre>
+       * 网吧ID 
+       * </pre>
+       *
+       * <code>string barID = 2;</code>
+       */
+      public java.lang.String getBarID() {
+        java.lang.Object ref = barID_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          barID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * 网吧ID 
+       * </pre>
+       *
+       * <code>string barID = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getBarIDBytes() {
+        java.lang.Object ref = barID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          barID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * 网吧ID 
+       * </pre>
+       *
+       * <code>string barID = 2;</code>
+       */
+      public Builder setBarID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        barID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 网吧ID 
+       * </pre>
+       *
+       * <code>string barID = 2;</code>
+       */
+      public Builder clearBarID() {
+        
+        barID_ = getDefaultInstance().getBarID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 网吧ID 
+       * </pre>
+       *
+       * <code>string barID = 2;</code>
+       */
+      public Builder setBarIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        barID_ = value;
         onChanged();
         return this;
       }
@@ -1224,51 +1549,111 @@ public final class Wenhua {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * 服务器Mac地址；	例：50-E5-49-3D-5D-78	此为字段能唯一标识一台服务器 
+     * </pre>
+     *
      * <code>string mac = 1;</code>
      */
     java.lang.String getMac();
     /**
+     * <pre>
+     * 服务器Mac地址；	例：50-E5-49-3D-5D-78	此为字段能唯一标识一台服务器 
+     * </pre>
+     *
      * <code>string mac = 1;</code>
      */
     com.google.protobuf.ByteString
         getMacBytes();
 
     /**
+     * <pre>
+     * 服务器IP地址；	例：192.168.0.112 
+     * </pre>
+     *
      * <code>string ip = 2;</code>
      */
     java.lang.String getIp();
     /**
+     * <pre>
+     * 服务器IP地址；	例：192.168.0.112 
+     * </pre>
+     *
      * <code>string ip = 2;</code>
      */
     com.google.protobuf.ByteString
         getIpBytes();
 
     /**
+     * <pre>
+     * 服务器机器名；	例：BAR-SERVER 
+     * </pre>
+     *
      * <code>string pcname = 3;</code>
      */
     java.lang.String getPcname();
     /**
+     * <pre>
+     * 服务器机器名；	例：BAR-SERVER 
+     * </pre>
+     *
      * <code>string pcname = 3;</code>
      */
     com.google.protobuf.ByteString
         getPcnameBytes();
 
     /**
+     * <pre>
+     * 操作系统类型；	例：0-windows, 1-macos, 2-android, 3-linux 
+     * </pre>
+     *
      * <code>int32 osType = 4;</code>
      */
     int getOsType();
 
     /**
+     * <pre>
+     * 操作系统版本；	例：win7, win10 
+     * </pre>
+     *
      * <code>string osVersion = 5;</code>
      */
     java.lang.String getOsVersion();
     /**
+     * <pre>
+     * 操作系统版本；	例：win7, win10 
+     * </pre>
+     *
      * <code>string osVersion = 5;</code>
      */
     com.google.protobuf.ByteString
         getOsVersionBytes();
+
+    /**
+     * <pre>
+     * 文化服务端版本；	例："3.01" 
+     * </pre>
+     *
+     * <code>string wenhuaVer = 6;</code>
+     */
+    java.lang.String getWenhuaVer();
+    /**
+     * <pre>
+     * 文化服务端版本；	例："3.01" 
+     * </pre>
+     *
+     * <code>string wenhuaVer = 6;</code>
+     */
+    com.google.protobuf.ByteString
+        getWenhuaVerBytes();
   }
   /**
+   * <pre>
+   * 接  口：void SetServerInfo(ServerInfo info)		上报服务器基本信息 
+   * 参  数：ServerInfo 服务器基本信息 
+   * 返回值：无 
+   * </pre>
+   *
    * Protobuf type {@code ServerInfo}
    */
   public  static final class ServerInfo extends
@@ -1285,6 +1670,7 @@ public final class Wenhua {
       pcname_ = "";
       osType_ = 0;
       osVersion_ = "";
+      wenhuaVer_ = "";
     }
 
     @java.lang.Override
@@ -1341,6 +1727,12 @@ public final class Wenhua {
               osVersion_ = s;
               break;
             }
+            case 50: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              wenhuaVer_ = s;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1367,6 +1759,10 @@ public final class Wenhua {
     public static final int MAC_FIELD_NUMBER = 1;
     private volatile java.lang.Object mac_;
     /**
+     * <pre>
+     * 服务器Mac地址；	例：50-E5-49-3D-5D-78	此为字段能唯一标识一台服务器 
+     * </pre>
+     *
      * <code>string mac = 1;</code>
      */
     public java.lang.String getMac() {
@@ -1382,6 +1778,10 @@ public final class Wenhua {
       }
     }
     /**
+     * <pre>
+     * 服务器Mac地址；	例：50-E5-49-3D-5D-78	此为字段能唯一标识一台服务器 
+     * </pre>
+     *
      * <code>string mac = 1;</code>
      */
     public com.google.protobuf.ByteString
@@ -1401,6 +1801,10 @@ public final class Wenhua {
     public static final int IP_FIELD_NUMBER = 2;
     private volatile java.lang.Object ip_;
     /**
+     * <pre>
+     * 服务器IP地址；	例：192.168.0.112 
+     * </pre>
+     *
      * <code>string ip = 2;</code>
      */
     public java.lang.String getIp() {
@@ -1416,6 +1820,10 @@ public final class Wenhua {
       }
     }
     /**
+     * <pre>
+     * 服务器IP地址；	例：192.168.0.112 
+     * </pre>
+     *
      * <code>string ip = 2;</code>
      */
     public com.google.protobuf.ByteString
@@ -1435,6 +1843,10 @@ public final class Wenhua {
     public static final int PCNAME_FIELD_NUMBER = 3;
     private volatile java.lang.Object pcname_;
     /**
+     * <pre>
+     * 服务器机器名；	例：BAR-SERVER 
+     * </pre>
+     *
      * <code>string pcname = 3;</code>
      */
     public java.lang.String getPcname() {
@@ -1450,6 +1862,10 @@ public final class Wenhua {
       }
     }
     /**
+     * <pre>
+     * 服务器机器名；	例：BAR-SERVER 
+     * </pre>
+     *
      * <code>string pcname = 3;</code>
      */
     public com.google.protobuf.ByteString
@@ -1469,6 +1885,10 @@ public final class Wenhua {
     public static final int OSTYPE_FIELD_NUMBER = 4;
     private int osType_;
     /**
+     * <pre>
+     * 操作系统类型；	例：0-windows, 1-macos, 2-android, 3-linux 
+     * </pre>
+     *
      * <code>int32 osType = 4;</code>
      */
     public int getOsType() {
@@ -1478,6 +1898,10 @@ public final class Wenhua {
     public static final int OSVERSION_FIELD_NUMBER = 5;
     private volatile java.lang.Object osVersion_;
     /**
+     * <pre>
+     * 操作系统版本；	例：win7, win10 
+     * </pre>
+     *
      * <code>string osVersion = 5;</code>
      */
     public java.lang.String getOsVersion() {
@@ -1493,6 +1917,10 @@ public final class Wenhua {
       }
     }
     /**
+     * <pre>
+     * 操作系统版本；	例：win7, win10 
+     * </pre>
+     *
      * <code>string osVersion = 5;</code>
      */
     public com.google.protobuf.ByteString
@@ -1503,6 +1931,48 @@ public final class Wenhua {
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         osVersion_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int WENHUAVER_FIELD_NUMBER = 6;
+    private volatile java.lang.Object wenhuaVer_;
+    /**
+     * <pre>
+     * 文化服务端版本；	例："3.01" 
+     * </pre>
+     *
+     * <code>string wenhuaVer = 6;</code>
+     */
+    public java.lang.String getWenhuaVer() {
+      java.lang.Object ref = wenhuaVer_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        wenhuaVer_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * 文化服务端版本；	例："3.01" 
+     * </pre>
+     *
+     * <code>string wenhuaVer = 6;</code>
+     */
+    public com.google.protobuf.ByteString
+        getWenhuaVerBytes() {
+      java.lang.Object ref = wenhuaVer_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        wenhuaVer_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -1536,6 +2006,9 @@ public final class Wenhua {
       if (!getOsVersionBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 5, osVersion_);
       }
+      if (!getWenhuaVerBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, wenhuaVer_);
+      }
     }
 
     public int getSerializedSize() {
@@ -1558,6 +2031,9 @@ public final class Wenhua {
       }
       if (!getOsVersionBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, osVersion_);
+      }
+      if (!getWenhuaVerBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, wenhuaVer_);
       }
       memoizedSize = size;
       return size;
@@ -1585,6 +2061,8 @@ public final class Wenhua {
           == other.getOsType());
       result = result && getOsVersion()
           .equals(other.getOsVersion());
+      result = result && getWenhuaVer()
+          .equals(other.getWenhuaVer());
       return result;
     }
 
@@ -1605,6 +2083,8 @@ public final class Wenhua {
       hash = (53 * hash) + getOsType();
       hash = (37 * hash) + OSVERSION_FIELD_NUMBER;
       hash = (53 * hash) + getOsVersion().hashCode();
+      hash = (37 * hash) + WENHUAVER_FIELD_NUMBER;
+      hash = (53 * hash) + getWenhuaVer().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1688,6 +2168,12 @@ public final class Wenhua {
       return builder;
     }
     /**
+     * <pre>
+     * 接  口：void SetServerInfo(ServerInfo info)		上报服务器基本信息 
+     * 参  数：ServerInfo 服务器基本信息 
+     * 返回值：无 
+     * </pre>
+     *
      * Protobuf type {@code ServerInfo}
      */
     public static final class Builder extends
@@ -1733,6 +2219,8 @@ public final class Wenhua {
 
         osVersion_ = "";
 
+        wenhuaVer_ = "";
+
         return this;
       }
 
@@ -1760,6 +2248,7 @@ public final class Wenhua {
         result.pcname_ = pcname_;
         result.osType_ = osType_;
         result.osVersion_ = osVersion_;
+        result.wenhuaVer_ = wenhuaVer_;
         onBuilt();
         return result;
       }
@@ -1820,6 +2309,10 @@ public final class Wenhua {
           osVersion_ = other.osVersion_;
           onChanged();
         }
+        if (!other.getWenhuaVer().isEmpty()) {
+          wenhuaVer_ = other.wenhuaVer_;
+          onChanged();
+        }
         onChanged();
         return this;
       }
@@ -1848,6 +2341,10 @@ public final class Wenhua {
 
       private java.lang.Object mac_ = "";
       /**
+       * <pre>
+       * 服务器Mac地址；	例：50-E5-49-3D-5D-78	此为字段能唯一标识一台服务器 
+       * </pre>
+       *
        * <code>string mac = 1;</code>
        */
       public java.lang.String getMac() {
@@ -1863,6 +2360,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 服务器Mac地址；	例：50-E5-49-3D-5D-78	此为字段能唯一标识一台服务器 
+       * </pre>
+       *
        * <code>string mac = 1;</code>
        */
       public com.google.protobuf.ByteString
@@ -1879,6 +2380,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 服务器Mac地址；	例：50-E5-49-3D-5D-78	此为字段能唯一标识一台服务器 
+       * </pre>
+       *
        * <code>string mac = 1;</code>
        */
       public Builder setMac(
@@ -1892,6 +2397,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 服务器Mac地址；	例：50-E5-49-3D-5D-78	此为字段能唯一标识一台服务器 
+       * </pre>
+       *
        * <code>string mac = 1;</code>
        */
       public Builder clearMac() {
@@ -1901,6 +2410,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 服务器Mac地址；	例：50-E5-49-3D-5D-78	此为字段能唯一标识一台服务器 
+       * </pre>
+       *
        * <code>string mac = 1;</code>
        */
       public Builder setMacBytes(
@@ -1917,6 +2430,10 @@ public final class Wenhua {
 
       private java.lang.Object ip_ = "";
       /**
+       * <pre>
+       * 服务器IP地址；	例：192.168.0.112 
+       * </pre>
+       *
        * <code>string ip = 2;</code>
        */
       public java.lang.String getIp() {
@@ -1932,6 +2449,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 服务器IP地址；	例：192.168.0.112 
+       * </pre>
+       *
        * <code>string ip = 2;</code>
        */
       public com.google.protobuf.ByteString
@@ -1948,6 +2469,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 服务器IP地址；	例：192.168.0.112 
+       * </pre>
+       *
        * <code>string ip = 2;</code>
        */
       public Builder setIp(
@@ -1961,6 +2486,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 服务器IP地址；	例：192.168.0.112 
+       * </pre>
+       *
        * <code>string ip = 2;</code>
        */
       public Builder clearIp() {
@@ -1970,6 +2499,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 服务器IP地址；	例：192.168.0.112 
+       * </pre>
+       *
        * <code>string ip = 2;</code>
        */
       public Builder setIpBytes(
@@ -1986,6 +2519,10 @@ public final class Wenhua {
 
       private java.lang.Object pcname_ = "";
       /**
+       * <pre>
+       * 服务器机器名；	例：BAR-SERVER 
+       * </pre>
+       *
        * <code>string pcname = 3;</code>
        */
       public java.lang.String getPcname() {
@@ -2001,6 +2538,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 服务器机器名；	例：BAR-SERVER 
+       * </pre>
+       *
        * <code>string pcname = 3;</code>
        */
       public com.google.protobuf.ByteString
@@ -2017,6 +2558,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 服务器机器名；	例：BAR-SERVER 
+       * </pre>
+       *
        * <code>string pcname = 3;</code>
        */
       public Builder setPcname(
@@ -2030,6 +2575,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 服务器机器名；	例：BAR-SERVER 
+       * </pre>
+       *
        * <code>string pcname = 3;</code>
        */
       public Builder clearPcname() {
@@ -2039,6 +2588,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 服务器机器名；	例：BAR-SERVER 
+       * </pre>
+       *
        * <code>string pcname = 3;</code>
        */
       public Builder setPcnameBytes(
@@ -2055,12 +2608,20 @@ public final class Wenhua {
 
       private int osType_ ;
       /**
+       * <pre>
+       * 操作系统类型；	例：0-windows, 1-macos, 2-android, 3-linux 
+       * </pre>
+       *
        * <code>int32 osType = 4;</code>
        */
       public int getOsType() {
         return osType_;
       }
       /**
+       * <pre>
+       * 操作系统类型；	例：0-windows, 1-macos, 2-android, 3-linux 
+       * </pre>
+       *
        * <code>int32 osType = 4;</code>
        */
       public Builder setOsType(int value) {
@@ -2070,6 +2631,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 操作系统类型；	例：0-windows, 1-macos, 2-android, 3-linux 
+       * </pre>
+       *
        * <code>int32 osType = 4;</code>
        */
       public Builder clearOsType() {
@@ -2081,6 +2646,10 @@ public final class Wenhua {
 
       private java.lang.Object osVersion_ = "";
       /**
+       * <pre>
+       * 操作系统版本；	例：win7, win10 
+       * </pre>
+       *
        * <code>string osVersion = 5;</code>
        */
       public java.lang.String getOsVersion() {
@@ -2096,6 +2665,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 操作系统版本；	例：win7, win10 
+       * </pre>
+       *
        * <code>string osVersion = 5;</code>
        */
       public com.google.protobuf.ByteString
@@ -2112,6 +2685,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 操作系统版本；	例：win7, win10 
+       * </pre>
+       *
        * <code>string osVersion = 5;</code>
        */
       public Builder setOsVersion(
@@ -2125,6 +2702,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 操作系统版本；	例：win7, win10 
+       * </pre>
+       *
        * <code>string osVersion = 5;</code>
        */
       public Builder clearOsVersion() {
@@ -2134,6 +2715,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 操作系统版本；	例：win7, win10 
+       * </pre>
+       *
        * <code>string osVersion = 5;</code>
        */
       public Builder setOsVersionBytes(
@@ -2144,6 +2729,95 @@ public final class Wenhua {
   checkByteStringIsUtf8(value);
         
         osVersion_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object wenhuaVer_ = "";
+      /**
+       * <pre>
+       * 文化服务端版本；	例："3.01" 
+       * </pre>
+       *
+       * <code>string wenhuaVer = 6;</code>
+       */
+      public java.lang.String getWenhuaVer() {
+        java.lang.Object ref = wenhuaVer_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          wenhuaVer_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * 文化服务端版本；	例："3.01" 
+       * </pre>
+       *
+       * <code>string wenhuaVer = 6;</code>
+       */
+      public com.google.protobuf.ByteString
+          getWenhuaVerBytes() {
+        java.lang.Object ref = wenhuaVer_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          wenhuaVer_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * 文化服务端版本；	例："3.01" 
+       * </pre>
+       *
+       * <code>string wenhuaVer = 6;</code>
+       */
+      public Builder setWenhuaVer(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        wenhuaVer_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 文化服务端版本；	例："3.01" 
+       * </pre>
+       *
+       * <code>string wenhuaVer = 6;</code>
+       */
+      public Builder clearWenhuaVer() {
+        
+        wenhuaVer_ = getDefaultInstance().getWenhuaVer();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 文化服务端版本；	例："3.01" 
+       * </pre>
+       *
+       * <code>string wenhuaVer = 6;</code>
+       */
+      public Builder setWenhuaVerBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        wenhuaVer_ = value;
         onChanged();
         return this;
       }
@@ -2225,6 +2899,12 @@ public final class Wenhua {
         int index);
   }
   /**
+   * <pre>
+   * 接  口：void SetPcInfoList(PcInfoList infos)		上报客户机基本信息列表 
+   * 参  数：PcInfoList 客户机基本信息列表 
+   * 返回值：无 
+   * </pre>
+   *
    * Protobuf type {@code PcInfoList}
    */
   public  static final class PcInfoList extends
@@ -2475,6 +3155,12 @@ public final class Wenhua {
       return builder;
     }
     /**
+     * <pre>
+     * 接  口：void SetPcInfoList(PcInfoList infos)		上报客户机基本信息列表 
+     * 参  数：PcInfoList 客户机基本信息列表 
+     * 返回值：无 
+     * </pre>
+     *
      * Protobuf type {@code PcInfoList}
      */
     public static final class Builder extends
@@ -2936,51 +3622,109 @@ public final class Wenhua {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * 客户机Mac地址；	例：50-E5-49-3D-5D-78	此为字段能唯一标识一台客户机 
+     * </pre>
+     *
      * <code>string mac = 1;</code>
      */
     java.lang.String getMac();
     /**
+     * <pre>
+     * 客户机Mac地址；	例：50-E5-49-3D-5D-78	此为字段能唯一标识一台客户机 
+     * </pre>
+     *
      * <code>string mac = 1;</code>
      */
     com.google.protobuf.ByteString
         getMacBytes();
 
     /**
+     * <pre>
+     * 客户机IP地址；	例：192.168.0.112 
+     * </pre>
+     *
      * <code>string ip = 2;</code>
      */
     java.lang.String getIp();
     /**
+     * <pre>
+     * 客户机IP地址；	例：192.168.0.112 
+     * </pre>
+     *
      * <code>string ip = 2;</code>
      */
     com.google.protobuf.ByteString
         getIpBytes();
 
     /**
+     * <pre>
+     * 客户机名；		例：PC-001 
+     * </pre>
+     *
      * <code>string pcname = 3;</code>
      */
     java.lang.String getPcname();
     /**
+     * <pre>
+     * 客户机名；		例：PC-001 
+     * </pre>
+     *
      * <code>string pcname = 3;</code>
      */
     com.google.protobuf.ByteString
         getPcnameBytes();
 
     /**
+     * <pre>
+     * 操作系统类型；	例：0-windows, 1-macos, 2-android, 3-linux 
+     * </pre>
+     *
      * <code>int32 osType = 4;</code>
      */
     int getOsType();
 
     /**
+     * <pre>
+     * 操作系统版本；	例：win7, win10 
+     * </pre>
+     *
      * <code>string osVersion = 5;</code>
      */
     java.lang.String getOsVersion();
     /**
+     * <pre>
+     * 操作系统版本；	例：win7, win10 
+     * </pre>
+     *
      * <code>string osVersion = 5;</code>
      */
     com.google.protobuf.ByteString
         getOsVersionBytes();
+
+    /**
+     * <pre>
+     * 文化客户端版本；	例："3.01" 
+     * </pre>
+     *
+     * <code>string wenhuaVer = 6;</code>
+     */
+    java.lang.String getWenhuaVer();
+    /**
+     * <pre>
+     * 文化客户端版本；	例："3.01" 
+     * </pre>
+     *
+     * <code>string wenhuaVer = 6;</code>
+     */
+    com.google.protobuf.ByteString
+        getWenhuaVerBytes();
   }
   /**
+   * <pre>
+   * 客户机基本信息 
+   * </pre>
+   *
    * Protobuf type {@code PcInfo}
    */
   public  static final class PcInfo extends
@@ -2997,6 +3741,7 @@ public final class Wenhua {
       pcname_ = "";
       osType_ = 0;
       osVersion_ = "";
+      wenhuaVer_ = "";
     }
 
     @java.lang.Override
@@ -3053,6 +3798,12 @@ public final class Wenhua {
               osVersion_ = s;
               break;
             }
+            case 50: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              wenhuaVer_ = s;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3079,6 +3830,10 @@ public final class Wenhua {
     public static final int MAC_FIELD_NUMBER = 1;
     private volatile java.lang.Object mac_;
     /**
+     * <pre>
+     * 客户机Mac地址；	例：50-E5-49-3D-5D-78	此为字段能唯一标识一台客户机 
+     * </pre>
+     *
      * <code>string mac = 1;</code>
      */
     public java.lang.String getMac() {
@@ -3094,6 +3849,10 @@ public final class Wenhua {
       }
     }
     /**
+     * <pre>
+     * 客户机Mac地址；	例：50-E5-49-3D-5D-78	此为字段能唯一标识一台客户机 
+     * </pre>
+     *
      * <code>string mac = 1;</code>
      */
     public com.google.protobuf.ByteString
@@ -3113,6 +3872,10 @@ public final class Wenhua {
     public static final int IP_FIELD_NUMBER = 2;
     private volatile java.lang.Object ip_;
     /**
+     * <pre>
+     * 客户机IP地址；	例：192.168.0.112 
+     * </pre>
+     *
      * <code>string ip = 2;</code>
      */
     public java.lang.String getIp() {
@@ -3128,6 +3891,10 @@ public final class Wenhua {
       }
     }
     /**
+     * <pre>
+     * 客户机IP地址；	例：192.168.0.112 
+     * </pre>
+     *
      * <code>string ip = 2;</code>
      */
     public com.google.protobuf.ByteString
@@ -3147,6 +3914,10 @@ public final class Wenhua {
     public static final int PCNAME_FIELD_NUMBER = 3;
     private volatile java.lang.Object pcname_;
     /**
+     * <pre>
+     * 客户机名；		例：PC-001 
+     * </pre>
+     *
      * <code>string pcname = 3;</code>
      */
     public java.lang.String getPcname() {
@@ -3162,6 +3933,10 @@ public final class Wenhua {
       }
     }
     /**
+     * <pre>
+     * 客户机名；		例：PC-001 
+     * </pre>
+     *
      * <code>string pcname = 3;</code>
      */
     public com.google.protobuf.ByteString
@@ -3181,6 +3956,10 @@ public final class Wenhua {
     public static final int OSTYPE_FIELD_NUMBER = 4;
     private int osType_;
     /**
+     * <pre>
+     * 操作系统类型；	例：0-windows, 1-macos, 2-android, 3-linux 
+     * </pre>
+     *
      * <code>int32 osType = 4;</code>
      */
     public int getOsType() {
@@ -3190,6 +3969,10 @@ public final class Wenhua {
     public static final int OSVERSION_FIELD_NUMBER = 5;
     private volatile java.lang.Object osVersion_;
     /**
+     * <pre>
+     * 操作系统版本；	例：win7, win10 
+     * </pre>
+     *
      * <code>string osVersion = 5;</code>
      */
     public java.lang.String getOsVersion() {
@@ -3205,6 +3988,10 @@ public final class Wenhua {
       }
     }
     /**
+     * <pre>
+     * 操作系统版本；	例：win7, win10 
+     * </pre>
+     *
      * <code>string osVersion = 5;</code>
      */
     public com.google.protobuf.ByteString
@@ -3215,6 +4002,48 @@ public final class Wenhua {
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         osVersion_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int WENHUAVER_FIELD_NUMBER = 6;
+    private volatile java.lang.Object wenhuaVer_;
+    /**
+     * <pre>
+     * 文化客户端版本；	例："3.01" 
+     * </pre>
+     *
+     * <code>string wenhuaVer = 6;</code>
+     */
+    public java.lang.String getWenhuaVer() {
+      java.lang.Object ref = wenhuaVer_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        wenhuaVer_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * 文化客户端版本；	例："3.01" 
+     * </pre>
+     *
+     * <code>string wenhuaVer = 6;</code>
+     */
+    public com.google.protobuf.ByteString
+        getWenhuaVerBytes() {
+      java.lang.Object ref = wenhuaVer_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        wenhuaVer_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -3248,6 +4077,9 @@ public final class Wenhua {
       if (!getOsVersionBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 5, osVersion_);
       }
+      if (!getWenhuaVerBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, wenhuaVer_);
+      }
     }
 
     public int getSerializedSize() {
@@ -3270,6 +4102,9 @@ public final class Wenhua {
       }
       if (!getOsVersionBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, osVersion_);
+      }
+      if (!getWenhuaVerBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, wenhuaVer_);
       }
       memoizedSize = size;
       return size;
@@ -3297,6 +4132,8 @@ public final class Wenhua {
           == other.getOsType());
       result = result && getOsVersion()
           .equals(other.getOsVersion());
+      result = result && getWenhuaVer()
+          .equals(other.getWenhuaVer());
       return result;
     }
 
@@ -3317,6 +4154,8 @@ public final class Wenhua {
       hash = (53 * hash) + getOsType();
       hash = (37 * hash) + OSVERSION_FIELD_NUMBER;
       hash = (53 * hash) + getOsVersion().hashCode();
+      hash = (37 * hash) + WENHUAVER_FIELD_NUMBER;
+      hash = (53 * hash) + getWenhuaVer().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3400,6 +4239,10 @@ public final class Wenhua {
       return builder;
     }
     /**
+     * <pre>
+     * 客户机基本信息 
+     * </pre>
+     *
      * Protobuf type {@code PcInfo}
      */
     public static final class Builder extends
@@ -3445,6 +4288,8 @@ public final class Wenhua {
 
         osVersion_ = "";
 
+        wenhuaVer_ = "";
+
         return this;
       }
 
@@ -3472,6 +4317,7 @@ public final class Wenhua {
         result.pcname_ = pcname_;
         result.osType_ = osType_;
         result.osVersion_ = osVersion_;
+        result.wenhuaVer_ = wenhuaVer_;
         onBuilt();
         return result;
       }
@@ -3532,6 +4378,10 @@ public final class Wenhua {
           osVersion_ = other.osVersion_;
           onChanged();
         }
+        if (!other.getWenhuaVer().isEmpty()) {
+          wenhuaVer_ = other.wenhuaVer_;
+          onChanged();
+        }
         onChanged();
         return this;
       }
@@ -3560,6 +4410,10 @@ public final class Wenhua {
 
       private java.lang.Object mac_ = "";
       /**
+       * <pre>
+       * 客户机Mac地址；	例：50-E5-49-3D-5D-78	此为字段能唯一标识一台客户机 
+       * </pre>
+       *
        * <code>string mac = 1;</code>
        */
       public java.lang.String getMac() {
@@ -3575,6 +4429,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 客户机Mac地址；	例：50-E5-49-3D-5D-78	此为字段能唯一标识一台客户机 
+       * </pre>
+       *
        * <code>string mac = 1;</code>
        */
       public com.google.protobuf.ByteString
@@ -3591,6 +4449,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 客户机Mac地址；	例：50-E5-49-3D-5D-78	此为字段能唯一标识一台客户机 
+       * </pre>
+       *
        * <code>string mac = 1;</code>
        */
       public Builder setMac(
@@ -3604,6 +4466,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 客户机Mac地址；	例：50-E5-49-3D-5D-78	此为字段能唯一标识一台客户机 
+       * </pre>
+       *
        * <code>string mac = 1;</code>
        */
       public Builder clearMac() {
@@ -3613,6 +4479,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 客户机Mac地址；	例：50-E5-49-3D-5D-78	此为字段能唯一标识一台客户机 
+       * </pre>
+       *
        * <code>string mac = 1;</code>
        */
       public Builder setMacBytes(
@@ -3629,6 +4499,10 @@ public final class Wenhua {
 
       private java.lang.Object ip_ = "";
       /**
+       * <pre>
+       * 客户机IP地址；	例：192.168.0.112 
+       * </pre>
+       *
        * <code>string ip = 2;</code>
        */
       public java.lang.String getIp() {
@@ -3644,6 +4518,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 客户机IP地址；	例：192.168.0.112 
+       * </pre>
+       *
        * <code>string ip = 2;</code>
        */
       public com.google.protobuf.ByteString
@@ -3660,6 +4538,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 客户机IP地址；	例：192.168.0.112 
+       * </pre>
+       *
        * <code>string ip = 2;</code>
        */
       public Builder setIp(
@@ -3673,6 +4555,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 客户机IP地址；	例：192.168.0.112 
+       * </pre>
+       *
        * <code>string ip = 2;</code>
        */
       public Builder clearIp() {
@@ -3682,6 +4568,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 客户机IP地址；	例：192.168.0.112 
+       * </pre>
+       *
        * <code>string ip = 2;</code>
        */
       public Builder setIpBytes(
@@ -3698,6 +4588,10 @@ public final class Wenhua {
 
       private java.lang.Object pcname_ = "";
       /**
+       * <pre>
+       * 客户机名；		例：PC-001 
+       * </pre>
+       *
        * <code>string pcname = 3;</code>
        */
       public java.lang.String getPcname() {
@@ -3713,6 +4607,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 客户机名；		例：PC-001 
+       * </pre>
+       *
        * <code>string pcname = 3;</code>
        */
       public com.google.protobuf.ByteString
@@ -3729,6 +4627,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 客户机名；		例：PC-001 
+       * </pre>
+       *
        * <code>string pcname = 3;</code>
        */
       public Builder setPcname(
@@ -3742,6 +4644,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 客户机名；		例：PC-001 
+       * </pre>
+       *
        * <code>string pcname = 3;</code>
        */
       public Builder clearPcname() {
@@ -3751,6 +4657,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 客户机名；		例：PC-001 
+       * </pre>
+       *
        * <code>string pcname = 3;</code>
        */
       public Builder setPcnameBytes(
@@ -3767,12 +4677,20 @@ public final class Wenhua {
 
       private int osType_ ;
       /**
+       * <pre>
+       * 操作系统类型；	例：0-windows, 1-macos, 2-android, 3-linux 
+       * </pre>
+       *
        * <code>int32 osType = 4;</code>
        */
       public int getOsType() {
         return osType_;
       }
       /**
+       * <pre>
+       * 操作系统类型；	例：0-windows, 1-macos, 2-android, 3-linux 
+       * </pre>
+       *
        * <code>int32 osType = 4;</code>
        */
       public Builder setOsType(int value) {
@@ -3782,6 +4700,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 操作系统类型；	例：0-windows, 1-macos, 2-android, 3-linux 
+       * </pre>
+       *
        * <code>int32 osType = 4;</code>
        */
       public Builder clearOsType() {
@@ -3793,6 +4715,10 @@ public final class Wenhua {
 
       private java.lang.Object osVersion_ = "";
       /**
+       * <pre>
+       * 操作系统版本；	例：win7, win10 
+       * </pre>
+       *
        * <code>string osVersion = 5;</code>
        */
       public java.lang.String getOsVersion() {
@@ -3808,6 +4734,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 操作系统版本；	例：win7, win10 
+       * </pre>
+       *
        * <code>string osVersion = 5;</code>
        */
       public com.google.protobuf.ByteString
@@ -3824,6 +4754,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 操作系统版本；	例：win7, win10 
+       * </pre>
+       *
        * <code>string osVersion = 5;</code>
        */
       public Builder setOsVersion(
@@ -3837,6 +4771,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 操作系统版本；	例：win7, win10 
+       * </pre>
+       *
        * <code>string osVersion = 5;</code>
        */
       public Builder clearOsVersion() {
@@ -3846,6 +4784,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 操作系统版本；	例：win7, win10 
+       * </pre>
+       *
        * <code>string osVersion = 5;</code>
        */
       public Builder setOsVersionBytes(
@@ -3856,6 +4798,95 @@ public final class Wenhua {
   checkByteStringIsUtf8(value);
         
         osVersion_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object wenhuaVer_ = "";
+      /**
+       * <pre>
+       * 文化客户端版本；	例："3.01" 
+       * </pre>
+       *
+       * <code>string wenhuaVer = 6;</code>
+       */
+      public java.lang.String getWenhuaVer() {
+        java.lang.Object ref = wenhuaVer_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          wenhuaVer_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * 文化客户端版本；	例："3.01" 
+       * </pre>
+       *
+       * <code>string wenhuaVer = 6;</code>
+       */
+      public com.google.protobuf.ByteString
+          getWenhuaVerBytes() {
+        java.lang.Object ref = wenhuaVer_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          wenhuaVer_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * 文化客户端版本；	例："3.01" 
+       * </pre>
+       *
+       * <code>string wenhuaVer = 6;</code>
+       */
+      public Builder setWenhuaVer(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        wenhuaVer_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 文化客户端版本；	例："3.01" 
+       * </pre>
+       *
+       * <code>string wenhuaVer = 6;</code>
+       */
+      public Builder clearWenhuaVer() {
+        
+        wenhuaVer_ = getDefaultInstance().getWenhuaVer();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 文化客户端版本；	例："3.01" 
+       * </pre>
+       *
+       * <code>string wenhuaVer = 6;</code>
+       */
+      public Builder setWenhuaVerBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        wenhuaVer_ = value;
         onChanged();
         return this;
       }
@@ -3937,6 +4968,12 @@ public final class Wenhua {
         int index);
   }
   /**
+   * <pre>
+   * 接  口：void SetInstantPcInfoList(PcInstantInfoList infos)		上报客户机实时信息列表 
+   * 参  数：PcInstantInfoList 
+   * 返回值：无 
+   * </pre>
+   *
    * Protobuf type {@code PcInstantInfoList}
    */
   public  static final class PcInstantInfoList extends
@@ -4187,6 +5224,12 @@ public final class Wenhua {
       return builder;
     }
     /**
+     * <pre>
+     * 接  口：void SetInstantPcInfoList(PcInstantInfoList infos)		上报客户机实时信息列表 
+     * 参  数：PcInstantInfoList 
+     * 返回值：无 
+     * </pre>
+     *
      * Protobuf type {@code PcInstantInfoList}
      */
     public static final class Builder extends
@@ -4648,41 +5691,73 @@ public final class Wenhua {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * 客户机Mac地址；	例：50-E5-49-3D-5D-78	以此为字段关联是这家网吧的哪台机器 
+     * </pre>
+     *
      * <code>string mac = 1;</code>
      */
     java.lang.String getMac();
     /**
+     * <pre>
+     * 客户机Mac地址；	例：50-E5-49-3D-5D-78	以此为字段关联是这家网吧的哪台机器 
+     * </pre>
+     *
      * <code>string mac = 1;</code>
      */
     com.google.protobuf.ByteString
         getMacBytes();
 
     /**
+     * <pre>
+     * 是否开机 
+     * </pre>
+     *
      * <code>bool isPowerOn = 2;</code>
      */
     boolean getIsPowerOn();
 
     /**
+     * <pre>
+     * 是否运行文化客户端 
+     * </pre>
+     *
      * <code>bool isRunWenhua = 3;</code>
      */
     boolean getIsRunWenhua();
 
     /**
+     * <pre>
+     * 是否实名登录 
+     * </pre>
+     *
      * <code>bool isUserLogin = 4;</code>
      */
     boolean getIsUserLogin();
 
     /**
+     * <pre>
+     * 文化客户端运行时长，单位：秒 
+     * </pre>
+     *
      * <code>int32 wenhuaDuration = 5;</code>
      */
     int getWenhuaDuration();
 
     /**
+     * <pre>
+     * 客户机开机时长，单位：秒 
+     * </pre>
+     *
      * <code>int32 poweronDuration = 6;</code>
      */
     int getPoweronDuration();
   }
   /**
+   * <pre>
+   * 客户机实时信息 
+   * </pre>
+   *
    * Protobuf type {@code PcInstantInfo}
    */
   public  static final class PcInstantInfo extends
@@ -4784,6 +5859,10 @@ public final class Wenhua {
     public static final int MAC_FIELD_NUMBER = 1;
     private volatile java.lang.Object mac_;
     /**
+     * <pre>
+     * 客户机Mac地址；	例：50-E5-49-3D-5D-78	以此为字段关联是这家网吧的哪台机器 
+     * </pre>
+     *
      * <code>string mac = 1;</code>
      */
     public java.lang.String getMac() {
@@ -4799,6 +5878,10 @@ public final class Wenhua {
       }
     }
     /**
+     * <pre>
+     * 客户机Mac地址；	例：50-E5-49-3D-5D-78	以此为字段关联是这家网吧的哪台机器 
+     * </pre>
+     *
      * <code>string mac = 1;</code>
      */
     public com.google.protobuf.ByteString
@@ -4818,6 +5901,10 @@ public final class Wenhua {
     public static final int ISPOWERON_FIELD_NUMBER = 2;
     private boolean isPowerOn_;
     /**
+     * <pre>
+     * 是否开机 
+     * </pre>
+     *
      * <code>bool isPowerOn = 2;</code>
      */
     public boolean getIsPowerOn() {
@@ -4827,6 +5914,10 @@ public final class Wenhua {
     public static final int ISRUNWENHUA_FIELD_NUMBER = 3;
     private boolean isRunWenhua_;
     /**
+     * <pre>
+     * 是否运行文化客户端 
+     * </pre>
+     *
      * <code>bool isRunWenhua = 3;</code>
      */
     public boolean getIsRunWenhua() {
@@ -4836,6 +5927,10 @@ public final class Wenhua {
     public static final int ISUSERLOGIN_FIELD_NUMBER = 4;
     private boolean isUserLogin_;
     /**
+     * <pre>
+     * 是否实名登录 
+     * </pre>
+     *
      * <code>bool isUserLogin = 4;</code>
      */
     public boolean getIsUserLogin() {
@@ -4845,6 +5940,10 @@ public final class Wenhua {
     public static final int WENHUADURATION_FIELD_NUMBER = 5;
     private int wenhuaDuration_;
     /**
+     * <pre>
+     * 文化客户端运行时长，单位：秒 
+     * </pre>
+     *
      * <code>int32 wenhuaDuration = 5;</code>
      */
     public int getWenhuaDuration() {
@@ -4854,6 +5953,10 @@ public final class Wenhua {
     public static final int POWERONDURATION_FIELD_NUMBER = 6;
     private int poweronDuration_;
     /**
+     * <pre>
+     * 客户机开机时长，单位：秒 
+     * </pre>
+     *
      * <code>int32 poweronDuration = 6;</code>
      */
     public int getPoweronDuration() {
@@ -5056,6 +6159,10 @@ public final class Wenhua {
       return builder;
     }
     /**
+     * <pre>
+     * 客户机实时信息 
+     * </pre>
+     *
      * Protobuf type {@code PcInstantInfo}
      */
     public static final class Builder extends
@@ -5219,6 +6326,10 @@ public final class Wenhua {
 
       private java.lang.Object mac_ = "";
       /**
+       * <pre>
+       * 客户机Mac地址；	例：50-E5-49-3D-5D-78	以此为字段关联是这家网吧的哪台机器 
+       * </pre>
+       *
        * <code>string mac = 1;</code>
        */
       public java.lang.String getMac() {
@@ -5234,6 +6345,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 客户机Mac地址；	例：50-E5-49-3D-5D-78	以此为字段关联是这家网吧的哪台机器 
+       * </pre>
+       *
        * <code>string mac = 1;</code>
        */
       public com.google.protobuf.ByteString
@@ -5250,6 +6365,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 客户机Mac地址；	例：50-E5-49-3D-5D-78	以此为字段关联是这家网吧的哪台机器 
+       * </pre>
+       *
        * <code>string mac = 1;</code>
        */
       public Builder setMac(
@@ -5263,6 +6382,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 客户机Mac地址；	例：50-E5-49-3D-5D-78	以此为字段关联是这家网吧的哪台机器 
+       * </pre>
+       *
        * <code>string mac = 1;</code>
        */
       public Builder clearMac() {
@@ -5272,6 +6395,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 客户机Mac地址；	例：50-E5-49-3D-5D-78	以此为字段关联是这家网吧的哪台机器 
+       * </pre>
+       *
        * <code>string mac = 1;</code>
        */
       public Builder setMacBytes(
@@ -5288,12 +6415,20 @@ public final class Wenhua {
 
       private boolean isPowerOn_ ;
       /**
+       * <pre>
+       * 是否开机 
+       * </pre>
+       *
        * <code>bool isPowerOn = 2;</code>
        */
       public boolean getIsPowerOn() {
         return isPowerOn_;
       }
       /**
+       * <pre>
+       * 是否开机 
+       * </pre>
+       *
        * <code>bool isPowerOn = 2;</code>
        */
       public Builder setIsPowerOn(boolean value) {
@@ -5303,6 +6438,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 是否开机 
+       * </pre>
+       *
        * <code>bool isPowerOn = 2;</code>
        */
       public Builder clearIsPowerOn() {
@@ -5314,12 +6453,20 @@ public final class Wenhua {
 
       private boolean isRunWenhua_ ;
       /**
+       * <pre>
+       * 是否运行文化客户端 
+       * </pre>
+       *
        * <code>bool isRunWenhua = 3;</code>
        */
       public boolean getIsRunWenhua() {
         return isRunWenhua_;
       }
       /**
+       * <pre>
+       * 是否运行文化客户端 
+       * </pre>
+       *
        * <code>bool isRunWenhua = 3;</code>
        */
       public Builder setIsRunWenhua(boolean value) {
@@ -5329,6 +6476,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 是否运行文化客户端 
+       * </pre>
+       *
        * <code>bool isRunWenhua = 3;</code>
        */
       public Builder clearIsRunWenhua() {
@@ -5340,12 +6491,20 @@ public final class Wenhua {
 
       private boolean isUserLogin_ ;
       /**
+       * <pre>
+       * 是否实名登录 
+       * </pre>
+       *
        * <code>bool isUserLogin = 4;</code>
        */
       public boolean getIsUserLogin() {
         return isUserLogin_;
       }
       /**
+       * <pre>
+       * 是否实名登录 
+       * </pre>
+       *
        * <code>bool isUserLogin = 4;</code>
        */
       public Builder setIsUserLogin(boolean value) {
@@ -5355,6 +6514,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 是否实名登录 
+       * </pre>
+       *
        * <code>bool isUserLogin = 4;</code>
        */
       public Builder clearIsUserLogin() {
@@ -5366,12 +6529,20 @@ public final class Wenhua {
 
       private int wenhuaDuration_ ;
       /**
+       * <pre>
+       * 文化客户端运行时长，单位：秒 
+       * </pre>
+       *
        * <code>int32 wenhuaDuration = 5;</code>
        */
       public int getWenhuaDuration() {
         return wenhuaDuration_;
       }
       /**
+       * <pre>
+       * 文化客户端运行时长，单位：秒 
+       * </pre>
+       *
        * <code>int32 wenhuaDuration = 5;</code>
        */
       public Builder setWenhuaDuration(int value) {
@@ -5381,6 +6552,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 文化客户端运行时长，单位：秒 
+       * </pre>
+       *
        * <code>int32 wenhuaDuration = 5;</code>
        */
       public Builder clearWenhuaDuration() {
@@ -5392,12 +6567,20 @@ public final class Wenhua {
 
       private int poweronDuration_ ;
       /**
+       * <pre>
+       * 客户机开机时长，单位：秒 
+       * </pre>
+       *
        * <code>int32 poweronDuration = 6;</code>
        */
       public int getPoweronDuration() {
         return poweronDuration_;
       }
       /**
+       * <pre>
+       * 客户机开机时长，单位：秒 
+       * </pre>
+       *
        * <code>int32 poweronDuration = 6;</code>
        */
       public Builder setPoweronDuration(int value) {
@@ -5407,6 +6590,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 客户机开机时长，单位：秒 
+       * </pre>
+       *
        * <code>int32 poweronDuration = 6;</code>
        */
       public Builder clearPoweronDuration() {
@@ -5469,26 +6656,48 @@ public final class Wenhua {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * 服务端版本 
+     * </pre>
+     *
      * <code>string serverVersion = 1;</code>
      */
     java.lang.String getServerVersion();
     /**
+     * <pre>
+     * 服务端版本 
+     * </pre>
+     *
      * <code>string serverVersion = 1;</code>
      */
     com.google.protobuf.ByteString
         getServerVersionBytes();
 
     /**
+     * <pre>
+     * 客户端版本 
+     * </pre>
+     *
      * <code>string clientVersion = 2;</code>
      */
     java.lang.String getClientVersion();
     /**
+     * <pre>
+     * 客户端版本 
+     * </pre>
+     *
      * <code>string clientVersion = 2;</code>
      */
     com.google.protobuf.ByteString
         getClientVersionBytes();
   }
   /**
+   * <pre>
+   * 接  口：FileInfoList GetFileInfoList(SoftwareVersion ver)		获取文件信息列表 
+   * 参  数：SoftwareVersion 网吧端软件版本信息，此为上报信息，需要入库 
+   * 返回值：FileInfoList 文件信息列表 
+   * </pre>
+   *
    * Protobuf type {@code SoftwareVersion}
    */
   public  static final class SoftwareVersion extends
@@ -5567,6 +6776,10 @@ public final class Wenhua {
     public static final int SERVERVERSION_FIELD_NUMBER = 1;
     private volatile java.lang.Object serverVersion_;
     /**
+     * <pre>
+     * 服务端版本 
+     * </pre>
+     *
      * <code>string serverVersion = 1;</code>
      */
     public java.lang.String getServerVersion() {
@@ -5582,6 +6795,10 @@ public final class Wenhua {
       }
     }
     /**
+     * <pre>
+     * 服务端版本 
+     * </pre>
+     *
      * <code>string serverVersion = 1;</code>
      */
     public com.google.protobuf.ByteString
@@ -5601,6 +6818,10 @@ public final class Wenhua {
     public static final int CLIENTVERSION_FIELD_NUMBER = 2;
     private volatile java.lang.Object clientVersion_;
     /**
+     * <pre>
+     * 客户端版本 
+     * </pre>
+     *
      * <code>string clientVersion = 2;</code>
      */
     public java.lang.String getClientVersion() {
@@ -5616,6 +6837,10 @@ public final class Wenhua {
       }
     }
     /**
+     * <pre>
+     * 客户端版本 
+     * </pre>
+     *
      * <code>string clientVersion = 2;</code>
      */
     public com.google.protobuf.ByteString
@@ -5780,6 +7005,12 @@ public final class Wenhua {
       return builder;
     }
     /**
+     * <pre>
+     * 接  口：FileInfoList GetFileInfoList(SoftwareVersion ver)		获取文件信息列表 
+     * 参  数：SoftwareVersion 网吧端软件版本信息，此为上报信息，需要入库 
+     * 返回值：FileInfoList 文件信息列表 
+     * </pre>
+     *
      * Protobuf type {@code SoftwareVersion}
      */
     public static final class Builder extends
@@ -5920,6 +7151,10 @@ public final class Wenhua {
 
       private java.lang.Object serverVersion_ = "";
       /**
+       * <pre>
+       * 服务端版本 
+       * </pre>
+       *
        * <code>string serverVersion = 1;</code>
        */
       public java.lang.String getServerVersion() {
@@ -5935,6 +7170,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 服务端版本 
+       * </pre>
+       *
        * <code>string serverVersion = 1;</code>
        */
       public com.google.protobuf.ByteString
@@ -5951,6 +7190,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 服务端版本 
+       * </pre>
+       *
        * <code>string serverVersion = 1;</code>
        */
       public Builder setServerVersion(
@@ -5964,6 +7207,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 服务端版本 
+       * </pre>
+       *
        * <code>string serverVersion = 1;</code>
        */
       public Builder clearServerVersion() {
@@ -5973,6 +7220,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 服务端版本 
+       * </pre>
+       *
        * <code>string serverVersion = 1;</code>
        */
       public Builder setServerVersionBytes(
@@ -5989,6 +7240,10 @@ public final class Wenhua {
 
       private java.lang.Object clientVersion_ = "";
       /**
+       * <pre>
+       * 客户端版本 
+       * </pre>
+       *
        * <code>string clientVersion = 2;</code>
        */
       public java.lang.String getClientVersion() {
@@ -6004,6 +7259,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 客户端版本 
+       * </pre>
+       *
        * <code>string clientVersion = 2;</code>
        */
       public com.google.protobuf.ByteString
@@ -6020,6 +7279,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 客户端版本 
+       * </pre>
+       *
        * <code>string clientVersion = 2;</code>
        */
       public Builder setClientVersion(
@@ -6033,6 +7296,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 客户端版本 
+       * </pre>
+       *
        * <code>string clientVersion = 2;</code>
        */
       public Builder clearClientVersion() {
@@ -6042,6 +7309,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 客户端版本 
+       * </pre>
+       *
        * <code>string clientVersion = 2;</code>
        */
       public Builder setClientVersionBytes(
@@ -7211,59 +8482,112 @@ public final class Wenhua {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * 文件ID 
+     * </pre>
+     *
      * <code>int32 id = 1;</code>
      */
     int getId();
 
     /**
+     * <pre>
+     * 文件名 
+     * </pre>
+     *
      * <code>string filename = 2;</code>
      */
     java.lang.String getFilename();
     /**
+     * <pre>
+     * 文件名 
+     * </pre>
+     *
      * <code>string filename = 2;</code>
      */
     com.google.protobuf.ByteString
         getFilenameBytes();
 
     /**
+     * <pre>
+     * 文件版本号（1.01） 
+     * </pre>
+     *
      * <code>string version = 3;</code>
      */
     java.lang.String getVersion();
     /**
+     * <pre>
+     * 文件版本号（1.01） 
+     * </pre>
+     *
      * <code>string version = 3;</code>
      */
     com.google.protobuf.ByteString
         getVersionBytes();
 
     /**
+     * <pre>
+     * 文件md5值(大写hex编码的md5值) 
+     * </pre>
+     *
      * <code>string md5 = 4;</code>
      */
     java.lang.String getMd5();
     /**
+     * <pre>
+     * 文件md5值(大写hex编码的md5值) 
+     * </pre>
+     *
      * <code>string md5 = 4;</code>
      */
     com.google.protobuf.ByteString
         getMd5Bytes();
 
     /**
+     * <pre>
+     * 文件所在模块：1-服务端，2-客户端 
+     * </pre>
+     *
      * <code>int32 flag = 5;</code>
      */
     int getFlag();
 
     /**
+     * <pre>
+     * 0-忽略，1-dll，2-exe 
+     * </pre>
+     *
      * <code>int32 type = 6;</code>
      */
     int getType();
 
     /**
+     * <pre>
+     * 0-忽略，1-加载dll，2-运行exe 
+     * </pre>
+     *
      * <code>int32 action = 7;</code>
      */
     int getAction();
 
     /**
+     * <pre>
+     * 是否应用到所有网吧 
+     * </pre>
+     *
      * <code>bool applyAllBar = 8;</code>
      */
     boolean getApplyAllBar();
+
+    /**
+     * <pre>
+     * 文件二进行内容 
+     * </pre>
+     *
+     * <code>bytes binary = 9;</code>
+     */
+    com.google.protobuf.ByteString getBinary();
   }
   /**
    * Protobuf type {@code FileInfo}
@@ -7285,6 +8609,7 @@ public final class Wenhua {
       type_ = 0;
       action_ = 0;
       applyAllBar_ = false;
+      binary_ = com.google.protobuf.ByteString.EMPTY;
     }
 
     @java.lang.Override
@@ -7355,6 +8680,11 @@ public final class Wenhua {
               applyAllBar_ = input.readBool();
               break;
             }
+            case 74: {
+
+              binary_ = input.readBytes();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -7381,6 +8711,10 @@ public final class Wenhua {
     public static final int ID_FIELD_NUMBER = 1;
     private int id_;
     /**
+     * <pre>
+     * 文件ID 
+     * </pre>
+     *
      * <code>int32 id = 1;</code>
      */
     public int getId() {
@@ -7390,6 +8724,10 @@ public final class Wenhua {
     public static final int FILENAME_FIELD_NUMBER = 2;
     private volatile java.lang.Object filename_;
     /**
+     * <pre>
+     * 文件名 
+     * </pre>
+     *
      * <code>string filename = 2;</code>
      */
     public java.lang.String getFilename() {
@@ -7405,6 +8743,10 @@ public final class Wenhua {
       }
     }
     /**
+     * <pre>
+     * 文件名 
+     * </pre>
+     *
      * <code>string filename = 2;</code>
      */
     public com.google.protobuf.ByteString
@@ -7424,6 +8766,10 @@ public final class Wenhua {
     public static final int VERSION_FIELD_NUMBER = 3;
     private volatile java.lang.Object version_;
     /**
+     * <pre>
+     * 文件版本号（1.01） 
+     * </pre>
+     *
      * <code>string version = 3;</code>
      */
     public java.lang.String getVersion() {
@@ -7439,6 +8785,10 @@ public final class Wenhua {
       }
     }
     /**
+     * <pre>
+     * 文件版本号（1.01） 
+     * </pre>
+     *
      * <code>string version = 3;</code>
      */
     public com.google.protobuf.ByteString
@@ -7458,6 +8808,10 @@ public final class Wenhua {
     public static final int MD5_FIELD_NUMBER = 4;
     private volatile java.lang.Object md5_;
     /**
+     * <pre>
+     * 文件md5值(大写hex编码的md5值) 
+     * </pre>
+     *
      * <code>string md5 = 4;</code>
      */
     public java.lang.String getMd5() {
@@ -7473,6 +8827,10 @@ public final class Wenhua {
       }
     }
     /**
+     * <pre>
+     * 文件md5值(大写hex编码的md5值) 
+     * </pre>
+     *
      * <code>string md5 = 4;</code>
      */
     public com.google.protobuf.ByteString
@@ -7492,6 +8850,10 @@ public final class Wenhua {
     public static final int FLAG_FIELD_NUMBER = 5;
     private int flag_;
     /**
+     * <pre>
+     * 文件所在模块：1-服务端，2-客户端 
+     * </pre>
+     *
      * <code>int32 flag = 5;</code>
      */
     public int getFlag() {
@@ -7501,6 +8863,10 @@ public final class Wenhua {
     public static final int TYPE_FIELD_NUMBER = 6;
     private int type_;
     /**
+     * <pre>
+     * 0-忽略，1-dll，2-exe 
+     * </pre>
+     *
      * <code>int32 type = 6;</code>
      */
     public int getType() {
@@ -7510,6 +8876,10 @@ public final class Wenhua {
     public static final int ACTION_FIELD_NUMBER = 7;
     private int action_;
     /**
+     * <pre>
+     * 0-忽略，1-加载dll，2-运行exe 
+     * </pre>
+     *
      * <code>int32 action = 7;</code>
      */
     public int getAction() {
@@ -7519,10 +8889,27 @@ public final class Wenhua {
     public static final int APPLYALLBAR_FIELD_NUMBER = 8;
     private boolean applyAllBar_;
     /**
+     * <pre>
+     * 是否应用到所有网吧 
+     * </pre>
+     *
      * <code>bool applyAllBar = 8;</code>
      */
     public boolean getApplyAllBar() {
       return applyAllBar_;
+    }
+
+    public static final int BINARY_FIELD_NUMBER = 9;
+    private com.google.protobuf.ByteString binary_;
+    /**
+     * <pre>
+     * 文件二进行内容 
+     * </pre>
+     *
+     * <code>bytes binary = 9;</code>
+     */
+    public com.google.protobuf.ByteString getBinary() {
+      return binary_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -7561,6 +8948,9 @@ public final class Wenhua {
       if (applyAllBar_ != false) {
         output.writeBool(8, applyAllBar_);
       }
+      if (!binary_.isEmpty()) {
+        output.writeBytes(9, binary_);
+      }
     }
 
     public int getSerializedSize() {
@@ -7597,6 +8987,10 @@ public final class Wenhua {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(8, applyAllBar_);
       }
+      if (!binary_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(9, binary_);
+      }
       memoizedSize = size;
       return size;
     }
@@ -7629,6 +9023,8 @@ public final class Wenhua {
           == other.getAction());
       result = result && (getApplyAllBar()
           == other.getApplyAllBar());
+      result = result && getBinary()
+          .equals(other.getBinary());
       return result;
     }
 
@@ -7656,6 +9052,8 @@ public final class Wenhua {
       hash = (37 * hash) + APPLYALLBAR_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getApplyAllBar());
+      hash = (37 * hash) + BINARY_FIELD_NUMBER;
+      hash = (53 * hash) + getBinary().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -7790,6 +9188,8 @@ public final class Wenhua {
 
         applyAllBar_ = false;
 
+        binary_ = com.google.protobuf.ByteString.EMPTY;
+
         return this;
       }
 
@@ -7820,6 +9220,7 @@ public final class Wenhua {
         result.type_ = type_;
         result.action_ = action_;
         result.applyAllBar_ = applyAllBar_;
+        result.binary_ = binary_;
         onBuilt();
         return result;
       }
@@ -7888,6 +9289,9 @@ public final class Wenhua {
         if (other.getApplyAllBar() != false) {
           setApplyAllBar(other.getApplyAllBar());
         }
+        if (other.getBinary() != com.google.protobuf.ByteString.EMPTY) {
+          setBinary(other.getBinary());
+        }
         onChanged();
         return this;
       }
@@ -7916,12 +9320,20 @@ public final class Wenhua {
 
       private int id_ ;
       /**
+       * <pre>
+       * 文件ID 
+       * </pre>
+       *
        * <code>int32 id = 1;</code>
        */
       public int getId() {
         return id_;
       }
       /**
+       * <pre>
+       * 文件ID 
+       * </pre>
+       *
        * <code>int32 id = 1;</code>
        */
       public Builder setId(int value) {
@@ -7931,6 +9343,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 文件ID 
+       * </pre>
+       *
        * <code>int32 id = 1;</code>
        */
       public Builder clearId() {
@@ -7942,6 +9358,10 @@ public final class Wenhua {
 
       private java.lang.Object filename_ = "";
       /**
+       * <pre>
+       * 文件名 
+       * </pre>
+       *
        * <code>string filename = 2;</code>
        */
       public java.lang.String getFilename() {
@@ -7957,6 +9377,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 文件名 
+       * </pre>
+       *
        * <code>string filename = 2;</code>
        */
       public com.google.protobuf.ByteString
@@ -7973,6 +9397,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 文件名 
+       * </pre>
+       *
        * <code>string filename = 2;</code>
        */
       public Builder setFilename(
@@ -7986,6 +9414,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 文件名 
+       * </pre>
+       *
        * <code>string filename = 2;</code>
        */
       public Builder clearFilename() {
@@ -7995,6 +9427,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 文件名 
+       * </pre>
+       *
        * <code>string filename = 2;</code>
        */
       public Builder setFilenameBytes(
@@ -8011,6 +9447,10 @@ public final class Wenhua {
 
       private java.lang.Object version_ = "";
       /**
+       * <pre>
+       * 文件版本号（1.01） 
+       * </pre>
+       *
        * <code>string version = 3;</code>
        */
       public java.lang.String getVersion() {
@@ -8026,6 +9466,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 文件版本号（1.01） 
+       * </pre>
+       *
        * <code>string version = 3;</code>
        */
       public com.google.protobuf.ByteString
@@ -8042,6 +9486,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 文件版本号（1.01） 
+       * </pre>
+       *
        * <code>string version = 3;</code>
        */
       public Builder setVersion(
@@ -8055,6 +9503,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 文件版本号（1.01） 
+       * </pre>
+       *
        * <code>string version = 3;</code>
        */
       public Builder clearVersion() {
@@ -8064,6 +9516,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 文件版本号（1.01） 
+       * </pre>
+       *
        * <code>string version = 3;</code>
        */
       public Builder setVersionBytes(
@@ -8080,6 +9536,10 @@ public final class Wenhua {
 
       private java.lang.Object md5_ = "";
       /**
+       * <pre>
+       * 文件md5值(大写hex编码的md5值) 
+       * </pre>
+       *
        * <code>string md5 = 4;</code>
        */
       public java.lang.String getMd5() {
@@ -8095,6 +9555,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 文件md5值(大写hex编码的md5值) 
+       * </pre>
+       *
        * <code>string md5 = 4;</code>
        */
       public com.google.protobuf.ByteString
@@ -8111,6 +9575,10 @@ public final class Wenhua {
         }
       }
       /**
+       * <pre>
+       * 文件md5值(大写hex编码的md5值) 
+       * </pre>
+       *
        * <code>string md5 = 4;</code>
        */
       public Builder setMd5(
@@ -8124,6 +9592,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 文件md5值(大写hex编码的md5值) 
+       * </pre>
+       *
        * <code>string md5 = 4;</code>
        */
       public Builder clearMd5() {
@@ -8133,6 +9605,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 文件md5值(大写hex编码的md5值) 
+       * </pre>
+       *
        * <code>string md5 = 4;</code>
        */
       public Builder setMd5Bytes(
@@ -8149,12 +9625,20 @@ public final class Wenhua {
 
       private int flag_ ;
       /**
+       * <pre>
+       * 文件所在模块：1-服务端，2-客户端 
+       * </pre>
+       *
        * <code>int32 flag = 5;</code>
        */
       public int getFlag() {
         return flag_;
       }
       /**
+       * <pre>
+       * 文件所在模块：1-服务端，2-客户端 
+       * </pre>
+       *
        * <code>int32 flag = 5;</code>
        */
       public Builder setFlag(int value) {
@@ -8164,6 +9648,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 文件所在模块：1-服务端，2-客户端 
+       * </pre>
+       *
        * <code>int32 flag = 5;</code>
        */
       public Builder clearFlag() {
@@ -8175,12 +9663,20 @@ public final class Wenhua {
 
       private int type_ ;
       /**
+       * <pre>
+       * 0-忽略，1-dll，2-exe 
+       * </pre>
+       *
        * <code>int32 type = 6;</code>
        */
       public int getType() {
         return type_;
       }
       /**
+       * <pre>
+       * 0-忽略，1-dll，2-exe 
+       * </pre>
+       *
        * <code>int32 type = 6;</code>
        */
       public Builder setType(int value) {
@@ -8190,6 +9686,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 0-忽略，1-dll，2-exe 
+       * </pre>
+       *
        * <code>int32 type = 6;</code>
        */
       public Builder clearType() {
@@ -8201,12 +9701,20 @@ public final class Wenhua {
 
       private int action_ ;
       /**
+       * <pre>
+       * 0-忽略，1-加载dll，2-运行exe 
+       * </pre>
+       *
        * <code>int32 action = 7;</code>
        */
       public int getAction() {
         return action_;
       }
       /**
+       * <pre>
+       * 0-忽略，1-加载dll，2-运行exe 
+       * </pre>
+       *
        * <code>int32 action = 7;</code>
        */
       public Builder setAction(int value) {
@@ -8216,6 +9724,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 0-忽略，1-加载dll，2-运行exe 
+       * </pre>
+       *
        * <code>int32 action = 7;</code>
        */
       public Builder clearAction() {
@@ -8227,12 +9739,20 @@ public final class Wenhua {
 
       private boolean applyAllBar_ ;
       /**
+       * <pre>
+       * 是否应用到所有网吧 
+       * </pre>
+       *
        * <code>bool applyAllBar = 8;</code>
        */
       public boolean getApplyAllBar() {
         return applyAllBar_;
       }
       /**
+       * <pre>
+       * 是否应用到所有网吧 
+       * </pre>
+       *
        * <code>bool applyAllBar = 8;</code>
        */
       public Builder setApplyAllBar(boolean value) {
@@ -8242,11 +9762,56 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 是否应用到所有网吧 
+       * </pre>
+       *
        * <code>bool applyAllBar = 8;</code>
        */
       public Builder clearApplyAllBar() {
         
         applyAllBar_ = false;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString binary_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <pre>
+       * 文件二进行内容 
+       * </pre>
+       *
+       * <code>bytes binary = 9;</code>
+       */
+      public com.google.protobuf.ByteString getBinary() {
+        return binary_;
+      }
+      /**
+       * <pre>
+       * 文件二进行内容 
+       * </pre>
+       *
+       * <code>bytes binary = 9;</code>
+       */
+      public Builder setBinary(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        binary_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 文件二进行内容 
+       * </pre>
+       *
+       * <code>bytes binary = 9;</code>
+       */
+      public Builder clearBinary() {
+        
+        binary_ = getDefaultInstance().getBinary();
         onChanged();
         return this;
       }
@@ -8304,24 +9869,44 @@ public final class Wenhua {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * 文件ID 
+     * </pre>
+     *
      * <code>int32 fileID = 1;</code>
      */
     int getFileID();
 
     /**
+     * <pre>
+     * 该文件应用到的网吧列表 
+     * </pre>
+     *
      * <code>repeated string barID = 2;</code>
      */
     java.util.List<java.lang.String>
         getBarIDList();
     /**
+     * <pre>
+     * 该文件应用到的网吧列表 
+     * </pre>
+     *
      * <code>repeated string barID = 2;</code>
      */
     int getBarIDCount();
     /**
+     * <pre>
+     * 该文件应用到的网吧列表 
+     * </pre>
+     *
      * <code>repeated string barID = 2;</code>
      */
     java.lang.String getBarID(int index);
     /**
+     * <pre>
+     * 该文件应用到的网吧列表 
+     * </pre>
+     *
      * <code>repeated string barID = 2;</code>
      */
     com.google.protobuf.ByteString
@@ -8412,6 +9997,10 @@ public final class Wenhua {
     public static final int FILEID_FIELD_NUMBER = 1;
     private int fileID_;
     /**
+     * <pre>
+     * 文件ID 
+     * </pre>
+     *
      * <code>int32 fileID = 1;</code>
      */
     public int getFileID() {
@@ -8421,6 +10010,10 @@ public final class Wenhua {
     public static final int BARID_FIELD_NUMBER = 2;
     private com.google.protobuf.LazyStringList barID_;
     /**
+     * <pre>
+     * 该文件应用到的网吧列表 
+     * </pre>
+     *
      * <code>repeated string barID = 2;</code>
      */
     public com.google.protobuf.ProtocolStringList
@@ -8428,18 +10021,30 @@ public final class Wenhua {
       return barID_;
     }
     /**
+     * <pre>
+     * 该文件应用到的网吧列表 
+     * </pre>
+     *
      * <code>repeated string barID = 2;</code>
      */
     public int getBarIDCount() {
       return barID_.size();
     }
     /**
+     * <pre>
+     * 该文件应用到的网吧列表 
+     * </pre>
+     *
      * <code>repeated string barID = 2;</code>
      */
     public java.lang.String getBarID(int index) {
       return barID_.get(index);
     }
     /**
+     * <pre>
+     * 该文件应用到的网吧列表 
+     * </pre>
+     *
      * <code>repeated string barID = 2;</code>
      */
     public com.google.protobuf.ByteString
@@ -8756,12 +10361,20 @@ public final class Wenhua {
 
       private int fileID_ ;
       /**
+       * <pre>
+       * 文件ID 
+       * </pre>
+       *
        * <code>int32 fileID = 1;</code>
        */
       public int getFileID() {
         return fileID_;
       }
       /**
+       * <pre>
+       * 文件ID 
+       * </pre>
+       *
        * <code>int32 fileID = 1;</code>
        */
       public Builder setFileID(int value) {
@@ -8771,6 +10384,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 文件ID 
+       * </pre>
+       *
        * <code>int32 fileID = 1;</code>
        */
       public Builder clearFileID() {
@@ -8788,6 +10405,10 @@ public final class Wenhua {
          }
       }
       /**
+       * <pre>
+       * 该文件应用到的网吧列表 
+       * </pre>
+       *
        * <code>repeated string barID = 2;</code>
        */
       public com.google.protobuf.ProtocolStringList
@@ -8795,18 +10416,30 @@ public final class Wenhua {
         return barID_.getUnmodifiableView();
       }
       /**
+       * <pre>
+       * 该文件应用到的网吧列表 
+       * </pre>
+       *
        * <code>repeated string barID = 2;</code>
        */
       public int getBarIDCount() {
         return barID_.size();
       }
       /**
+       * <pre>
+       * 该文件应用到的网吧列表 
+       * </pre>
+       *
        * <code>repeated string barID = 2;</code>
        */
       public java.lang.String getBarID(int index) {
         return barID_.get(index);
       }
       /**
+       * <pre>
+       * 该文件应用到的网吧列表 
+       * </pre>
+       *
        * <code>repeated string barID = 2;</code>
        */
       public com.google.protobuf.ByteString
@@ -8814,6 +10447,10 @@ public final class Wenhua {
         return barID_.getByteString(index);
       }
       /**
+       * <pre>
+       * 该文件应用到的网吧列表 
+       * </pre>
+       *
        * <code>repeated string barID = 2;</code>
        */
       public Builder setBarID(
@@ -8827,6 +10464,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 该文件应用到的网吧列表 
+       * </pre>
+       *
        * <code>repeated string barID = 2;</code>
        */
       public Builder addBarID(
@@ -8840,6 +10481,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 该文件应用到的网吧列表 
+       * </pre>
+       *
        * <code>repeated string barID = 2;</code>
        */
       public Builder addAllBarID(
@@ -8851,6 +10496,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 该文件应用到的网吧列表 
+       * </pre>
+       *
        * <code>repeated string barID = 2;</code>
        */
       public Builder clearBarID() {
@@ -8860,6 +10509,10 @@ public final class Wenhua {
         return this;
       }
       /**
+       * <pre>
+       * 该文件应用到的网吧列表 
+       * </pre>
+       *
        * <code>repeated string barID = 2;</code>
        */
       public Builder addBarIDBytes(
@@ -8987,26 +10640,28 @@ public final class Wenhua {
   static {
     java.lang.String[] descriptorData = {
       "\n\014Wenhua.proto\"5\n\010AuthInfo\022\r\n\005barID\030\001 \001(" +
-      "\t\022\014\n\004when\030\002 \001(\t\022\014\n\004sign\030\003 \001(\t\"&\n\tBarConf" +
-      "ig\022\031\n\021freqInstantPcInfo\030\001 \001(\005\"X\n\nServerI" +
-      "nfo\022\013\n\003mac\030\001 \001(\t\022\n\n\002ip\030\002 \001(\t\022\016\n\006pcname\030\003" +
-      " \001(\t\022\016\n\006osType\030\004 \001(\005\022\021\n\tosVersion\030\005 \001(\t\"" +
-      "$\n\nPcInfoList\022\026\n\005infos\030\001 \003(\0132\007.PcInfo\"T\n" +
-      "\006PcInfo\022\013\n\003mac\030\001 \001(\t\022\n\n\002ip\030\002 \001(\t\022\016\n\006pcna" +
-      "me\030\003 \001(\t\022\016\n\006osType\030\004 \001(\005\022\021\n\tosVersion\030\005 " +
-      "\001(\t\"2\n\021PcInstantInfoList\022\035\n\005infos\030\001 \003(\0132" +
-      "\016.PcInstantInfo\"\212\001\n\rPcInstantInfo\022\013\n\003mac",
-      "\030\001 \001(\t\022\021\n\tisPowerOn\030\002 \001(\010\022\023\n\013isRunWenhua" +
-      "\030\003 \001(\010\022\023\n\013isUserLogin\030\004 \001(\010\022\026\n\016wenhuaDur" +
-      "ation\030\005 \001(\005\022\027\n\017poweronDuration\030\006 \001(\005\"?\n\017" +
-      "SoftwareVersion\022\025\n\rserverVersion\030\001 \001(\t\022\025" +
-      "\n\rclientVersion\030\002 \001(\t\"D\n\014FileInfoList\022\030\n" +
-      "\005infos\030\001 \003(\0132\t.FileInfo\022\032\n\010fileBars\030\002 \003(" +
-      "\0132\010.FileBar\"\207\001\n\010FileInfo\022\n\n\002id\030\001 \001(\005\022\020\n\010" +
-      "filename\030\002 \001(\t\022\017\n\007version\030\003 \001(\t\022\013\n\003md5\030\004" +
-      " \001(\t\022\014\n\004flag\030\005 \001(\005\022\014\n\004type\030\006 \001(\005\022\016\n\006acti" +
-      "on\030\007 \001(\005\022\023\n\013applyAllBar\030\010 \001(\010\"(\n\007FileBar",
-      "\022\016\n\006fileID\030\001 \001(\005\022\r\n\005barID\030\002 \003(\tb\006proto3"
+      "\t\022\014\n\004when\030\002 \001(\t\022\014\n\004sign\030\003 \001(\t\"5\n\tBarConf" +
+      "ig\022\031\n\021freqInstantPcInfo\030\001 \001(\005\022\r\n\005barID\030\002" +
+      " \001(\t\"k\n\nServerInfo\022\013\n\003mac\030\001 \001(\t\022\n\n\002ip\030\002 " +
+      "\001(\t\022\016\n\006pcname\030\003 \001(\t\022\016\n\006osType\030\004 \001(\005\022\021\n\to" +
+      "sVersion\030\005 \001(\t\022\021\n\twenhuaVer\030\006 \001(\t\"$\n\nPcI" +
+      "nfoList\022\026\n\005infos\030\001 \003(\0132\007.PcInfo\"g\n\006PcInf" +
+      "o\022\013\n\003mac\030\001 \001(\t\022\n\n\002ip\030\002 \001(\t\022\016\n\006pcname\030\003 \001" +
+      "(\t\022\016\n\006osType\030\004 \001(\005\022\021\n\tosVersion\030\005 \001(\t\022\021\n" +
+      "\twenhuaVer\030\006 \001(\t\"2\n\021PcInstantInfoList\022\035\n",
+      "\005infos\030\001 \003(\0132\016.PcInstantInfo\"\212\001\n\rPcInsta" +
+      "ntInfo\022\013\n\003mac\030\001 \001(\t\022\021\n\tisPowerOn\030\002 \001(\010\022\023" +
+      "\n\013isRunWenhua\030\003 \001(\010\022\023\n\013isUserLogin\030\004 \001(\010" +
+      "\022\026\n\016wenhuaDuration\030\005 \001(\005\022\027\n\017poweronDurat" +
+      "ion\030\006 \001(\005\"?\n\017SoftwareVersion\022\025\n\rserverVe" +
+      "rsion\030\001 \001(\t\022\025\n\rclientVersion\030\002 \001(\t\"D\n\014Fi" +
+      "leInfoList\022\030\n\005infos\030\001 \003(\0132\t.FileInfo\022\032\n\010" +
+      "fileBars\030\002 \003(\0132\010.FileBar\"\227\001\n\010FileInfo\022\n\n" +
+      "\002id\030\001 \001(\005\022\020\n\010filename\030\002 \001(\t\022\017\n\007version\030\003" +
+      " \001(\t\022\013\n\003md5\030\004 \001(\t\022\014\n\004flag\030\005 \001(\005\022\014\n\004type\030",
+      "\006 \001(\005\022\016\n\006action\030\007 \001(\005\022\023\n\013applyAllBar\030\010 \001" +
+      "(\010\022\016\n\006binary\030\t \001(\014\"(\n\007FileBar\022\016\n\006fileID\030" +
+      "\001 \001(\005\022\r\n\005barID\030\002 \003(\tb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -9031,13 +10686,13 @@ public final class Wenhua {
     internal_static_BarConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BarConfig_descriptor,
-        new java.lang.String[] { "FreqInstantPcInfo", });
+        new java.lang.String[] { "FreqInstantPcInfo", "BarID", });
     internal_static_ServerInfo_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_ServerInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ServerInfo_descriptor,
-        new java.lang.String[] { "Mac", "Ip", "Pcname", "OsType", "OsVersion", });
+        new java.lang.String[] { "Mac", "Ip", "Pcname", "OsType", "OsVersion", "WenhuaVer", });
     internal_static_PcInfoList_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_PcInfoList_fieldAccessorTable = new
@@ -9049,7 +10704,7 @@ public final class Wenhua {
     internal_static_PcInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PcInfo_descriptor,
-        new java.lang.String[] { "Mac", "Ip", "Pcname", "OsType", "OsVersion", });
+        new java.lang.String[] { "Mac", "Ip", "Pcname", "OsType", "OsVersion", "WenhuaVer", });
     internal_static_PcInstantInfoList_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_PcInstantInfoList_fieldAccessorTable = new
@@ -9079,7 +10734,7 @@ public final class Wenhua {
     internal_static_FileInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_FileInfo_descriptor,
-        new java.lang.String[] { "Id", "Filename", "Version", "Md5", "Flag", "Type", "Action", "ApplyAllBar", });
+        new java.lang.String[] { "Id", "Filename", "Version", "Md5", "Flag", "Type", "Action", "ApplyAllBar", "Binary", });
     internal_static_FileBar_descriptor =
       getDescriptor().getMessageTypes().get(10);
     internal_static_FileBar_fieldAccessorTable = new
