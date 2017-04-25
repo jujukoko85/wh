@@ -27,7 +27,7 @@
 			targetProject="wenhua-service/src/main/java" 
 			type="XMLMAPPER" />
 			
-		<!-- -->
+		<!-- 
 		<table tableName="t_net_bar" domainObjectName="BaseNetBar" mapperName="NetBarDao"
 			enableCountByExample="false" 
 			enableUpdateByExample="false"  
@@ -37,7 +37,7 @@
             <property name="rootClass" value="com.wenhua.svr.base.domain.AbstractEntity"/>
             <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
         </table>
-       
+       -->
         <!--
         <table tableName="t_server_info" domainObjectName="BaseServerInfo" mapperName="ServerInfoDao"
 			enableCountByExample="false" 
@@ -60,5 +60,15 @@
             <generatedKey column="ID" sqlStatement="MySql"/>
         </table>
         -->
+        <!--  -->
+		<table tableName="t_stat_net_bar" domainObjectName="BaseStatNetBar" mapperName="StatNetBarDao"
+			enableCountByExample="false" 
+			enableUpdateByExample="false"  
+            enableDeleteByExample="false" 
+            enableSelectByExample="false" 
+            selectByExampleQueryId="false">
+            <property name="rootClass" value="com.wenhua.svr.base.domain.AbstractEntity"/>
+        </table>
+      
 	</context>
 </generatorConfiguration>

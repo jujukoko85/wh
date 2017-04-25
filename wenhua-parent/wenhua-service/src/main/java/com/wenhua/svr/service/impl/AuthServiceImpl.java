@@ -132,9 +132,9 @@ public class AuthServiceImpl implements AuthService {
 		BarFileBar bfb1 = new BarFileBar();
 		bfb1.setFileId(222);
 		
-		List<Integer> barIds = Lists.newArrayList();
-		barIds.add(1);
-		barIds.add(2222);
+		List<String> barIds = Lists.newArrayList();
+		barIds.add("1");
+		barIds.add("2222");
 		
 		bfb1.setBarIdList(barIds);
 		

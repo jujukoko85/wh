@@ -5,7 +5,7 @@ syntax = "proto3";
 
 
 message AuthInfo {
-	int32 barID = 1;	
+	string barID = 1;	
 	string when = 2;	
 	string sign = 3;	
 }
@@ -70,5 +70,5 @@ message FileInfo {
 }
 message FileBar {
 	int32 fileID = 1;			
-	repeated int32 barID = 2;	
+	repeated string barID = 2;	
 }

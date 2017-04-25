@@ -7,7 +7,7 @@ public class BarFileBar {
 	// 文件ID
 	private int fileId;
 	// 该文件应用到的网吧列表
-	List<Integer> barIdList;
+	List<String> barIdList;
 
 	public int getFileId() {
 		return fileId;
@@ -17,11 +17,11 @@ public class BarFileBar {
 		this.fileId = fileId;
 	}
 
-	public List<Integer> getBarIdList() {
+	public List<String> getBarIdList() {
 		return barIdList;
 	}
 
-	public void setBarIdList(List<Integer> barIdList) {
+	public void setBarIdList(List<String> barIdList) {
 		this.barIdList = barIdList;
 	}
 

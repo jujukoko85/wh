@@ -116,5 +116,16 @@ public class DateUtils {
 		return now.get(Calendar.YEAR) - bir.get(Calendar.YEAR);
 	}
 	
+	/**
+	 * 获取中国（东8区）今天的日期 例如: 2017-04-01
+	 * @return
+	 */
+	public static Date getChinaToday() {
+		long now = System.currentTimeMillis();
+		long day = 24 * 60 * 60 * 1000;
+		long today = now - (now % day) - (8 * 60 * 60 *1000 );
+		return new Date(today);
+	}
+	
 	private DateUtils() {}
 }

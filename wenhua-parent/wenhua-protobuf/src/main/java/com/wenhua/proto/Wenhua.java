@@ -18,9 +18,14 @@ public final class Wenhua {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>int32 barID = 1;</code>
+     * <code>string barID = 1;</code>
      */
-    int getBarID();
+    java.lang.String getBarID();
+    /**
+     * <code>string barID = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getBarIDBytes();
 
     /**
      * <code>string when = 2;</code>
@@ -54,7 +59,7 @@ public final class Wenhua {
       super(builder);
     }
     private AuthInfo() {
-      barID_ = 0;
+      barID_ = "";
       when_ = "";
       sign_ = "";
     }
@@ -84,9 +89,10 @@ public final class Wenhua {
               }
               break;
             }
-            case 8: {
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              barID_ = input.readInt32();
+              barID_ = s;
               break;
             }
             case 18: {
@@ -125,12 +131,37 @@ public final class Wenhua {
     }
 
     public static final int BARID_FIELD_NUMBER = 1;
-    private int barID_;
+    private volatile java.lang.Object barID_;
     /**
-     * <code>int32 barID = 1;</code>
+     * <code>string barID = 1;</code>
      */
-    public int getBarID() {
-      return barID_;
+    public java.lang.String getBarID() {
+      java.lang.Object ref = barID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        barID_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string barID = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getBarIDBytes() {
+      java.lang.Object ref = barID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        barID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int WHEN_FIELD_NUMBER = 2;
@@ -213,8 +244,8 @@ public final class Wenhua {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (barID_ != 0) {
-        output.writeInt32(1, barID_);
+      if (!getBarIDBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, barID_);
       }
       if (!getWhenBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, when_);
@@ -229,9 +260,8 @@ public final class Wenhua {
       if (size != -1) return size;
 
       size = 0;
-      if (barID_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, barID_);
+      if (!getBarIDBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, barID_);
       }
       if (!getWhenBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, when_);
@@ -255,8 +285,8 @@ public final class Wenhua {
       Wenhua.AuthInfo other = (Wenhua.AuthInfo) obj;
 
       boolean result = true;
-      result = result && (getBarID()
-          == other.getBarID());
+      result = result && getBarID()
+          .equals(other.getBarID());
       result = result && getWhen()
           .equals(other.getWhen());
       result = result && getSign()
@@ -272,7 +302,7 @@ public final class Wenhua {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + BARID_FIELD_NUMBER;
-      hash = (53 * hash) + getBarID();
+      hash = (53 * hash) + getBarID().hashCode();
       hash = (37 * hash) + WHEN_FIELD_NUMBER;
       hash = (53 * hash) + getWhen().hashCode();
       hash = (37 * hash) + SIGN_FIELD_NUMBER;
@@ -395,7 +425,7 @@ public final class Wenhua {
       }
       public Builder clear() {
         super.clear();
-        barID_ = 0;
+        barID_ = "";
 
         when_ = "";
 
@@ -467,8 +497,9 @@ public final class Wenhua {
 
       public Builder mergeFrom(Wenhua.AuthInfo other) {
         if (other == Wenhua.AuthInfo.getDefaultInstance()) return this;
-        if (other.getBarID() != 0) {
-          setBarID(other.getBarID());
+        if (!other.getBarID().isEmpty()) {
+          barID_ = other.barID_;
+          onChanged();
         }
         if (!other.getWhen().isEmpty()) {
           when_ = other.when_;
@@ -504,28 +535,71 @@ public final class Wenhua {
         return this;
       }
 
-      private int barID_ ;
+      private java.lang.Object barID_ = "";
       /**
-       * <code>int32 barID = 1;</code>
+       * <code>string barID = 1;</code>
        */
-      public int getBarID() {
-        return barID_;
+      public java.lang.String getBarID() {
+        java.lang.Object ref = barID_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          barID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>int32 barID = 1;</code>
+       * <code>string barID = 1;</code>
        */
-      public Builder setBarID(int value) {
-        
+      public com.google.protobuf.ByteString
+          getBarIDBytes() {
+        java.lang.Object ref = barID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          barID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string barID = 1;</code>
+       */
+      public Builder setBarID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         barID_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>int32 barID = 1;</code>
+       * <code>string barID = 1;</code>
        */
       public Builder clearBarID() {
         
-        barID_ = 0;
+        barID_ = getDefaultInstance().getBarID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string barID = 1;</code>
+       */
+      public Builder setBarIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        barID_ = value;
         onChanged();
         return this;
       }
@@ -8235,17 +8309,23 @@ public final class Wenhua {
     int getFileID();
 
     /**
-     * <code>repeated int32 barID = 2;</code>
+     * <code>repeated string barID = 2;</code>
      */
-    java.util.List<java.lang.Integer> getBarIDList();
+    java.util.List<java.lang.String>
+        getBarIDList();
     /**
-     * <code>repeated int32 barID = 2;</code>
+     * <code>repeated string barID = 2;</code>
      */
     int getBarIDCount();
     /**
-     * <code>repeated int32 barID = 2;</code>
+     * <code>repeated string barID = 2;</code>
      */
-    int getBarID(int index);
+    java.lang.String getBarID(int index);
+    /**
+     * <code>repeated string barID = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getBarIDBytes(int index);
   }
   /**
    * Protobuf type {@code FileBar}
@@ -8260,7 +8340,7 @@ public final class Wenhua {
     }
     private FileBar() {
       fileID_ = 0;
-      barID_ = java.util.Collections.emptyList();
+      barID_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -8293,25 +8373,13 @@ public final class Wenhua {
               fileID_ = input.readInt32();
               break;
             }
-            case 16: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                barID_ = new java.util.ArrayList<java.lang.Integer>();
-                mutable_bitField0_ |= 0x00000002;
-              }
-              barID_.add(input.readInt32());
-              break;
-            }
             case 18: {
-              int length = input.readRawVarint32();
-              int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
-                barID_ = new java.util.ArrayList<java.lang.Integer>();
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                barID_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000002;
               }
-              while (input.getBytesUntilLimit() > 0) {
-                barID_.add(input.readInt32());
-              }
-              input.popLimit(limit);
+              barID_.add(s);
               break;
             }
           }
@@ -8323,7 +8391,7 @@ public final class Wenhua {
             e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          barID_ = java.util.Collections.unmodifiableList(barID_);
+          barID_ = barID_.getUnmodifiableView();
         }
         makeExtensionsImmutable();
       }
@@ -8351,27 +8419,33 @@ public final class Wenhua {
     }
 
     public static final int BARID_FIELD_NUMBER = 2;
-    private java.util.List<java.lang.Integer> barID_;
+    private com.google.protobuf.LazyStringList barID_;
     /**
-     * <code>repeated int32 barID = 2;</code>
+     * <code>repeated string barID = 2;</code>
      */
-    public java.util.List<java.lang.Integer>
+    public com.google.protobuf.ProtocolStringList
         getBarIDList() {
       return barID_;
     }
     /**
-     * <code>repeated int32 barID = 2;</code>
+     * <code>repeated string barID = 2;</code>
      */
     public int getBarIDCount() {
       return barID_.size();
     }
     /**
-     * <code>repeated int32 barID = 2;</code>
+     * <code>repeated string barID = 2;</code>
      */
-    public int getBarID(int index) {
+    public java.lang.String getBarID(int index) {
       return barID_.get(index);
     }
-    private int barIDMemoizedSerializedSize = -1;
+    /**
+     * <code>repeated string barID = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getBarIDBytes(int index) {
+      return barID_.getByteString(index);
+    }
 
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -8385,16 +8459,11 @@ public final class Wenhua {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
       if (fileID_ != 0) {
         output.writeInt32(1, fileID_);
       }
-      if (getBarIDList().size() > 0) {
-        output.writeUInt32NoTag(18);
-        output.writeUInt32NoTag(barIDMemoizedSerializedSize);
-      }
       for (int i = 0; i < barID_.size(); i++) {
-        output.writeInt32NoTag(barID_.get(i));
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, barID_.getRaw(i));
       }
     }
 
@@ -8410,16 +8479,10 @@ public final class Wenhua {
       {
         int dataSize = 0;
         for (int i = 0; i < barID_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeInt32SizeNoTag(barID_.get(i));
+          dataSize += computeStringSizeNoTag(barID_.getRaw(i));
         }
         size += dataSize;
-        if (!getBarIDList().isEmpty()) {
-          size += 1;
-          size += com.google.protobuf.CodedOutputStream
-              .computeInt32SizeNoTag(dataSize);
-        }
-        barIDMemoizedSerializedSize = dataSize;
+        size += 1 * getBarIDList().size();
       }
       memoizedSize = size;
       return size;
@@ -8577,7 +8640,7 @@ public final class Wenhua {
         super.clear();
         fileID_ = 0;
 
-        barID_ = java.util.Collections.emptyList();
+        barID_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
@@ -8605,7 +8668,7 @@ public final class Wenhua {
         int to_bitField0_ = 0;
         result.fileID_ = fileID_;
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          barID_ = java.util.Collections.unmodifiableList(barID_);
+          barID_ = barID_.getUnmodifiableView();
           bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.barID_ = barID_;
@@ -8717,56 +8780,70 @@ public final class Wenhua {
         return this;
       }
 
-      private java.util.List<java.lang.Integer> barID_ = java.util.Collections.emptyList();
+      private com.google.protobuf.LazyStringList barID_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureBarIDIsMutable() {
         if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          barID_ = new java.util.ArrayList<java.lang.Integer>(barID_);
+          barID_ = new com.google.protobuf.LazyStringArrayList(barID_);
           bitField0_ |= 0x00000002;
          }
       }
       /**
-       * <code>repeated int32 barID = 2;</code>
+       * <code>repeated string barID = 2;</code>
        */
-      public java.util.List<java.lang.Integer>
+      public com.google.protobuf.ProtocolStringList
           getBarIDList() {
-        return java.util.Collections.unmodifiableList(barID_);
+        return barID_.getUnmodifiableView();
       }
       /**
-       * <code>repeated int32 barID = 2;</code>
+       * <code>repeated string barID = 2;</code>
        */
       public int getBarIDCount() {
         return barID_.size();
       }
       /**
-       * <code>repeated int32 barID = 2;</code>
+       * <code>repeated string barID = 2;</code>
        */
-      public int getBarID(int index) {
+      public java.lang.String getBarID(int index) {
         return barID_.get(index);
       }
       /**
-       * <code>repeated int32 barID = 2;</code>
+       * <code>repeated string barID = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getBarIDBytes(int index) {
+        return barID_.getByteString(index);
+      }
+      /**
+       * <code>repeated string barID = 2;</code>
        */
       public Builder setBarID(
-          int index, int value) {
-        ensureBarIDIsMutable();
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureBarIDIsMutable();
         barID_.set(index, value);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated int32 barID = 2;</code>
+       * <code>repeated string barID = 2;</code>
        */
-      public Builder addBarID(int value) {
-        ensureBarIDIsMutable();
+      public Builder addBarID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureBarIDIsMutable();
         barID_.add(value);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated int32 barID = 2;</code>
+       * <code>repeated string barID = 2;</code>
        */
       public Builder addAllBarID(
-          java.lang.Iterable<? extends java.lang.Integer> values) {
+          java.lang.Iterable<java.lang.String> values) {
         ensureBarIDIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
             values, barID_);
@@ -8774,11 +8851,25 @@ public final class Wenhua {
         return this;
       }
       /**
-       * <code>repeated int32 barID = 2;</code>
+       * <code>repeated string barID = 2;</code>
        */
       public Builder clearBarID() {
-        barID_ = java.util.Collections.emptyList();
+        barID_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string barID = 2;</code>
+       */
+      public Builder addBarIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureBarIDIsMutable();
+        barID_.add(value);
         onChanged();
         return this;
       }
@@ -8896,7 +8987,7 @@ public final class Wenhua {
   static {
     java.lang.String[] descriptorData = {
       "\n\014Wenhua.proto\"5\n\010AuthInfo\022\r\n\005barID\030\001 \001(" +
-      "\005\022\014\n\004when\030\002 \001(\t\022\014\n\004sign\030\003 \001(\t\"&\n\tBarConf" +
+      "\t\022\014\n\004when\030\002 \001(\t\022\014\n\004sign\030\003 \001(\t\"&\n\tBarConf" +
       "ig\022\031\n\021freqInstantPcInfo\030\001 \001(\005\"X\n\nServerI" +
       "nfo\022\013\n\003mac\030\001 \001(\t\022\n\n\002ip\030\002 \001(\t\022\016\n\006pcname\030\003" +
       " \001(\t\022\016\n\006osType\030\004 \001(\005\022\021\n\tosVersion\030\005 \001(\t\"" +
@@ -8915,7 +9006,7 @@ public final class Wenhua {
       "filename\030\002 \001(\t\022\017\n\007version\030\003 \001(\t\022\013\n\003md5\030\004" +
       " \001(\t\022\014\n\004flag\030\005 \001(\005\022\014\n\004type\030\006 \001(\005\022\016\n\006acti" +
       "on\030\007 \001(\005\022\023\n\013applyAllBar\030\010 \001(\010\"(\n\007FileBar",
-      "\022\016\n\006fileID\030\001 \001(\005\022\r\n\005barID\030\002 \003(\005b\006proto3"
+      "\022\016\n\006fileID\030\001 \001(\005\022\r\n\005barID\030\002 \003(\tb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

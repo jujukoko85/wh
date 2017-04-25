@@ -18,7 +18,6 @@ import com.wenhua.proto.WenhuaMsg;
 import com.wenhua.proto.WenhuaMsg.Message;
 import com.wenhua.svr.domain.BarAuthInfo;
 import com.wenhua.util.ByteUtil;
-import com.wenhua.util.RandomNumberGenerator;
 import com.wenhua.util.tools.DateUtils;
 import com.wenhua.util.tools.NumberUtil;
 
@@ -186,7 +185,7 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 	 */
 	private WenhuaMsg.Message getAuthInfoMessage() {
 		
-		Integer barId = 1000;
+		String barId = "1000";
 		String when = DateUtils.getString(new Date());
 		String key = "hn123wh";
 		

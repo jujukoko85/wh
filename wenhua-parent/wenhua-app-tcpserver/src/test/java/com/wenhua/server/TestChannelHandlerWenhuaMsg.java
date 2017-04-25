@@ -13,7 +13,7 @@ public class TestChannelHandlerWenhuaMsg {
 	@Test
 	public void test1() {
 		
-		byte[] byteArray = BarAuthInfo.getByteArray(1200, "2017-01-02 23:19:20", "hn123wh");
+		byte[] byteArray = BarAuthInfo.getByteArray("1200", "2017-01-02 23:19:20", "hn123wh");
 		
 		System.out.println(ByteUtil.bytes2hex(byteArray));
 	}

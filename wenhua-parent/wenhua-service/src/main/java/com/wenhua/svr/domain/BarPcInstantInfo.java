@@ -19,6 +19,18 @@ public class BarPcInstantInfo {
 	private int wenhuaDuration;
 	/** 客户机开机时长，单位：分钟 */
 	private int powerDuration;
+	
+	public static BarPcInstantInfo newOne(String mac, boolean isPowerOn, boolean isRunWenhua, boolean isUserLogin, int wenhuaDuration, int powerDuration) {
+		BarPcInstantInfo b = new BarPcInstantInfo();
+		b.setMac(mac);
+		b.setPowerOn(isPowerOn);
+		b.setRunWenhua(isRunWenhua);
+		b.setUserLogin(isUserLogin);
+		b.setWenhuaDuration(wenhuaDuration);
+		b.setPowerDuration(powerDuration);
+		
+		return b;
+	}
 
 	public String getMac() {
 		return mac;

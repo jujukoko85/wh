@@ -14,7 +14,7 @@ public class TestBarAuthInfo {
 		
 		//3d274fd3766faf802fe6cb8e8d960134
 		
-		byte[] array = BarAuthInfo.getByteArray(111, "2017-04-20 14:50:35", "hn123wh");
+		byte[] array = BarAuthInfo.getByteArray("111", "2017-04-20 14:50:35", "hn123wh");
 		String md5 = Md5Util.getMD5HexString(array);
 		System.out.println(md5.toUpperCase());
 	}

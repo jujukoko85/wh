@@ -36,6 +36,7 @@ import com.wenhua.svr.exception.AuthSignNotValidException;
 import com.wenhua.svr.exception.FileNotExistException;
 import com.wenhua.svr.exception.SystemException;
 import com.wenhua.svr.service.AuthService;
+import com.wenhua.svr.service.StatService;
 import com.wenhua.util.ByteUtil;
 import com.wenhua.util.tools.NumberUtil;
 
@@ -61,6 +62,8 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 	private Map<Integer, String> codeMaps;
 	
 	private AuthService authService;
+	
+	private StatService statService;
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -242,7 +245,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 				com.wenhua.proto.Wenhua.FileBar.Builder b = Wenhua.FileBar.newBuilder()
 					.setFileID(fileBar.getFileId());
 				
-				for(Integer i : fileBar.getBarIdList()) {
+				for(String i : fileBar.getBarIdList()) {
 					b.addBarID(i);
 				}
 				FileBar fb = b.build();
@@ -310,8 +313,8 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		try {
 			pcInstantInfoList = Wenhua.PcInstantInfoList.parseFrom(message.getContent());
 		} catch (InvalidProtocolBufferException e) {
-			e.printStackTrace();
-			//TODO
+			logger.error(String.format("##SetInstantPcInfoList ChannelShortId: %s RemoteIp: %s InvalidProtocol", getChannelShortId(ctx), getRemoteIp(ctx)), e);
+			return;
 		}
 		List<PcInstantInfo> infosList = pcInstantInfoList.getInfosList();
 		logger.info(String.format("##SetInstantPcInfoList ChannelShortId: %s RemoteIp: %s PcInstantInfoListSize: %d", getChannelShortId(ctx), getRemoteIp(ctx), null == infosList ? 0 : infosList.size()));
@@ -331,29 +334,13 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			
 			barPcInstantInfoList.add(pc);
 		}
-	
-		int exceptCode = 0;
-		String exceptMsg = null;
-		ByteString content = null;
-		try {
-			authService.updatePcInstantInfoList(barPcInstantInfoList);
-			content = ByteString.copyFromUtf8(String.valueOf(true));
-			exceptCode = 0;
-			exceptMsg = codeMaps.get(exceptCode);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			exceptCode = 1004;
-			exceptMsg = codeMaps.get(exceptCode);
-			content = ByteString.copyFromUtf8(String.valueOf(false));
-		}
 		
-		Message response = getResponseMsg(message.getId(), exceptCode, exceptMsg, content, message.getMethod());
-		ctx.writeAndFlush(response);
+		statService.countBarDaily(getBarId(ctx), barPcInstantInfoList);
 		
 	}
 
 	/**
-	 * 上报客户机实时信息列表
+	 * 上报客户机信息列表
 	 * @param ctx
 	 * @param message
 	 */
@@ -362,8 +349,8 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		try {
 			pcInfoList = Wenhua.PcInfoList.parseFrom(message.getContent());
 		} catch (InvalidProtocolBufferException e) {
-			e.printStackTrace();
-			//TODO 
+			logger.error(String.format("##SetPcInfoList ChannelShortId: %s RemoteIp: %s InvalidProtocol", getChannelShortId(ctx), getRemoteIp(ctx)), e);
+			return;
 		}
 		List<PcInfo> infosList = pcInfoList.getInfosList();
 		logger.info(String.format("##SetPcInfoList ChannelShortId: %s RemoteIp: %s PcInfoListSize: %d", getChannelShortId(ctx), getRemoteIp(ctx), null == infosList ? 0 : infosList.size()));
@@ -384,24 +371,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			barPcInfoList.add(pc);
 		}
 		
-		int exceptCode = 0;
-		String exceptMsg = null;
-		ByteString content = null;
-		
-		try {
-			authService.updatePcInfoList(barPcInfoList);
-			exceptCode = 0;
-			exceptMsg = codeMaps.get(exceptCode);
-			content = ByteString.copyFromUtf8(String.valueOf(true));
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			exceptCode = 1004;
-			exceptMsg = codeMaps.get(exceptCode);
-			content = ByteString.copyFromUtf8(String.valueOf(false));
-		}
-		
-		Message response = getResponseMsg(message.getId(), exceptCode, exceptMsg, content, message.getMethod());
-		ctx.writeAndFlush(response);
+		authService.updatePcInfoList(barPcInfoList);
 		
 	}
 
@@ -416,8 +386,8 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		try {
 			serverInfo = Wenhua.ServerInfo.parseFrom(message.getContent());
 		} catch (InvalidProtocolBufferException e) {
-			e.printStackTrace();
-			//TODO
+			logger.error(String.format("##SetServerInfo ChannelShortId: %s RemoteIp: %s InvalidProtocol", getChannelShortId(ctx), getRemoteIp(ctx)), e);
+			return;
 		}
 		logger.info(
 				String.format(
@@ -440,27 +410,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 				serverInfo.getOsVersion(), 
 				TCP_SERVER);
 		
-		int exceptCode = 0;
-		String exceptMsg = null;
-		ByteString content = null;
-		try {
-			authService.setServerInfo(si);
-			exceptCode = 0;
-			exceptMsg = codeMaps.get(exceptCode);
-			content = ByteString.copyFromUtf8(String.valueOf(true));
-		} catch (AuthBarNotExistException e) {
-			exceptCode = 1002;
-			exceptMsg = codeMaps.get(exceptCode);
-			content = ByteString.copyFromUtf8(String.valueOf(false));
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			exceptMsg = codeMaps.get(exceptCode);
-			content = ByteString.copyFromUtf8(String.valueOf(false));
-		}
-		
-		Message response = getResponseMsg(message.getId(), exceptCode, exceptMsg, content, message.getMethod());
-		
-		ctx.writeAndFlush(response);
+		authService.setServerInfo(si);
 	}
 
 	private String getRemoteIp(ChannelHandlerContext ctx) {
@@ -584,7 +534,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 	
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		logger.debug(String.format("##exceptionCaught ChannelShortId: %s remoteId: %s excpetionMsg: %s", getChannelShortId(ctx), getRemoteIp(ctx), cause.getMessage()));
+		logger.error(String.format("##exceptionCaught ChannelShortId: %s remoteId: %s excpetionMsg: %s", getChannelShortId(ctx), getRemoteIp(ctx), cause.getMessage()), cause);
 //		super.exceptionCaught(ctx, cause);
 	}
 
@@ -598,6 +548,14 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 
 	public void setCodeMaps(Map<Integer, String> codeMaps) {
 		this.codeMaps = codeMaps;
+	}
+
+	public StatService getStatService() {
+		return statService;
+	}
+
+	public void setStatService(StatService statService) {
+		this.statService = statService;
 	}
 	
 	
