@@ -41,6 +41,7 @@
 	
 	<build>
 		<finalName>wenhua-app-tcpserver</finalName>
+		<!-- 
 		<resources>
 			<resource>
 				<targetPath>${project.build.directory}/classes</targetPath>
@@ -52,6 +53,7 @@
 				</includes>
 			</resource>
 		</resources>
+		 -->
 		<plugins>
 			<!-- 打包jar文件时，配置manifest文件，加入lib包的jar依赖 -->
 			<plugin>

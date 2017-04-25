@@ -10,8 +10,6 @@
 		<module>wenhua-service</module>
 		<module>wenhua-app-tcpserver</module>
 		<module>wenhua-util</module>
-		<module>wenhua-web-console</module>
-		<module>wenhua-web-base</module>
 		<module>wenhua-service-base</module>
 	</modules>
 
