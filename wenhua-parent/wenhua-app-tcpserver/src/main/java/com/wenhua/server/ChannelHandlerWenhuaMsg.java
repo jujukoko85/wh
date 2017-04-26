@@ -177,12 +177,12 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		Message response = null;
 		try {
 			target = authService.getFileById(fileId);
-			response = getResponseMsg(message.getId(), 1006, codeMaps.get(1006), ByteString.copyFrom(target), message.getMethod());
+			response = getResponseMsg(ctx, message.getId(), 1006, codeMaps.get(1006), ByteString.copyFrom(target), message.getMethod());
 		} catch (FileNotExistException e) {
 			logger.error(String.format("##GetFile ChannelShortId: %s  RemoteIp: %s fildId: %s error FileNotFound", getChannelShortId(ctx), getRemoteIp(ctx), String.valueOf(fileId)));
-			response = getResponseMsg(message.getId(), 0, codeMaps.get(0), ByteString.copyFrom(target), message.getMethod());
+			response = getResponseMsg(ctx, message.getId(), 0, codeMaps.get(0), ByteString.copyFrom(target), message.getMethod());
 		} catch (SystemException e) {
-			response = getResponseMsg(message.getId(), 1007, codeMaps.get(1007), ByteString.copyFrom(target), message.getMethod());
+			response = getResponseMsg(ctx, message.getId(), 1007, codeMaps.get(1007), ByteString.copyFrom(target), message.getMethod());
 		}
 		
 		
@@ -203,12 +203,12 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		methodName = METHOD_NAME_IS_NULL;
 		exceptMsg = codeMaps.get(exceptCode);
 		
-		Message responseMsg = getResponseMsg(id, exceptCode, exceptMsg, null, methodName);
+		Message responseMsg = getResponseMsg(ctx, id, exceptCode, exceptMsg, null, methodName);
 		ChannelFuture future = ctx.writeAndFlush(responseMsg);
 		future.addListener(ChannelFutureListener.CLOSE);
 	}
 
-	private Message getResponseMsg(long id, int exceptCode, String exceptMsg, ByteString content, String methodName) {
+	private Message getResponseMsg(ChannelHandlerContext ctx, long id, int exceptCode, String exceptMsg, ByteString content, String methodName) {
 		Message response = WenhuaMsg.Message.newBuilder()
 			.setId(id)
 			.setMethod(null == methodName ? METHOD_NAME_IS_NULL : methodName)
@@ -216,6 +216,17 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			.setExceptCode(exceptCode)
 			.setExceptMsg(exceptMsg)
 			.build();
+		
+		logger.info(
+				String.format(
+						"##Do response is ChannelShortId: %s  RemoteIp: %s MessageId: %d ExceptCode: %d ExceptMsg: %s Method: %s", 
+						getChannelShortId(ctx),
+						getRemoteIp(ctx),
+						id,
+						exceptCode,
+						methodName
+						));
+		
 		return response;
 	}
 
@@ -298,7 +309,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			content = ByteString.copyFromUtf8(String.valueOf(false));
 		}
 		
-		Message response = getResponseMsg(message.getId(), exceptCode, exceptMsg, content, message.getMethod());
+		Message response = getResponseMsg(ctx, message.getId(), exceptCode, exceptMsg, content, message.getMethod());
 		ctx.writeAndFlush(response);
 		
 	}
@@ -350,7 +361,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			content = ByteString.copyFromUtf8(String.valueOf(false));
 		}
 		
-		Message response = getResponseMsg(message.getId(), exceptCode, exceptMsg, content, message.getMethod());
+		Message response = getResponseMsg(ctx, message.getId(), exceptCode, exceptMsg, content, message.getMethod());
 		ctx.writeAndFlush(response);
 		
 	}
@@ -403,7 +414,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			content = ByteString.copyFromUtf8(String.valueOf(false));
 		}
 		
-		Message response = getResponseMsg(message.getId(), exceptCode, exceptMsg, content, message.getMethod());
+		Message response = getResponseMsg(ctx, message.getId(), exceptCode, exceptMsg, content, message.getMethod());
 		ctx.writeAndFlush(response);
 		
 	}
@@ -461,7 +472,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			content = ByteString.copyFromUtf8(String.valueOf(false));
 		}
 		
-		Message response = getResponseMsg(message.getId(), exceptCode, exceptMsg, content, message.getMethod());
+		Message response = getResponseMsg(ctx, message.getId(), exceptCode, exceptMsg, content, message.getMethod());
 		
 		ctx.writeAndFlush(response);
 	}
@@ -496,7 +507,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			content = ByteString.copyFromUtf8(String.valueOf(false));
 		}
 		
-		Message response = getResponseMsg(message.getId(), exceptCode, exceptMsg, content, message.getMethod());
+		Message response = getResponseMsg(ctx, message.getId(), exceptCode, exceptMsg, content, message.getMethod());
 		
 		ctx.writeAndFlush(response);
 	}
@@ -556,7 +567,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			content = ByteString.copyFromUtf8(String.valueOf(false));
 		}
 		
-		Message response = getResponseMsg(message.getId(), exceptCode, exceptMsg, content, message.getMethod());
+		Message response = getResponseMsg(ctx, message.getId(), exceptCode, exceptMsg, content, message.getMethod());
 		ChannelFuture future = ctx.writeAndFlush(response);
 		
 		if(close) {
