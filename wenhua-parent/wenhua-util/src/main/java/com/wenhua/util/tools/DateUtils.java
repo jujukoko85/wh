@@ -120,10 +120,19 @@ public class DateUtils {
 	 * 获取中国（东8区）今天的日期 例如: 2017-04-01
 	 * @return
 	 */
-	public static Date getChinaToday() {
+	public static Date getChinaDay() {
+		return getChinaDay(0);
+	}
+	
+	/**
+	 * 获取中国（东8区）与当天相差 diff 天的日期 例如: 2017-04-01
+	 * @param diff 与今天相差的天数
+	 * @return
+	 */
+	public static Date getChinaDay(int diff) {
 		long now = System.currentTimeMillis();
 		long day = 24 * 60 * 60 * 1000;
-		long today = now - (now % day) - (8 * 60 * 60 *1000 );
+		long today = now - (now % day) - (8 * 60 * 60 *1000 ) + (diff * (24 * 60 * 60 * 1000));
 		return new Date(today);
 	}
 	

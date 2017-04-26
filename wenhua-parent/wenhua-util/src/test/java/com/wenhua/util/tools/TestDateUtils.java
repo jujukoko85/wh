@@ -8,7 +8,7 @@ public class TestDateUtils {
 
 	@Test
 	public void test1() {
-		Date today = DateUtils.getChinaToday();
+		Date today = DateUtils.getChinaDay();
 		System.out.println(DateUtils.getString(today, "yyyy-MM-dd HH:mm:ss"));
 	}
 }

@@ -48,4 +48,22 @@ public class TestStatNetBarDao {
 		int count = statNetBarDao.countAreaDaily(params);
 		System.out.println(count);
 	}
+	
+	@Test
+	public void test4() {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("statDate", new Date());
+		params.put("areaCode", "123456");
+		int count = statNetBarDao.countLoginAreaDaily(params);
+		System.out.println(count);
+	}
+	
+	@Test
+	public void test5() {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("statDate", new Date());
+		params.put("areaCode", "123401");
+		int count = statNetBarDao.countLoginCityDaily(params);
+		System.out.println(count);
+	}
 }

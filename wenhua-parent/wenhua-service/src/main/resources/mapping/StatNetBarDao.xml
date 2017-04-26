@@ -21,9 +21,11 @@
     where bar_id = #{barId,jdbcType=VARCHAR}
       and stat_date = #{statDate,jdbcType=DATE}
   </select>
+
+
   <select id="countAreaDaily" resultType="java.lang.Integer">
     select
-    	count(*)
+    	ifnull(count(*),0)
     from t_stat_net_bar
     where 
     	stat_date = #{statDate, jdbcType=DATE}
@@ -32,13 +34,33 @@
   </select>
   <select id="countCityDaily" resultType="java.lang.Integer">
     select
-    	count(*)
+    	ifnull(count(*),0)
     from t_stat_net_bar
     where 
     	stat_date = #{statDate, jdbcType=DATE}
     	and
-    	area_code = #{areaCity, jdbcType=VARCHAR}
+    	city_code = #{areaCode, jdbcType=VARCHAR}
   </select>
+  
+  <select id="countLoginAreaDaily" resultType="java.lang.Integer">
+    select
+    	ifnull(sum(login),0)
+    from t_stat_net_bar
+    where 
+    	stat_date = #{statDate, jdbcType=DATE}
+    	and
+    	area_code = #{areaCode, jdbcType=VARCHAR}
+  </select>
+  <select id="countLoginCityDaily" resultType="java.lang.Integer">
+    select
+    	ifnull(sum(login),0)
+    from t_stat_net_bar
+    where 
+    	stat_date = #{statDate, jdbcType=DATE}
+    	and
+    	city_code = #{areaCode, jdbcType=VARCHAR}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="com.wenhua.svr.domain.base.BaseStatNetBarKey">
     delete from t_stat_net_bar
     where bar_id = #{barId,jdbcType=VARCHAR}

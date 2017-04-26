@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans  
             http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<description>业务服务</description>
+	<description>定时服务</description>
 
 	<bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
         <property name="targetObject">  
@@ -20,8 +20,7 @@
             <ref bean="jobDetail"/>  
         </property>  
         <property name="cronExpression">  
-            <value>0/3 * * * * ?</value>  
-            <!-- 每3秒执行一次 -->  
+            <value>${scheduler.interval}</value>  
         </property>  
     </bean>  
       

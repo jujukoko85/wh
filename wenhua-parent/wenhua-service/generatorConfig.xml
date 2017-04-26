@@ -60,7 +60,7 @@
             <generatedKey column="ID" sqlStatement="MySql"/>
         </table>
         -->
-        <!--  -->
+        <!-- 
 		<table tableName="t_stat_net_bar" domainObjectName="BaseStatNetBar" mapperName="StatNetBarDao"
 			enableCountByExample="true" 
 			enableUpdateByExample="false"  
@@ -68,6 +68,27 @@
             enableSelectByExample="false" 
             selectByExampleQueryId="false">
             <property name="rootClass" value="com.wenhua.svr.base.domain.AbstractEntity"/>
+        </table>
+         -->
+         
+         <!-- 
+		<table tableName="t_stat_area" domainObjectName="BaseStatArea" mapperName="StatAreaDao"
+			enableCountByExample="false" 
+			enableUpdateByExample="false"  
+            enableDeleteByExample="false" 
+            enableSelectByExample="false" 
+            selectByExampleQueryId="false">
+            <property name="rootClass" value="com.wenhua.svr.base.domain.AbstractEntity"/>
+        </table>
+         -->
+        
+         <!--  -->
+		<table tableName="t_areas_code" domainObjectName="BaseAreasCode" mapperName="AreasCodeDao"
+			enableCountByExample="false" 
+			enableUpdateByExample="false"  
+            enableDeleteByExample="false" 
+            enableSelectByExample="false" 
+            selectByExampleQueryId="false">
         </table>
       
 	</context>

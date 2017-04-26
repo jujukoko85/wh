@@ -22,4 +22,8 @@ public interface StatNetBarDao {
     int countAreaDaily(Map<String, Object> params);
     
     int countCityDaily(Map<String, Object> params);
+    
+    int countLoginAreaDaily(Map<String, Object> params);
+    
+    int countLoginCityDaily(Map<String, Object> params);
 }

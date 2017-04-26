@@ -535,7 +535,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			
 		} catch (AuthBarNotExistException e) {
 			close = true;
-			exceptCode = 102;
+			exceptCode = 1002;
 			exceptMsg = codeMaps.get(exceptCode);
 			content = ByteString.copyFromUtf8(String.valueOf(false));
 		} catch (AuthSignNotValidException e) {
