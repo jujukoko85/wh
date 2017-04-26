@@ -32,14 +32,43 @@ public class StatNetBar extends BaseStatNetBar {
 	 * @param valid
 	 * @return
 	 */
-	public static StatNetBar newOne(String barId, Date statDate, int online, int offline, int valid) {
+	public static StatNetBar newOne(String barId, Date statDate, int online, int offline, int valid, int login) {
 		StatNetBar s = new StatNetBar();
 		s.setBarId(barId);
 		s.setStatDate(statDate);
 		s.setOnline(online);
 		s.setOffline(offline);
 		s.setValid(valid);
+		s.setAreaCode(getAreaCode(barId));
+		s.setCityCode(getCityCode(barId));
+		s.setLogin(login);
 		return s;
+	}
+	
+	private static String getCityCode(String barId) {
+		
+		String provinceCode = barId.substring(0, 2);
+		String cityCode = barId.substring(2, 4);
+//		String areaCode = barId.substring(4, 6);
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append(provinceCode);
+		sb.append(cityCode);
+		sb.append("00");
+		return sb.toString();
+	}
+	
+	private static String getAreaCode(String barId) {
+		
+		String provinceCode = barId.substring(0, 2);
+		String cityCode = barId.substring(2, 4);
+		String areaCode = barId.substring(4, 6);
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append(provinceCode);
+		sb.append(cityCode);
+		sb.append(areaCode);
+		return sb.toString();
 	}
 	
 	/**
@@ -53,6 +82,7 @@ public class StatNetBar extends BaseStatNetBar {
 		int online = 0;
 		int offline = 0;
 		int valid = 0;
+		int login = 0;
 		boolean needUpdate = false;
 		
 		if(this.getOnline() > old.getOnline()) {
@@ -79,9 +109,17 @@ public class StatNetBar extends BaseStatNetBar {
 			needUpdate = needUpdate | false;
 		}
 		
+		if(this.getLogin() > old.getLogin()) {
+			login = this.getLogin();
+			needUpdate = needUpdate | true;
+		} else {
+			login = old.getLogin();
+			needUpdate = needUpdate | false;
+		}
+		
 		if(!needUpdate) return null;
 		
-		return StatNetBar.newOne(this.getBarId(), this.getStatDate(), online, offline, valid);
+		return StatNetBar.newOne(this.getBarId(), this.getStatDate(), online, offline, valid, login);
 	}
 	
 }

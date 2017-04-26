@@ -1,5 +1,6 @@
 package com.wenhua.svr.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.wenhua.svr.domain.BarPcInstantInfo;
@@ -13,6 +14,7 @@ public interface StatService {
 
 	public void countBarDaily(String barId, List<BarPcInstantInfo> infos);
 	
-	public void countAreaDaily(String barId);
+	public void countAreaDaily(String areaCode, Date statDate);
 	
+	public void countAreaDaily();
 }

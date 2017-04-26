@@ -1,8 +1,8 @@
 package com.wenhua.svr.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.wenhua.svr.dao.StatNetBarDao;
@@ -15,12 +15,20 @@ public class StatServiceImpl implements StatService {
 	
 	private Map<String, StatNetBar> netBarCache = new ConcurrentHashMap<String, StatNetBar>();
 	
-	private Map<String, Set<String>> areaBarCache = new ConcurrentHashMap<>();
-	
 	/** 文化客户端运行多少分钟 认为已运行 */
 	private Integer wenhuaDuration = 30;
 	
 	private StatNetBarDao statNetBarDao;
+	
+	@Override
+	public void countAreaDaily() {
+		System.out.println("ok");
+	}
+	
+	@Override
+	public void countAreaDaily(String areaCode, Date statDate) {
+		
+	}
 	
 	@Override
 	public void countBarDaily(String barId, List<BarPcInstantInfo> infos) {
@@ -79,6 +87,7 @@ public class StatServiceImpl implements StatService {
 		int online = 0;
 		int offline = 0;
 		int valid = 0;
+		int login = 0;
 		for(BarPcInstantInfo info : infos) {
 			if(info.isPowerOn()) {
 				online++;
@@ -89,24 +98,13 @@ public class StatServiceImpl implements StatService {
 			if(info.isRunWenhua() && info.getWenhuaDuration() >= wenhuaDuration) {
 				valid++;
 			}
+			
+			if(info.isUserLogin()) {
+				login++;
+			}
 		}
-		StatNetBar current = StatNetBar.newOne(barId, DateUtils.getChinaToday(), online, offline, valid);
+		StatNetBar current = StatNetBar.newOne(barId, DateUtils.getChinaToday(), online, offline, valid, login);
 		return current;
-	}
-
-	@Override
-	public void countAreaDaily(String barId) {
-		if(null == barId || 10 != barId.length()) return;
-		
-//		String provinceCode = barId.substring(0, 2);
-		String cityCode = barId.substring(2, 4);
-		String areaCode = barId.substring(4, 6);
-		
-		Set<String> citySet = areaBarCache.get(cityCode);
-		if(null == citySet) {
-//			citySet = new Concurrent
-		}
-		
 	}
 
 	public Integer getWenhuaDuration() {

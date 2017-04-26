@@ -41,9 +41,12 @@ ENGINE=InnoDB
 CREATE TABLE `t_stat_net_bar` (
 	`bar_id` VARCHAR(10) NOT NULL COMMENT '网吧注册号',
 	`stat_date` DATE NOT NULL COMMENT ' 统计日期',
-	`online` INT(11) NOT NULL COMMENT '在线终端数',
-	`offline` INT(11) NOT NULL COMMENT '离线终端数',
-	`valid` INT(11) NOT NULL COMMENT '有效终端数',
+	`online` INT(11) NOT NULL COMMENT '最大在线终端数',
+	`offline` INT(11) NOT NULL COMMENT '最小离线终端数',
+	`valid` INT(11) NOT NULL COMMENT '最大有效终端数',
+	`login` INT(11) NOT NULL COMMENT '最大登录用户数',
+	`area_code` VARCHAR(6) NOT NULL COMMENT '县代码',
+	`city_code` VARCHAR(6) NOT NULL COMMENT '市代码',
 	PRIMARY KEY (`bar_id`, `stat_date`)
 )
 COMMENT='网吧日统计信息'

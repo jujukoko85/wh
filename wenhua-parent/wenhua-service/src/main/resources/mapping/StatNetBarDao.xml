@@ -7,9 +7,12 @@
     <result column="online" jdbcType="INTEGER" property="online" />
     <result column="offline" jdbcType="INTEGER" property="offline" />
     <result column="valid" jdbcType="INTEGER" property="valid" />
+    <result column="login" jdbcType="INTEGER" property="login" />
+    <result column="area_code" jdbcType="VARCHAR" property="areaCode" />
+    <result column="city_code" jdbcType="VARCHAR" property="cityCode" />
   </resultMap>
   <sql id="Base_Column_List">
-    bar_id, stat_date, online, offline, valid
+    bar_id, stat_date, online, offline, valid, login, area_code, city_code
   </sql>
   <select id="selectByPrimaryKey" parameterType="com.wenhua.svr.domain.base.BaseStatNetBarKey" resultMap="BaseResultMap">
     select 
@@ -18,6 +21,24 @@
     where bar_id = #{barId,jdbcType=VARCHAR}
       and stat_date = #{statDate,jdbcType=DATE}
   </select>
+  <select id="countAreaDaily" resultType="java.lang.Integer">
+    select
+    	count(*)
+    from t_stat_net_bar
+    where 
+    	stat_date = #{statDate, jdbcType=DATE}
+    	and
+    	area_code = #{areaCode, jdbcType=VARCHAR}
+  </select>
+  <select id="countCityDaily" resultType="java.lang.Integer">
+    select
+    	count(*)
+    from t_stat_net_bar
+    where 
+    	stat_date = #{statDate, jdbcType=DATE}
+    	and
+    	area_code = #{areaCity, jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="com.wenhua.svr.domain.base.BaseStatNetBarKey">
     delete from t_stat_net_bar
     where bar_id = #{barId,jdbcType=VARCHAR}
@@ -25,9 +46,11 @@
   </delete>
   <insert id="insert" parameterType="com.wenhua.svr.domain.StatNetBar">
     insert into t_stat_net_bar (bar_id, stat_date, online, 
-      offline, valid)
+      offline, valid, login, 
+      area_code, city_code)
     values (#{barId,jdbcType=VARCHAR}, #{statDate,jdbcType=DATE}, #{online,jdbcType=INTEGER}, 
-      #{offline,jdbcType=INTEGER}, #{valid,jdbcType=INTEGER})
+      #{offline,jdbcType=INTEGER}, #{valid,jdbcType=INTEGER}, #{login,jdbcType=INTEGER}, 
+      #{areaCode,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wenhua.svr.domain.StatNetBar">
     insert into t_stat_net_bar
@@ -47,6 +70,15 @@
       <if test="valid != null">
         valid,
       </if>
+      <if test="login != null">
+        login,
+      </if>
+      <if test="areaCode != null">
+        area_code,
+      </if>
+      <if test="cityCode != null">
+        city_code,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="barId != null">
@@ -64,6 +96,15 @@
       <if test="valid != null">
         #{valid,jdbcType=INTEGER},
       </if>
+      <if test="login != null">
+        #{login,jdbcType=INTEGER},
+      </if>
+      <if test="areaCode != null">
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null">
+        #{cityCode,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.wenhua.svr.domain.StatNetBar">
@@ -78,6 +119,15 @@
       <if test="valid != null">
         valid = #{valid,jdbcType=INTEGER},
       </if>
+      <if test="login != null">
+        login = #{login,jdbcType=INTEGER},
+      </if>
+      <if test="areaCode != null">
+        area_code = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null">
+        city_code = #{cityCode,jdbcType=VARCHAR},
+      </if>
     </set>
     where bar_id = #{barId,jdbcType=VARCHAR}
       and stat_date = #{statDate,jdbcType=DATE}
@@ -86,7 +136,10 @@
     update t_stat_net_bar
     set online = #{online,jdbcType=INTEGER},
       offline = #{offline,jdbcType=INTEGER},
-      valid = #{valid,jdbcType=INTEGER}
+      valid = #{valid,jdbcType=INTEGER},
+      login = #{login,jdbcType=INTEGER},
+      area_code = #{areaCode,jdbcType=VARCHAR},
+      city_code = #{cityCode,jdbcType=VARCHAR}
     where bar_id = #{barId,jdbcType=VARCHAR}
       and stat_date = #{statDate,jdbcType=DATE}
   </update>

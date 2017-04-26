@@ -1,6 +1,8 @@
 package com.wenhua.svr.dao.mybatis;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -27,14 +29,23 @@ public class TestStatNetBarDao {
 	public void test1() {
 		System.out.println(statNetBarDao);
 		
-		StatNetBar newOne = StatNetBar.newOne("1234567890", new Date(), 10, 2, 1);
+		StatNetBar newOne = StatNetBar.newOne("1234567890", new Date(), 10, 2, 1, 2);
 		
 		statNetBarDao.insert(newOne);
 	}
 	
 	@Test
 	public void test2() {
-		StatNetBar newOne = StatNetBar.newOne("1234567890", new Date(), 101, 12, 11);
+		StatNetBar newOne = StatNetBar.newOne("1234567890", new Date(), 101, 12, 11, 12);
 		statNetBarDao.updateByPrimaryKey(newOne);
+	}
+	
+	@Test
+	public void test3() {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("statDate", new Date());
+		params.put("areaCode", "123456");
+		int count = statNetBarDao.countAreaDaily(params);
+		System.out.println(count);
 	}
 }

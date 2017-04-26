@@ -15,6 +15,9 @@
 
 	<context:property-placeholder location="classpath*:app-*.properties" />
 	
+	<!-- 定时任务 -->
+	<import resource="classpath:spring-context-scheduler.xml"/>
+	
 	<!-- 监听服务 -->
 	<import resource="classpath:spring-context-tcp-server.xml"/>
 	

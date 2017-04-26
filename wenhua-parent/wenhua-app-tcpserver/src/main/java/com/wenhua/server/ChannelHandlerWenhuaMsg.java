@@ -335,7 +335,23 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			barPcInstantInfoList.add(pc);
 		}
 		
-		statService.countBarDaily(getBarId(ctx), barPcInstantInfoList);
+		int exceptCode = 0;
+		String exceptMsg = null;
+		ByteString content = null;
+		try {
+			authService.updatePcInstantInfoList(barPcInstantInfoList);
+			content = ByteString.copyFromUtf8(String.valueOf(true));
+			exceptCode = 0;
+			exceptMsg = codeMaps.get(exceptCode);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			exceptCode = 1004;
+			exceptMsg = codeMaps.get(exceptCode);
+			content = ByteString.copyFromUtf8(String.valueOf(false));
+		}
+		
+		Message response = getResponseMsg(message.getId(), exceptCode, exceptMsg, content, message.getMethod());
+		ctx.writeAndFlush(response);
 		
 	}
 
@@ -371,7 +387,24 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			barPcInfoList.add(pc);
 		}
 		
-		authService.updatePcInfoList(barPcInfoList);
+		int exceptCode = 0;
+		String exceptMsg = null;
+		ByteString content = null;
+		
+		try {
+			authService.updatePcInfoList(barPcInfoList);
+			exceptCode = 0;
+			exceptMsg = codeMaps.get(exceptCode);
+			content = ByteString.copyFromUtf8(String.valueOf(true));
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			exceptCode = 1004;
+			exceptMsg = codeMaps.get(exceptCode);
+			content = ByteString.copyFromUtf8(String.valueOf(false));
+		}
+		
+		Message response = getResponseMsg(message.getId(), exceptCode, exceptMsg, content, message.getMethod());
+		ctx.writeAndFlush(response);
 		
 	}
 
@@ -410,7 +443,27 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 				serverInfo.getOsVersion(), 
 				TCP_SERVER);
 		
-		authService.setServerInfo(si);
+		int exceptCode = 0;
+		String exceptMsg = null;
+		ByteString content = null;
+		try {
+			authService.setServerInfo(si);
+			exceptCode = 0;
+			exceptMsg = codeMaps.get(exceptCode);
+			content = ByteString.copyFromUtf8(String.valueOf(true));
+		} catch (AuthBarNotExistException e) {
+			exceptCode = 1002;
+			exceptMsg = codeMaps.get(exceptCode);
+			content = ByteString.copyFromUtf8(String.valueOf(false));
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			exceptMsg = codeMaps.get(exceptCode);
+			content = ByteString.copyFromUtf8(String.valueOf(false));
+		}
+		
+		Message response = getResponseMsg(message.getId(), exceptCode, exceptMsg, content, message.getMethod());
+		
+		ctx.writeAndFlush(response);
 	}
 
 	private String getRemoteIp(ChannelHandlerContext ctx) {

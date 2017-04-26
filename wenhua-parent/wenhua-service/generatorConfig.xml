@@ -62,7 +62,7 @@
         -->
         <!--  -->
 		<table tableName="t_stat_net_bar" domainObjectName="BaseStatNetBar" mapperName="StatNetBarDao"
-			enableCountByExample="false" 
+			enableCountByExample="true" 
 			enableUpdateByExample="false"  
             enableDeleteByExample="false" 
             enableSelectByExample="false" 

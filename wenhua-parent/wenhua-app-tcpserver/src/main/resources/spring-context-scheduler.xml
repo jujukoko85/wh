@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+            http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<description>业务服务</description>
+
+	<bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+        <property name="targetObject">  
+            <ref bean="statService"/>  
+        </property>  
+        <property name="targetMethod">  
+            <value>countAreaDaily</value>  
+        </property>  
+    </bean>  
+      
+    <bean id="trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+        <property name="jobDetail">  
+            <ref bean="jobDetail"/>  
+        </property>  
+        <property name="cronExpression">  
+            <value>0/3 * * * * ?</value>  
+            <!-- 每3秒执行一次 -->  
+        </property>  
+    </bean>  
+      
+      
+    <bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+        <property name="triggers">  
+            <list>  
+                <ref bean="trigger"/>  
+            </list>  
+        </property>  
+        <property name="autoStartup" value="true"></property>  
+    </bean>  
+
+
+</beans>

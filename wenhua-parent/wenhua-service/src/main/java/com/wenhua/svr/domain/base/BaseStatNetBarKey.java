@@ -2,7 +2,8 @@ package com.wenhua.svr.domain.base;
 
 import java.util.Date;
 
-public class BaseStatNetBarKey {
+public class BaseStatNetBarKey
+{
     private String barId;
 
     private Date statDate;

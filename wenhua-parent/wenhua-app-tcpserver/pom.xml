@@ -8,12 +8,12 @@
 	</parent>
 	<groupId>wenhua-app-tcpserver</groupId>
 	<artifactId>wenhua-app-tcpserver</artifactId>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-all</artifactId>
-			<version>${howard.version.netty}</version><!--$NO-MVN-MAN-VER$-->
+			<version>${howard.version.netty}</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
 		<dependency>
 			<groupId>wenhua-service</groupId>
@@ -30,30 +30,32 @@
 			<artifactId>wenhua-protobuf</artifactId>
 			<version>${howard.version}</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
 		<dependency>
 			<groupId>com.google.protobuf</groupId>
 			<artifactId>protobuf-java</artifactId>
 			<version>${howard.version.protobuf}</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<finalName>wenhua-app-tcpserver</finalName>
-		<!-- 
-		<resources>
-			<resource>
-				<targetPath>${project.build.directory}/classes</targetPath>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>**/*.xml</include>
-					<include>**/*.properties</include>
-				</includes>
-			</resource>
-		</resources>
-		 -->
+		<!-- <resources> <resource> <targetPath>${project.build.directory}/classes</targetPath> 
+			<directory>src/main/resources</directory> <filtering>true</filtering> <includes> 
+			<include>**/*.xml</include> <include>**/*.properties</include> </includes> 
+			</resource> </resources> -->
 		<plugins>
 			<!-- 打包jar文件时，配置manifest文件，加入lib包的jar依赖 -->
 			<plugin>
@@ -98,7 +100,7 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<profiles>
 		<profile>
 			<id>env-dev</id>
