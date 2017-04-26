@@ -19,7 +19,7 @@ public class ChannelGroups {
 
 	public static void add(Channel channel) {
 		CHANNEL_GROUP.add(channel);
-		logger.info(String.format("##Channel: %s is added into ChannelGroups", channel.id().asLongText()));
+		logger.info(String.format("##Channel: %s is added into ChannelGroups, current size: %d", channel.id().asLongText(), CHANNEL_GROUP.size()));
 	}
 
 	public static ChannelGroupFuture broadcast(Object msg) {
@@ -36,7 +36,7 @@ public class ChannelGroups {
 
 	public static boolean discard(Channel channel) {
 		boolean flag = CHANNEL_GROUP.remove(channel);
-		logger.info(String.format("##Channel: %s is removed from ChannelGroups", channel.id().asLongText()));
+		logger.info(String.format("##Channel: %s is removed from ChannelGroups, current size: %d", channel.id().asLongText(), CHANNEL_GROUP.size()));
 		return flag;
 	}
 

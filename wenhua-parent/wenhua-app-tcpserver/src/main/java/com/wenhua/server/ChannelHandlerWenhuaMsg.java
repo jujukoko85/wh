@@ -224,6 +224,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 						getRemoteIp(ctx),
 						id,
 						exceptCode,
+						exceptMsg,
 						methodName
 						));
 		
