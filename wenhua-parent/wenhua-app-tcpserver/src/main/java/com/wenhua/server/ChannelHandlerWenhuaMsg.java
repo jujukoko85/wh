@@ -358,7 +358,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		}
 		
 		int exceptCode = 0;
-		String exceptMsg = null;
+		String exceptMsg = codeMaps.get(exceptCode);
 		ByteString content = null;
 //		try {
 //			statService.updateBarInstanceInfo(getBarId(ctx), barPcInstantInfoList);
