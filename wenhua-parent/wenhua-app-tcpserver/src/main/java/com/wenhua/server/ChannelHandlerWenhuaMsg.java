@@ -40,7 +40,6 @@ import com.wenhua.svr.exception.AuthSignNotValidException;
 import com.wenhua.svr.exception.FileNotExistException;
 import com.wenhua.svr.exception.SystemException;
 import com.wenhua.svr.service.AuthService;
-import com.wenhua.svr.service.StatService;
 import com.wenhua.util.ByteUtil;
 import com.wenhua.util.tools.NumberUtil;
 
@@ -67,8 +66,6 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 	
 	private AuthService authService;
 	
-	private StatService statService;
-
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		
@@ -638,13 +635,4 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		this.codeMaps = codeMaps;
 	}
 
-	public StatService getStatService() {
-		return statService;
-	}
-
-	public void setStatService(StatService statService) {
-		this.statService = statService;
-	}
-	
-	
 }
