@@ -1,6 +1,7 @@
 package com.wenhua.svr.dao.mybatis;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -79,5 +80,11 @@ public class TestNetBarDao {
 		params.put("areaCode", "411000");
 		int count = netBarDao.countCityPc(params);
 		System.out.println(count);
+	}
+	
+	@Test
+	public void test7() {
+		List<NetBar> list = netBarDao.selectAll();
+		System.out.println(list.size());
 	}
 }

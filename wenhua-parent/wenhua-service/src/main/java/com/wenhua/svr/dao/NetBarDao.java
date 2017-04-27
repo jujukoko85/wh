@@ -1,5 +1,6 @@
 package com.wenhua.svr.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import com.wenhua.svr.domain.NetBar;
@@ -45,4 +46,10 @@ public interface NetBarDao {
      * @return
      */
     int countCityBar(Map<String, Object> params);
+    
+    /**
+     * 查询出所有网吧信息
+     * @return
+     */
+    List<NetBar> selectAll();
 }

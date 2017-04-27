@@ -6,6 +6,13 @@ public class BaseStatAreaKey {
     private String areaCode;
 
     private Date statDate;
+    
+    public static BaseStatAreaKey newOne(String areaCode, Date statDate) {
+    	BaseStatAreaKey key = new BaseStatAreaKey();
+    	key.setAreaCode(areaCode);
+    	key.setStatDate(statDate);
+    	return key;
+    }
 
     public String getAreaCode() {
         return areaCode;

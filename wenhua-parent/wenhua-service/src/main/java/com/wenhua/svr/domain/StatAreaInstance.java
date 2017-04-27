@@ -13,12 +13,27 @@ public abstract class StatAreaInstance {
 	private AreasCode area;
 	/** 区域内网吧实时在线数 */
 	private AtomicInteger online = new AtomicInteger(0);
-	/** 区域内网吧数 */
+	/** 区域内固定网吧数 */
 	private int areaMaxBar = 0;
-	/** 区域内PC数 */
+	/** 区域内固定PC数 */
 	private int areaMaxPc = 0;
 	
+	
+	/** 每日最大网吧数 */
+	private AtomicInteger areaMaxBarDaily = new AtomicInteger(0);
+	/** 每日最大网吧数 */
+	private AtomicInteger areaMaxLoginDaily = new AtomicInteger(0);
+	
+	
 	public StatAreaInstance() {
+	}
+	
+	/**
+	 * 每天清零
+	 */
+	public void  clearMaxDaily() {
+		areaMaxBarDaily.set(0);
+		areaMaxLoginDaily.set(0);
 	}
 	
 	/**
@@ -83,7 +98,13 @@ public abstract class StatAreaInstance {
 	 * @return
 	 */
 	public int online(String barId) {
-		return this.online.incrementAndGet();
+		int currentOnline = this.online.incrementAndGet();
+		
+		if(currentOnline > this.getAreaMaxBarDaily().get()) {
+			this.getAreaMaxBarDaily().set(currentOnline);
+		}
+		
+		return currentOnline;
 	}
 	
 	/**
@@ -139,4 +160,21 @@ public abstract class StatAreaInstance {
 	public boolean isMine(StatAreaInstance area) {
 		return this.area.isMine(area.getCode());
 	}
+
+	public AtomicInteger getAreaMaxBarDaily() {
+		return areaMaxBarDaily;
+	}
+
+	public void setAreaMaxBarDaily(AtomicInteger areaMaxBarDaily) {
+		this.areaMaxBarDaily = areaMaxBarDaily;
+	}
+
+	public AtomicInteger getAreaMaxLoginDaily() {
+		return areaMaxLoginDaily;
+	}
+
+	public void setAreaMaxLoginDaily(AtomicInteger areaMaxLoginDaily) {
+		this.areaMaxLoginDaily = areaMaxLoginDaily;
+	}
+	
 }

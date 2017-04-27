@@ -37,7 +37,7 @@ public class TestStatServiceImpl {
 		list.add(b2);
 		list.add(b3);
 		
-		statService.updateBarInstanceInfo("1000001", list);
+//		statService.updateBarInstanceInfo("1000001", list);
 	}
 }
 

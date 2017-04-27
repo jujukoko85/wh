@@ -30,4 +30,13 @@ public class TestAreasCode {
 		assertFalse(me.isMine("510000"));
 		assertTrue(me.isMine("412000"));
 	}
+	
+	@Test
+	public void test3() {
+		assertTrue(AreasCode.isBelong("411100", "411101"));
+		assertTrue(AreasCode.isBelong("411101", "411101"));
+		assertTrue(AreasCode.isBelong("411100", "411100"));
+		assertFalse(AreasCode.isBelong("411100", "411200"));
+		assertFalse(AreasCode.isBelong("411100", "421100"));
+	}
 }

@@ -12,9 +12,13 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.wenhua.server.vo.StatAreaVo;
+import com.wenhua.server.vo.StatBarVo;
 import com.wenhua.svr.component.StatAreaInstanceCacher;
+import com.wenhua.svr.component.StatBarInstancerCacher;
 import com.wenhua.svr.domain.StatAreaInstance;
 import com.wenhua.svr.domain.StatAreaInstanceCity;
+import com.wenhua.svr.domain.StatBarInstance;
+import com.wenhua.util.BarIdUtils;
 import com.wenhua.util.base.AjaxResult;
 
 import io.netty.buffer.Unpooled;
@@ -112,15 +116,11 @@ public class ChannelHandlerHttp extends ChannelInboundHandlerAdapter {
 	private List<Object> doArea(String areaCode) {
 
 		List<Object> list = new ArrayList<Object>();
-		list.add(StatAreaVo.newOne("411001", "地区1", 11, 20, 100, 20));
-		list.add(StatAreaVo.newOne("411002", "地区2", 12, 20, 100, 20));
-		list.add(StatAreaVo.newOne("411003", "地区3", 13 ,20, 100, 20));
-		list.add(StatAreaVo.newOne("411004", "地区4", 14, 20, 100, 20));
-		list.add(StatAreaVo.newOne("411005", "地区5", 15, 20, 100, 20));
-		list.add(StatAreaVo.newOne("411006", "地区6", 16, 20, 100, 20));
-		list.add(StatAreaVo.newOne("411007", "地区7", 17, 20, 100, 20));
-		list.add(StatAreaVo.newOne("411008", "地区8", 18, 20, 100, 20));
-		list.add(StatAreaVo.newOne("411009", "地区9", 19, 20, 100, 20));
+		
+		List<StatBarInstance> bars = StatBarInstancerCacher.getBarInArea(areaCode);
+		for(StatBarInstance bar : bars) {
+			list.add(StatBarVo.newOne(BarIdUtils.getAreaCode(bar.getBarId()), bar.getBarName(), bar.getOnline(), bar.getOffline(), bar.getValid(), bar.getServerVersion()));
+		}
 		return list;
 	}
 

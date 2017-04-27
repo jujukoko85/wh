@@ -2,6 +2,7 @@ package com.wenhua.svr.component;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,13 +11,17 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.wenhua.svr.domain.StatAreaInstanceCity;
 import com.wenhua.svr.dao.AreasCodeDao;
 import com.wenhua.svr.dao.NetBarDao;
+import com.wenhua.svr.dao.StatAreaDao;
 import com.wenhua.svr.domain.AreasCode;
+import com.wenhua.svr.domain.StatArea;
 import com.wenhua.svr.domain.StatAreaInstance;
 import com.wenhua.svr.domain.StatAreaInstanceArea;
+import com.wenhua.svr.domain.StatAreaInstanceCity;
+import com.wenhua.svr.domain.base.BaseStatAreaKey;
 import com.wenhua.util.BarIdUtils;
+import com.wenhua.util.tools.DateUtils;
 
 /**
  * 区域的实时信息缓存 在线网吧数  离线网吧数 登录人数
@@ -31,8 +36,23 @@ public class StatAreaInstanceCacher {
 	
 	private AreasCodeDao areasCodeDao;
 	private NetBarDao netBarDao;
+	private StatAreaDao statAreaDao;
 	
 	public StatAreaInstanceCacher() {
+	}
+	
+	/**
+	 * 每天将地区日统计最大值清0
+	 */
+	public void resetMax() {
+		logger.info("###############################");
+		Collection<StatAreaInstance> instances = STAT_AREA_INSTANCE_CACHER.values();
+		logger.info(String.format("##Rest the max value of area instance. Instance size is [%d]", null == instances ? 0 : instances.size()));
+		
+		for(StatAreaInstance instance : instances) {
+			instance.clearMaxDaily();
+		}
+		logger.info("##Rest the max value of area instance over.");
 	}
 	
 	public void init() {
@@ -83,6 +103,49 @@ public class StatAreaInstanceCacher {
 	}
 	
 	/**
+	 * 每隔一段时间将每日最大值存入数据库
+	 */
+	public void save() {
+		logger.info("###############################");
+		logger.info("##Save the area max value into database.");
+		
+		Collection<StatAreaInstance> instances = STAT_AREA_INSTANCE_CACHER.values();
+		if(null == instances || 0 == instances.size()) return;
+		
+		Date today = DateUtils.getChinaDay();
+		
+		for(StatAreaInstance instance : instances) {
+			StatArea old = statAreaDao.selectByPrimaryKey(BaseStatAreaKey.newOne(instance.getCode(), today));
+			
+			int areaMaxLoginDaily = instance.getAreaMaxLoginDaily().get();
+			int areaMaxBarDaily = instance.getAreaMaxBarDaily().get();
+			if(null == old) {
+				
+				statAreaDao.insert(
+						StatArea.newOne(
+								instance.getCode(), 
+								today, 
+								areaMaxBarDaily, 
+								instance.getAreaMaxBar() - areaMaxBarDaily, 
+								areaMaxLoginDaily, 
+								instance.getRankno()));
+				
+			} else {
+				
+				old.setLogin(old.getLogin() > areaMaxLoginDaily ? old.getLogin() : areaMaxLoginDaily);
+				old.setOnline(old.getOnline() > areaMaxBarDaily ? old.getOnline() : areaMaxBarDaily);
+				int offline = instance.getAreaMaxBar() - areaMaxBarDaily;
+				old.setOffline(old.getOffline() > offline ? old.getOffline() : offline);
+				
+				statAreaDao.updateByPrimaryKey(old);
+			}
+			
+		}
+		
+		logger.info("##Save the area max value into database over.");
+	}
+	
+	/**
 	 * 每天定时更新 区域拥有的网吧数 与 区域拥有的PC数
 	 */
 	public void updateDaily() {
@@ -112,8 +175,8 @@ public class StatAreaInstanceCacher {
 			
 			StatAreaInstance instance = STAT_AREA_INSTANCE_CACHER.get(code.getAreasid());
 			if(null == instance) {
-				logger.warn(String.format("##Found unexpected area code: [%s] name: [%s]", code.getAreasid(), code.getAreasname()));
-				continue;
+				instance = StatAreaInstance.newOne(code, areaMaxBar, areaMaxPc);
+				STAT_AREA_INSTANCE_CACHER.put(code.getAreasid(), instance);
 			}
 			
 			instance.setAreaMaxBar(areaMaxBar);
@@ -189,6 +252,74 @@ public class StatAreaInstanceCacher {
 		StatAreaInstanceCity areasCity = (StatAreaInstanceCity)city;
 		return areasCity.getAreas();
 	}
+	
+	public static void activeBar(String barId) {
+		if(!BarIdUtils.isValid(barId)) {
+			logger.warn(String.format("##Invalid barId: %s", barId));
+			return;
+		}
+		String areaCode = BarIdUtils.getAreaCode(barId);
+		String cityCode = BarIdUtils.getCityCode(barId);
+		
+		StatAreaInstance areaInstance = StatAreaInstanceCacher.get(areaCode);
+		StatAreaInstance cityInstance = StatAreaInstanceCacher.get(cityCode);
+		
+		int areaCurrent = 0;
+		if(null != areaInstance) {
+			areaCurrent = areaInstance.online(barId);
+		}
+		int cityCurrent = 0;
+		if(null != cityInstance) {
+			 cityCurrent = cityInstance.online(barId);
+		}
+		
+		logger.info(
+				String.format(
+						"##ActiveBar id: %s, Area: %s %s CurrentActive Bar: %d City: %s %s CurrentActive Bar: %d", 
+						barId,
+						areaCode,
+						areaInstance.getName(),
+						areaCurrent,
+						cityCode,
+						cityInstance.getName(),
+						cityCurrent
+						));
+	}
+
+	public static void inactiveBar(String barId) {
+		if(!BarIdUtils.isValid(barId)) {
+			logger.warn(String.format("##Invalid barId: %s", barId));
+			return;
+		}
+		
+		String areaCode = BarIdUtils.getAreaCode(barId);
+		String cityCode = BarIdUtils.getCityCode(barId);
+		
+		StatAreaInstance areaInstance = StatAreaInstanceCacher.get(areaCode);
+		StatAreaInstance cityInstance = StatAreaInstanceCacher.get(cityCode);
+		
+		int areaCurrent = 0;
+		if(null != areaInstance) {
+			areaCurrent = areaInstance.offline(barId);
+		}
+		int cityCurrent = 0;
+		if(null != cityInstance) {
+			 cityCurrent = cityInstance.offline(barId);
+		}
+		
+		
+		logger.info(
+				String.format(
+						"##InactiveBar id: %s, Area: %s %s CurrentActive Bar: %d City: %s %s CurrentActive Bar: %d", 
+						barId,
+						areaCode,
+						areaInstance.getName(),
+						areaCurrent,
+						cityCode,
+						cityInstance.getName(),
+						cityCurrent
+						));
+	}
 
 	public AreasCodeDao getAreasCodeDao() {
 		return areasCodeDao;
@@ -204,6 +335,14 @@ public class StatAreaInstanceCacher {
 
 	public void setNetBarDao(NetBarDao netBarDao) {
 		this.netBarDao = netBarDao;
+	}
+
+	public StatAreaDao getStatAreaDao() {
+		return statAreaDao;
+	}
+
+	public void setStatAreaDao(StatAreaDao statAreaDao) {
+		this.statAreaDao = statAreaDao;
 	}
 	
 }

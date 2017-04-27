@@ -41,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
 	private int freqInstantPcInfo = 60;
 
 	@Override
-	public void auth(BarAuthInfo barAuthInfo) throws AuthBarNotExistException, AuthSignNotValidException, AuthBarNotValidException {
+	public NetBar auth(BarAuthInfo barAuthInfo) throws AuthBarNotExistException, AuthSignNotValidException, AuthBarNotValidException {
 		if(null == barAuthInfo) throw new AuthBarNotExistException();
 
 		if(!barAuthInfo.isValid(key)) {
@@ -55,6 +55,7 @@ public class AuthServiceImpl implements AuthService {
 		if(!netBar.isValid()) {
 			throw new AuthBarNotValidException();
 		}
+		return netBar;
 	}
 
 	@Override

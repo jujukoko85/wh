@@ -73,6 +73,26 @@ public class AreasCode extends BaseAreasCode {
 	}
 	
 	/**
+	 * child 是否属于 father
+	 * @param father
+	 * @param child
+	 * @return
+	 */
+	public static boolean isBelong(String father, String child) {
+
+		if(!isValidCode(father) || !isValidCode(child)) return false;
+		
+		if(father.equals(child)) return true;
+		
+		if(father.endsWith("0000")) {
+			return father.substring(0, 2).equals(child.substring(0, 2));
+		} else if(father.endsWith("00")) {
+			return father.substring(0, 4).equals(child.substring(0, 4));
+		}
+		return false;
+	}
+	
+	/**
 	 * 指定网吧注册号 是否属于本区域
 	 * @param barId
 	 * @return

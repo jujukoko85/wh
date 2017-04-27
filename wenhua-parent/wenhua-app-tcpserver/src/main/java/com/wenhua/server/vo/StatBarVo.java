@@ -12,16 +12,16 @@ public class StatBarVo {
 
 	private int valid;
 
-	private String osVersion;
+	private String serverVersion;
 
-	public static StatBarVo newOne(String barId, String barName, int online, int offline, int valid, String osVersion) {
+	public static StatBarVo newOne(String barId, String barName, int online, int offline, int valid, String serverVersion) {
 		StatBarVo vo = new StatBarVo();
 		vo.setBarId(barId);
 		vo.setBarName(barName);
 		vo.setOnline(online);
 		vo.setOffline(offline);
 		vo.setValid(valid);
-		vo.setOsVersion(osVersion);
+		vo.setServerVersion(serverVersion);
 		return vo;
 	}
 	
@@ -65,12 +65,12 @@ public class StatBarVo {
 		this.valid = valid;
 	}
 
-	public String getOsVersion() {
-		return osVersion;
+	public String getServerVersion() {
+		return serverVersion;
 	}
 
-	public void setOsVersion(String osVersion) {
-		this.osVersion = osVersion;
+	public void setServerVersion(String serverVersion) {
+		this.serverVersion = serverVersion;
 	}
 
 }

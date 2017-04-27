@@ -1,12 +1,5 @@
 package com.wenhua.svr.service;
 
-import java.util.Date;
-import java.util.List;
-
-import com.wenhua.svr.domain.AreasCode;
-import com.wenhua.svr.domain.BarPcInstantInfo;
-import com.wenhua.svr.domain.StatAreaInstance;
-
 /**
  * 统计服务
  * @author zhuzhaohua
@@ -14,17 +7,8 @@ import com.wenhua.svr.domain.StatAreaInstance;
  */
 public interface StatService {
 
-	public void updateBarInstanceInfo(String barId, List<BarPcInstantInfo> infos);
+//	public void countAreaDaily(AreasCode areaCode, Date statDate);
+//	
+//	public void countAreaDaily();
 	
-	public void countAreaDaily(AreasCode areaCode, Date statDate);
-	
-	public void countAreaDaily();
-	
-	public void activeBar(String barId);
-	
-	public void inactiveBar(String barId);
-	
-	public List<StatAreaInstance> getCityListStat();
-	
-	public List<StatAreaInstance> getAreaListStat(String cityCode);
 }

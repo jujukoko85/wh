@@ -24,12 +24,16 @@ import com.wenhua.proto.Wenhua.ServerInfo;
 import com.wenhua.proto.Wenhua.SoftwareVersion;
 import com.wenhua.proto.WenhuaMsg;
 import com.wenhua.proto.WenhuaMsg.Message;
+import com.wenhua.svr.component.StatAreaInstanceCacher;
+import com.wenhua.svr.component.StatBarInstancerCacher;
 import com.wenhua.svr.domain.BarAuthInfo;
 import com.wenhua.svr.domain.BarConfig;
 import com.wenhua.svr.domain.BarFileBar;
 import com.wenhua.svr.domain.BarFileInfo;
 import com.wenhua.svr.domain.BarPcInstantInfo;
 import com.wenhua.svr.domain.BarSoftwareVersion;
+import com.wenhua.svr.domain.NetBar;
+import com.wenhua.svr.domain.StatBarInstance;
 import com.wenhua.svr.exception.AuthBarNotExistException;
 import com.wenhua.svr.exception.AuthBarNotValidException;
 import com.wenhua.svr.exception.AuthSignNotValidException;
@@ -88,7 +92,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		
 		ChannelGroups.discard(ctx.channel());
 		
-		statService.inactiveBar(getBarId(ctx));
+		StatAreaInstanceCacher.inactiveBar(getBarId(ctx));
 		
 		super.channelInactive(ctx);
 	}
@@ -359,17 +363,23 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		int exceptCode = 0;
 		String exceptMsg = null;
 		ByteString content = null;
-		try {
-			statService.updateBarInstanceInfo(getBarId(ctx), barPcInstantInfoList);
-			content = ByteString.copyFromUtf8(String.valueOf(true));
-			exceptCode = 0;
-			exceptMsg = codeMaps.get(exceptCode);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			exceptCode = 1004;
-			exceptMsg = codeMaps.get(exceptCode);
-			content = ByteString.copyFromUtf8(String.valueOf(false));
-		}
+//		try {
+//			statService.updateBarInstanceInfo(getBarId(ctx), barPcInstantInfoList);
+//			content = ByteString.copyFromUtf8(String.valueOf(true));
+//			exceptCode = 0;
+//			exceptMsg = codeMaps.get(exceptCode);
+//		} catch (Exception e) {
+//			logger.error(e.getMessage(), e);
+//			exceptCode = 1004;
+//			exceptMsg = codeMaps.get(exceptCode);
+//			content = ByteString.copyFromUtf8(String.valueOf(false));
+//		}
+		
+		/** 1. 更新网吧信息缓存 */
+		StatBarInstance currentInstance = StatBarInstancerCacher.updateCache(getBarId(ctx), barPcInstantInfoList);
+		
+		/** 2. 更新区域信息缓存 */
+		StatAreaInstanceCacher.update(getBarId(ctx), currentInstance.getLogin());
 		
 		Message response = getResponseMsg(ctx, message.getId(), exceptCode, exceptMsg, content, message.getMethod());
 		ctx.writeAndFlush(response);
@@ -545,7 +555,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		boolean close = false;
 		
 		try {
-			authService.auth(new BarAuthInfo(barID, authInfo.getWhen(), authInfo.getSign()));
+			NetBar bar = authService.auth(new BarAuthInfo(barID, authInfo.getWhen(), authInfo.getSign()));
 			exceptCode = 0;
 			exceptMsg = codeMaps.get(exceptCode);
 			content = ByteString.copyFromUtf8(String.valueOf(true));
@@ -554,7 +564,8 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			Attribute<Object> attr = ctx.channel().attr(AttributeKey.valueOf(BAR_ID));
 			attr.set(barID);
 			
-			statService.activeBar(barID);
+			StatAreaInstanceCacher.activeBar(barID);
+			StatBarInstancerCacher.addOrUpdate(bar);
 			
 		} catch (AuthBarNotExistException e) {
 			close = true;

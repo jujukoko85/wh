@@ -7,11 +7,14 @@
     <result column="rankno" jdbcType="CHAR" property="rankno" />
   </resultMap>
   
+  <!-- ############## -->
+  <!-- 自定义SQL -->
   <select id="selectAll" resultMap="BaseResultMap">
     select 
 		*
     from t_areas_code
   </select>
+  <!-- ############## -->
     
   <insert id="insert" parameterType="com.wenhua.svr.domain.AreasCode">
     insert into t_areas_code (areasid, areasname, rankno

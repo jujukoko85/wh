@@ -7,6 +7,7 @@ import com.wenhua.svr.domain.BarConfig;
 import com.wenhua.svr.domain.BarFileBar;
 import com.wenhua.svr.domain.BarFileInfo;
 import com.wenhua.svr.domain.BarSoftwareVersion;
+import com.wenhua.svr.domain.NetBar;
 import com.wenhua.svr.domain.PcInfo;
 import com.wenhua.svr.domain.ServerInfo;
 import com.wenhua.svr.exception.AuthBarNotExistException;
@@ -29,7 +30,7 @@ public interface AuthService {
 	 * @throws AuthSignNotValidException
 	 * @throws AuthBarNotValidException 
 	 */
-	public void auth(BarAuthInfo barAuthInfo) throws AuthBarNotExistException, AuthSignNotValidException, AuthBarNotValidException;
+	public NetBar auth(BarAuthInfo barAuthInfo) throws AuthBarNotExistException, AuthSignNotValidException, AuthBarNotValidException;
 	
 	/**
 	 * 获取网吧配置信息
