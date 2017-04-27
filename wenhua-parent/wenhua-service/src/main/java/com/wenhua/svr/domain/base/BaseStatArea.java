@@ -2,11 +2,11 @@ package com.wenhua.svr.domain.base;
 
 public class BaseStatArea extends BaseStatAreaKey {
 	
-    private Integer online;
+    private Integer online = 0;
 
-    private Integer offline;
+    private Integer offline = 0;
 
-    private Integer login;
+    private Integer login = 0;
 
     public Integer getOnline() {
         return online;

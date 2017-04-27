@@ -88,6 +88,8 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		
 		ChannelGroups.discard(ctx.channel());
 		
+		statService.inactiveBar(getBarId(ctx));
+		
 		super.channelInactive(ctx);
 	}
 	
@@ -544,6 +546,8 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			/** 將Channel关联BarId */
 			Attribute<Object> attr = ctx.channel().attr(AttributeKey.valueOf(BAR_ID));
 			attr.set(barID);
+			
+			statService.activeBar(barID);
 			
 		} catch (AuthBarNotExistException e) {
 			close = true;

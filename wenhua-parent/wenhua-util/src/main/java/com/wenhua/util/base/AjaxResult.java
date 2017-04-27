@@ -86,7 +86,7 @@ public class AjaxResult implements Serializable {
     private String message;
 
     /* Ajax操作返回的一组数据。 */
-    private Map<String, String> values;
+    private Map<String, Object> values;
 
     /* Ajax操作返回的后续动作名称。 */
     private String action;
@@ -118,11 +118,11 @@ public class AjaxResult implements Serializable {
      * @param message 包含的信息。
      * @param values 用于保存需要的值。
      */
-    protected AjaxResult(Integer status, String message, Map<String, String> values) {
+    protected AjaxResult(Integer status, String message, Map<String, Object> values) {
         this.status = status;
         this.message = message;
         if (values != null) {
-            this.values = new TreeMap<String, String>(values);
+            this.values = new TreeMap<String, Object>(values);
         }
     }
 
@@ -147,18 +147,18 @@ public class AjaxResult implements Serializable {
     }
 
     /** Ajax操作返回的一组数据。 */
-    public Map<String, String> getValues() {
+    public Map<String, Object> getValues() {
         return values;
     }
 
     /** 设置Ajax操作返回的一组数据。 */
-    public void setValues(Map<String, String> values) {
+    public void setValues(Map<String, Object> values) {
         if (values != null) {
             if (this.values != null) {
                 this.values.clear();
                 this.values.putAll(values);
             } else {
-                this.values = new TreeMap<String, String>(values);
+                this.values = new TreeMap<String, Object>(values);
             }
         }
     }
@@ -168,10 +168,10 @@ public class AjaxResult implements Serializable {
      * 
      * @param values 要添加的 {@code values}。
      */
-    public void addValues(Map<String, String> values) {
+    public void addValues(Map<String, Object> values) {
         if (values != null && !values.isEmpty()) {
             if (this.values == null) {
-                this.values = new TreeMap<String, String>(values);
+                this.values = new TreeMap<String, Object>(values);
             } else {
                 this.values.putAll(values);
             }
@@ -199,12 +199,12 @@ public class AjaxResult implements Serializable {
      * @param value 添加的值。
      * @throws IllegalArgumentException 如果指定的 {@code key == null}。
      */
-    public void addValue(String key, String value) {
+    public void addValue(String key, Object value) {
         if (key == null) {
             throw new IllegalArgumentException("The key must not be null or empty.");
         }
         if (values == null && value != null) {
-            values = new TreeMap<String, String>();
+            values = new TreeMap<String, Object>();
         }
         if (values != null && values.containsKey(key)) {
             if (value == null) {
@@ -276,9 +276,9 @@ public class AjaxResult implements Serializable {
 
         buf.append(String.format(XML_NOTE_BEGIN_FORMAT, XML_VALUES_NODE)).append("\n");
         if (values != null) {
-            for (Entry<String, String> entry : values.entrySet()) {
+            for (Entry<String, Object> entry : values.entrySet()) {
                 String key = entry.getKey();
-                String value = entry.getValue();
+                Object value = entry.getValue();
                 doNode(buf, key, value);
             }
         }
@@ -288,8 +288,8 @@ public class AjaxResult implements Serializable {
         return result;
     }
 
-    private static void doNode(final StringBuilder buffer, String nodeName, String value) {
-        value = value == null ? "" : value.trim();
+    private static void doNode(final StringBuilder buffer, String nodeName, Object value) {
+        value = value == null ? "" : value.toString(); // zhuzhaohua 修改
         buffer.append("<").append(nodeName).append(">").append(value).append("</").append(nodeName)
                 .append(">\n");
     }
@@ -311,7 +311,7 @@ public class AjaxResult implements Serializable {
      * @param values 需要返回的数据。
      * @return Ajax执行发生错误时的 {@code AjaxResult}。
      */
-    public static AjaxResult getError(String message, Map<String, String> values) {
+    public static AjaxResult getError(String message, Map<String, Object> values) {
         return new AjaxResult(STATUS_ERROR, message, values);
     }
 
@@ -332,7 +332,7 @@ public class AjaxResult implements Serializable {
      * @param values 需要返回的数据。
      * @return Ajax执行发生错误时的 {@code AjaxResult} 的JSON字符串。
      */
-    public static String getErrorJson(String message, Map<String, String> values) {
+    public static String getErrorJson(String message, Map<String, Object> values) {
         AjaxResult result = getError(message, values);
         return JSON.toJSONString(result);
     }
@@ -346,7 +346,7 @@ public class AjaxResult implements Serializable {
      * @param view 视图名称。
      * @return Ajax执行发生错误时的 {@code AjaxResult} 的JSON字符串。
      */
-    public static String getErrorJson(String message, Map<String, String> values, String action, String view) {
+    public static String getErrorJson(String message, Map<String, Object> values, String action, String view) {
         AjaxResult result = getError(message, values);
         result.setAction(action);
         result.setView(view);
@@ -370,7 +370,7 @@ public class AjaxResult implements Serializable {
      * @param values 需要返回的数据。
      * @return Ajax执行失败时的 {@code AjaxResult}。
      */
-    public static AjaxResult getFailure(String message, Map<String, String> values) {
+    public static AjaxResult getFailure(String message, Map<String, Object> values) {
         return new AjaxResult(STATUS_FAILURE, message, values);
     }
 
@@ -391,7 +391,7 @@ public class AjaxResult implements Serializable {
      * @param values 需要返回的数据。
      * @return Ajax执行失败时的 {@code AjaxResult} 的JSON字符串。
      */
-    public static String getFailureJson(String message, Map<String, String> values) {
+    public static String getFailureJson(String message, Map<String, Object> values) {
         AjaxResult result = getFailure(message, values);
         return JSON.toJSONString(result);
     }
@@ -405,7 +405,7 @@ public class AjaxResult implements Serializable {
      * @param view 视图名称。
      * @return Ajax执行失败时的 {@code AjaxResult} 的JSON字符串。
      */
-    public static String getFailureJson(String message, Map<String, String> values, String action, String view) {
+    public static String getFailureJson(String message, Map<String, Object> values, String action, String view) {
         AjaxResult result = getFailure(message, values);
         result.setAction(action);
         result.setView(view);
@@ -429,7 +429,7 @@ public class AjaxResult implements Serializable {
      * @param values 需要返回的数据。
      * @return Ajax执行成功时的 {@code AjaxResult}。
      */
-    public static AjaxResult getSuccess(String message, Map<String, String> values) {
+    public static AjaxResult getSuccess(String message, Map<String, Object> values) {
         return new AjaxResult(STATUS_SUCCESS, message, values);
     }
 
@@ -450,7 +450,7 @@ public class AjaxResult implements Serializable {
      * @param values 需要返回的数据。
      * @return Ajax执行成功时的 {@code AjaxResult} 的JSON字符串。
      */
-    public static String getSuccessJson(String message, Map<String, String> values) {
+    public static String getSuccessJson(String message, Map<String, Object> values) {
         AjaxResult result = getSuccess(message, values);
         return JSON.toJSONString(result);
     }
@@ -464,7 +464,7 @@ public class AjaxResult implements Serializable {
      * @param view 视图名称。
      * @return Ajax执行成功时的 {@code AjaxResult} 的JSON字符串。
      */
-    public static String getSuccessJson(String message, Map<String, String> values, String action, String view) {
+    public static String getSuccessJson(String message, Map<String, Object> values, String action, String view) {
         AjaxResult result = getSuccess(message, values);
         result.setAction(action);
         result.setView(view);

@@ -44,7 +44,7 @@ public class AjaxResultBean<T> extends AjaxResult {
      * @param values 用于保存需要的值。
      * @param bean 指定的泛型对象。
      */
-    public AjaxResultBean(Integer status, String message, Map<String, String> values, T bean) {
+    public AjaxResultBean(Integer status, String message, Map<String, Object> values, T bean) {
         super(status, message, values);
         this.bean = bean;
     }
@@ -63,7 +63,7 @@ public class AjaxResultBean<T> extends AjaxResult {
      * @return AjaxResultBean instance.
      * @since 2.4
      */
-    public static <T> AjaxResultBean<T> getSuccess(String message, Map<String, String> values, T bean) {
+    public static <T> AjaxResultBean<T> getSuccess(String message, Map<String, Object> values, T bean) {
         AjaxResultBean<T> result = new AjaxResultBean<T>(STATUS_SUCCESS, message, values, bean);
         return result;
     }
@@ -83,7 +83,7 @@ public class AjaxResultBean<T> extends AjaxResult {
      * @return AjaxResultBean instance.
      * @since 2.4
      */
-    public static <T> String getSuccessJson(String message, Map<String, String> values, T bean) {
+    public static <T> String getSuccessJson(String message, Map<String, Object> values, T bean) {
         AjaxResultBean<T> result = new AjaxResultBean<T>(STATUS_SUCCESS, message, values, bean);
         // return JSONUtils.toJson(result, new TypeToken<AjaxResultBean<T>>() {
         // }.getType());
@@ -104,7 +104,7 @@ public class AjaxResultBean<T> extends AjaxResult {
      * @return AjaxResultBean instance.
      * @since 2.4
      */
-    public static <T> AjaxResultBean<T> getFailure(String message, Map<String, String> values, T bean) {
+    public static <T> AjaxResultBean<T> getFailure(String message, Map<String, Object> values, T bean) {
         AjaxResultBean<T> result = new AjaxResultBean<T>(STATUS_FAILURE, message, values, bean);
         return result;
     }
@@ -124,7 +124,7 @@ public class AjaxResultBean<T> extends AjaxResult {
      * @return AjaxResultBean instance.
      * @since 2.4
      */
-    public static <T> String getFailureJson(String message, Map<String, String> values, T bean) {
+    public static <T> String getFailureJson(String message, Map<String, Object> values, T bean) {
         AjaxResultBean<T> result = new AjaxResultBean<T>(STATUS_FAILURE, message, values, bean);
         // return JSONUtils.toJson(result, new TypeToken<AjaxResultBean<T>>() {
         // }.getType());
@@ -145,7 +145,7 @@ public class AjaxResultBean<T> extends AjaxResult {
      * @return AjaxResultBean instance.
      * @since 2.4
      */
-    public static <T> AjaxResultBean<T> getError(String message, Map<String, String> values, T bean) {
+    public static <T> AjaxResultBean<T> getError(String message, Map<String, Object> values, T bean) {
         AjaxResultBean<T> result = new AjaxResultBean<T>(STATUS_ERROR, message, values, bean);
         return result;
     }
@@ -165,7 +165,7 @@ public class AjaxResultBean<T> extends AjaxResult {
      * @return AjaxResultBean instance.
      * @since 2.4
      */
-    public static <T> String getErrorJson(String message, Map<String, String> values, T bean) {
+    public static <T> String getErrorJson(String message, Map<String, Object> values, T bean) {
         AjaxResultBean<T> result = new AjaxResultBean<T>(STATUS_ERROR, message, values, bean);
         // return JSONUtils.toJson(result, new TypeToken<AjaxResultBean<T>>() {
         // }.getType());

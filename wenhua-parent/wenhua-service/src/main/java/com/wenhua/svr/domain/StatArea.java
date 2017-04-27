@@ -32,4 +32,5 @@ public class StatArea extends BaseStatArea {
 		sa.setLogin(login);
 		return sa;
 	}
+
 }
