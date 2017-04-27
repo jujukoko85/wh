@@ -196,4 +196,17 @@ public class AuthServiceImpl implements AuthService {
 		this.freqInstantPcInfo = freqInstantPcInfo;
 	}
 
+	@Override
+	public void updateVersion(String barId, String serverVersion, String clientVersion) throws AuthBarNotExistException {
+		NetBar bar = netBarDao.selectByPrimaryKey(barId);
+		if(null == bar) {
+			throw new AuthBarNotExistException();
+		}
+		
+		bar.setClientVersion(clientVersion);
+		bar.setServerVersion(serverVersion);
+		
+		netBarDao.updateByPrimaryKey(bar);
+	}
+
 }

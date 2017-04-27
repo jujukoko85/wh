@@ -286,7 +286,9 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		}
 		String clientVersion = null == softwareVersion ? null : softwareVersion.getClientVersion();
 		String serverVersion = null == softwareVersion ? null : softwareVersion.getServerVersion();
-		logger.info(String.format("##GetFileInfoList ChannelShortId: %s  RemoteIp: %s ClientVersion: %s ServerVersion: %s", getChannelShortId(ctx), getRemoteIp(ctx), clientVersion, serverVersion));
+		String barId = getBarId(ctx);
+		
+		logger.info(String.format("##GetFileInfoList ChannelShortId: %s  RemoteIp: %s ClientVersion: %s ServerVersion: %s barId:%s", getChannelShortId(ctx), getRemoteIp(ctx), clientVersion, serverVersion, barId));
 		if(null == softwareVersion) return;
 		
 		BarSoftwareVersion version = new BarSoftwareVersion();
@@ -298,6 +300,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		ByteString content = null;
 		
 		try {
+			authService.updateVersion(barId, serverVersion, clientVersion);
 			List<BarFileInfo> barFileInfoList = authService.getBarFileInfoList(version);
 			List<BarFileBar> barFileBarList = authService.getBarFileBarList(version);
 			
@@ -305,6 +308,10 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			exceptCode = 0;
 			exceptMsg = codeMaps.get(exceptCode);
 			content = fileInfoList.toByteString();
+		} catch (AuthBarNotExistException e) {
+			exceptCode = 1002;
+			exceptMsg = codeMaps.get(exceptCode);
+			content = ByteString.copyFromUtf8(String.valueOf(false));
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			exceptCode = 1004;

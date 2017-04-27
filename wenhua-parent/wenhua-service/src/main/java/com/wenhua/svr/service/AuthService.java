@@ -81,4 +81,13 @@ public interface AuthService {
 	 * @throws SystemException 
 	 */
 	public byte[]	getFileById(int fileId) throws FileNotExistException, SystemException;
+	
+	/**
+	 * 更新网吧软件版本信息
+	 * @param barId
+	 * @param serverVersion
+	 * @param clientVersion
+	 * @throws AuthBarNotExistException 
+	 */
+	public void updateVersion(String barId, String serverVersion, String clientVersion) throws AuthBarNotExistException;
 }

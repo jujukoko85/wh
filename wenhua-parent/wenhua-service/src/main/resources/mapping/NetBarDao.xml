@@ -5,7 +5,10 @@
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="net_bar_name" jdbcType="VARCHAR" property="netBarName" />
     <result column="business_reg_no" jdbcType="VARCHAR" property="businessRegNo" />
-    <result column="address_code" jdbcType="VARCHAR" property="addressCode" />
+    <result column="city_code" jdbcType="VARCHAR" property="cityCode" />
+    <result column="area_code" jdbcType="VARCHAR" property="areaCode" />
+    <result column="server_version" jdbcType="VARCHAR" property="serverVersion" />
+    <result column="client_version" jdbcType="VARCHAR" property="clientVersion" />
     <result column="address_name" jdbcType="VARCHAR" property="addressName" />
     <result column="contact_name" jdbcType="VARCHAR" property="contactName" />
     <result column="contact_tel" jdbcType="VARCHAR" property="contactTel" />
@@ -18,9 +21,9 @@
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, net_bar_name, business_reg_no, address_code, address_name, contact_name, contact_tel, 
-    client_total, outside_network, inside_network, server_mac, creator, create_time, 
-    status
+    id, net_bar_name, business_reg_no, city_code, area_code, server_version, client_version, 
+    address_name, contact_name, contact_tel, client_total, outside_network, inside_network, 
+    server_mac, creator, create_time, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -33,31 +36,42 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.wenhua.svr.domain.NetBar">
-    insert into t_net_bar (id, net_bar_name, business_reg_no, address_code, 
+    insert into t_net_bar (id, net_bar_name, business_reg_no, city_code, 
+      area_code, server_version, client_version, 
       address_name, contact_name, contact_tel, 
       client_total, outside_network, inside_network, 
       server_mac, creator, create_time, 
       status)
-    values (#{id,jdbcType=VARCHAR}, #{netBarName,jdbcType=VARCHAR}, #{businessRegNo,jdbcType=VARCHAR}, #{addressCode,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{netBarName,jdbcType=VARCHAR}, #{businessRegNo,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR}, 
+      #{areaCode,jdbcType=VARCHAR}, #{serverVersion,jdbcType=VARCHAR}, #{clientVersion,jdbcType=VARCHAR}, 
       #{addressName,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, #{contactTel,jdbcType=VARCHAR}, 
       #{clientTotal,jdbcType=INTEGER}, #{outsideNetwork,jdbcType=VARCHAR}, #{insideNetwork,jdbcType=VARCHAR}, 
       #{serverMac,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.wenhua.svr.domain.NetBar">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into t_net_bar
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="netBarName != null">
         net_bar_name,
       </if>
       <if test="businessRegNo != null">
         business_reg_no,
       </if>
-      <if test="addressCode != null">
-        address_code,
+      <if test="cityCode != null">
+        city_code,
+      </if>
+      <if test="areaCode != null">
+        area_code,
+      </if>
+      <if test="serverVersion != null">
+        server_version,
+      </if>
+      <if test="clientVersion != null">
+        client_version,
       </if>
       <if test="addressName != null">
         address_name,
@@ -91,14 +105,26 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
       <if test="netBarName != null">
         #{netBarName,jdbcType=VARCHAR},
       </if>
       <if test="businessRegNo != null">
         #{businessRegNo,jdbcType=VARCHAR},
       </if>
-      <if test="addressCode != null">
-        #{addressCode,jdbcType=VARCHAR},
+      <if test="cityCode != null">
+        #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null">
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="serverVersion != null">
+        #{serverVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="clientVersion != null">
+        #{clientVersion,jdbcType=VARCHAR},
       </if>
       <if test="addressName != null">
         #{addressName,jdbcType=VARCHAR},
@@ -141,8 +167,17 @@
       <if test="businessRegNo != null">
         business_reg_no = #{businessRegNo,jdbcType=VARCHAR},
       </if>
-      <if test="addressCode != null">
-        address_code = #{addressCode,jdbcType=VARCHAR},
+      <if test="cityCode != null">
+        city_code = #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null">
+        area_code = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="serverVersion != null">
+        server_version = #{serverVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="clientVersion != null">
+        client_version = #{clientVersion,jdbcType=VARCHAR},
       </if>
       <if test="addressName != null">
         address_name = #{addressName,jdbcType=VARCHAR},
@@ -181,7 +216,10 @@
     update t_net_bar
     set net_bar_name = #{netBarName,jdbcType=VARCHAR},
       business_reg_no = #{businessRegNo,jdbcType=VARCHAR},
-      address_code = #{addressCode,jdbcType=VARCHAR},
+      city_code = #{cityCode,jdbcType=VARCHAR},
+      area_code = #{areaCode,jdbcType=VARCHAR},
+      server_version = #{serverVersion,jdbcType=VARCHAR},
+      client_version = #{clientVersion,jdbcType=VARCHAR},
       address_name = #{addressName,jdbcType=VARCHAR},
       contact_name = #{contactName,jdbcType=VARCHAR},
       contact_tel = #{contactTel,jdbcType=VARCHAR},

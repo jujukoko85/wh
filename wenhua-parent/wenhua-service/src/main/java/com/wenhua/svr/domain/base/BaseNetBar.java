@@ -9,11 +9,19 @@ public class BaseNetBar extends AbstractEntity<String, BaseNetBar> {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private String id;
+
     private String netBarName;
 
     private String businessRegNo;
 
-    private String addressCode;
+    private String cityCode;
+
+    private String areaCode;
+
+    private String serverVersion;
+
+    private String clientVersion;
 
     private String addressName;
 
@@ -36,11 +44,11 @@ public class BaseNetBar extends AbstractEntity<String, BaseNetBar> {
     private Integer status;
 
     public String getId() {
-        return super.getId();
+        return id;
     }
 
     public void setId(String id) {
-        super.setId(id);
+        this.id = id;
     }
 
     public String getNetBarName() {
@@ -59,12 +67,36 @@ public class BaseNetBar extends AbstractEntity<String, BaseNetBar> {
         this.businessRegNo = businessRegNo;
     }
 
-    public String getAddressCode() {
-        return addressCode;
+    public String getCityCode() {
+        return cityCode;
     }
 
-    public void setAddressCode(String addressCode) {
-        this.addressCode = addressCode;
+    public void setCityCode(String cityCode) {
+        this.cityCode = cityCode;
+    }
+
+    public String getAreaCode() {
+        return areaCode;
+    }
+
+    public void setAreaCode(String areaCode) {
+        this.areaCode = areaCode;
+    }
+
+    public String getServerVersion() {
+        return serverVersion;
+    }
+
+    public void setServerVersion(String serverVersion) {
+        this.serverVersion = serverVersion;
+    }
+
+    public String getClientVersion() {
+        return clientVersion;
+    }
+
+    public void setClientVersion(String clientVersion) {
+        this.clientVersion = clientVersion;
     }
 
     public String getAddressName() {

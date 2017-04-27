@@ -22,10 +22,21 @@ public class TestNetBarDao {
 	private NetBarDao netBarDao;
 	
 	@Test
+	public void test0() {
+		NetBar bar = NetBar.newOne("4101020001", "1234567890", "me");
+		netBarDao.insert(bar);
+		
+	}
+	
+	@Test
 	public void test1() {
 		System.out.println(netBarDao);
 		NetBar target = netBarDao.selectByPrimaryKey("4101020001");
-		System.out.println(target.getAddressCode());
+		System.out.println(target.getAreaCode());
+		target.setServerVersion("V1.0");
+		target.setClientVersion("V2.0");
+		
+		netBarDao.updateByPrimaryKey(target);
 	}
 	
 	@Test

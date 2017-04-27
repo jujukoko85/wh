@@ -35,9 +35,9 @@
             enableSelectByExample="false" 
             selectByExampleQueryId="false">
             <property name="rootClass" value="com.wenhua.svr.base.domain.AbstractEntity"/>
-            <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
         </table>
-       -->
+        -->
+       
         <!--
         <table tableName="t_server_info" domainObjectName="BaseServerInfo" mapperName="ServerInfoDao"
 			enableCountByExample="false" 
@@ -71,7 +71,7 @@
         </table>
          -->
          
-         <!--  -->
+         <!-- 
 		<table tableName="t_stat_area" domainObjectName="BaseStatArea" mapperName="StatAreaDao"
 			enableCountByExample="false" 
 			enableUpdateByExample="false"  
@@ -80,7 +80,7 @@
             selectByExampleQueryId="false">
             <property name="rootClass" value="com.wenhua.svr.base.domain.AbstractEntity"/>
         </table>
-        
+         -->
         
          <!-- 
 		<table tableName="t_areas_code" domainObjectName="BaseAreasCode" mapperName="AreasCodeDao"
