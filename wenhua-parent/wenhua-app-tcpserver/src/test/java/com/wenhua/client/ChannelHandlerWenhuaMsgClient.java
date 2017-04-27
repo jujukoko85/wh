@@ -50,6 +50,7 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 		super.channelActive(ctx);
 	}
 	
+	@SuppressWarnings("unused")
 	private Message getGetFileMessage() {
 		com.wenhua.proto.WenhuaMsg.Message message = getNormalMessageBuilder(System.currentTimeMillis(), "GetFile", ByteString.copyFrom(NumberUtil.intToByte4(1000)), 0, "OK").build();
 		
@@ -88,6 +89,7 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 		super.channelWritabilityChanged(ctx);
 	}
 	
+	@SuppressWarnings("unused")
 	private WenhuaMsg.Message getFileInfoList() {
 		
 		SoftwareVersion version = Wenhua.SoftwareVersion.newBuilder()
@@ -126,6 +128,7 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 		return pcInstantInfo;
 	}
 
+	@SuppressWarnings("unused")
 	private WenhuaMsg.Message setPcInfoList() {
 		
 		PcInfoList pcInfoList = Wenhua.PcInfoList.newBuilder()
@@ -155,6 +158,7 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 	 * 获取配置请求消息体
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private WenhuaMsg.Message getBarConfig() {
 //		Integer barId = Integer.valueOf(RandomNumberGenerator.generateNumber());
 		Integer barId = 30;
@@ -167,6 +171,7 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 	 * 获取上报服务器配置消息体
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private WenhuaMsg.Message getServerInfoMessage() {
 		com.wenhua.proto.Wenhua.ServerInfo serverInfo = Wenhua.ServerInfo.newBuilder()
 			.setIp("192.168.1.2")

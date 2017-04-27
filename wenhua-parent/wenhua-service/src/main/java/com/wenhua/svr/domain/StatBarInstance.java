@@ -2,8 +2,6 @@ package com.wenhua.svr.domain;
 
 import java.util.List;
 
-import com.wenhua.util.tools.DateUtils;
-
 /**
  * 实时 网吧的 线终端数 离线终端数 有效终端数 登录人数
  * 
