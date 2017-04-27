@@ -14,7 +14,7 @@ import com.wenhua.svr.domain.StatAreaInstance;
  */
 public interface StatService {
 
-	public void countBarDaily(String barId, List<BarPcInstantInfo> infos);
+	public void updateBarInstanceInfo(String barId, List<BarPcInstantInfo> infos);
 	
 	public void countAreaDaily(AreasCode areaCode, Date statDate);
 	

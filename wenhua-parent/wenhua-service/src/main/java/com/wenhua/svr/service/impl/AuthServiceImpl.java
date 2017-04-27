@@ -16,7 +16,6 @@ import com.wenhua.svr.domain.BarAuthInfo;
 import com.wenhua.svr.domain.BarConfig;
 import com.wenhua.svr.domain.BarFileBar;
 import com.wenhua.svr.domain.BarFileInfo;
-import com.wenhua.svr.domain.BarPcInstantInfo;
 import com.wenhua.svr.domain.BarSoftwareVersion;
 import com.wenhua.svr.domain.NetBar;
 import com.wenhua.svr.domain.PcInfo;
@@ -99,11 +98,11 @@ public class AuthServiceImpl implements AuthService {
 		
 	}
 
-	@Override
-	public void updatePcInstantInfoList(List<BarPcInstantInfo> barPcInstantInfoList) {
-		// TODO 更新网吧实时PC信息
-		
-	}
+//	@Override
+//	public void updatePcInstantInfoList(List<BarPcInstantInfo> barPcInstantInfoList) {
+//		// TODO 更新网吧实时PC信息
+//		
+//	}
 
 	@Override
 	public List<BarFileInfo> getBarFileInfoList(BarSoftwareVersion version) {

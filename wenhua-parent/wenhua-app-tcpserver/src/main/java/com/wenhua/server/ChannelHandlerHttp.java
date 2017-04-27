@@ -12,7 +12,9 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.wenhua.server.vo.StatAreaVo;
-import com.wenhua.server.vo.StatBarVo;
+import com.wenhua.svr.component.StatAreaInstanceCacher;
+import com.wenhua.svr.domain.StatAreaInstance;
+import com.wenhua.svr.domain.StatAreaInstanceCity;
 import com.wenhua.util.base.AjaxResult;
 
 import io.netty.buffer.Unpooled;
@@ -39,7 +41,6 @@ public class ChannelHandlerHttp extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		// TODO Auto-generated method stub
 		super.channelActive(ctx);
 	}
 	
@@ -125,31 +126,37 @@ public class ChannelHandlerHttp extends ChannelInboundHandlerAdapter {
 
 	private List<Object> doCity(String cityCode) {
 		List<Object> list = new ArrayList<Object>();
-		list.add(StatAreaVo.newOne("411001", "地区1", 11, 20, 100, 20));
-		list.add(StatAreaVo.newOne("411002", "地区2", 12, 20, 100, 20));
-		list.add(StatAreaVo.newOne("411003", "地区3", 13 ,20, 100, 20));
-		list.add(StatAreaVo.newOne("411004", "地区4", 14, 20, 100, 20));
-		list.add(StatAreaVo.newOne("411005", "地区5", 15, 20, 100, 20));
-		list.add(StatAreaVo.newOne("411006", "地区6", 16, 20, 100, 20));
-		list.add(StatAreaVo.newOne("411007", "地区7", 17, 20, 100, 20));
-		list.add(StatAreaVo.newOne("411008", "地区8", 18, 20, 100, 20));
-		list.add(StatAreaVo.newOne("411009", "地区9", 19, 20, 100, 20));
+		
+		StatAreaInstanceCity city = (StatAreaInstanceCity)StatAreaInstanceCacher.get(cityCode);
+		for(StatAreaInstance area : city.getAreas()) {
+			StatAreaVo v = StatAreaVo.newOne(
+					area.getCode(), 
+					area.getName(), 
+					area.getOnline().get(), 
+					area.getAreaMaxBar() - area.getOnline().get(), 
+					area.getAreaMaxPc(), 
+					area.getLoginTotal());
+			
+			list.add(v);
+		}
 		return list;
 	}
 
 	private List<Object> doProvince() {
 		List<Object> list = new ArrayList<Object>();
 		
-		list.add(StatBarVo.newOne("4110011001", "bar01", 11, 12, 2, "v1"));
-		list.add(StatBarVo.newOne("4110011002", "bar02", 11, 12, 2, "v1"));
-		list.add(StatBarVo.newOne("4110011003", "bar03", 11, 12, 2, "v1"));
-		list.add(StatBarVo.newOne("4110011004", "bar04", 11, 12, 2, "v1"));
-		list.add(StatBarVo.newOne("4110011005", "bar05", 11, 12, 2, "v1"));
-		list.add(StatBarVo.newOne("4110011006", "bar06", 11, 12, 2, "v1"));
-		list.add(StatBarVo.newOne("4110011007", "bar07", 11, 12, 2, "v1"));
-		list.add(StatBarVo.newOne("4110011008", "bar08", 11, 12, 2, "v1"));
-		list.add(StatBarVo.newOne("4110011009", "bar09", 11, 12, 2, "v1"));
-		
+		List<StatAreaInstance> cities = StatAreaInstanceCacher.getAllCity();
+		for(StatAreaInstance city : cities) {
+			StatAreaVo v = StatAreaVo.newOne(
+					city.getCode(), 
+					city.getName(), 
+					city.getOnline().get(), 
+					city.getAreaMaxBar() - city.getOnline().get(), 
+					city.getAreaMaxPc(), 
+					city.getLoginTotal());
+			
+			list.add(v);
+		}
 		return list;
 	}
 }

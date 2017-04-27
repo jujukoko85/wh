@@ -8,20 +8,32 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author zhuzhaohua
  *
  */
-public class StatAreaInstance {
+public abstract class StatAreaInstance {
 
 	private AreasCode area;
-	
+	/** 区域内网吧实时在线数 */
 	private AtomicInteger online = new AtomicInteger(0);
 	/** 区域内网吧数 */
 	private int areaMaxBar = 0;
 	/** 区域内PC数 */
 	private int areaMaxPc = 0;
-	/** 区内用户数 */
-	private int areaLogin = 0;
 	
-	private StatAreaInstance() {
+	public StatAreaInstance() {
 	}
+	
+	/**
+	 * 更新网吧对应的用户登录数
+	 * @param barId
+	 * @param login 当前的实时数量
+	 * @return 当前实时数量与之前数量的差值
+	 */
+	public abstract int updateLogin(String barId, int login);
+	
+	/**
+	 * 获取该区域内所有网吧用户登录数的实时合计数
+	 * @return
+	 */
+	public abstract int getLoginTotal();
 	
 	/**
 	 * 创建1个区域实时信息
@@ -31,7 +43,18 @@ public class StatAreaInstance {
 	 * @return
 	 */
 	public static StatAreaInstance newOne(AreasCode area, int areaMaxBar, int areaMaxPc) {
-		StatAreaInstance sai = new StatAreaInstance();
+		if(null == area) return null;
+		
+		StatAreaInstance sai = null;
+		
+		if(area.isArea()) {
+			sai = new StatAreaInstanceArea();
+		} else if(area.isCity()) {
+			sai = new StatAreaInstanceCity();
+		} else {
+			return null;
+		}
+		
 		sai.setArea(area);
 		sai.setAreaMaxBar(areaMaxBar);
 		sai.setAreaMaxPc(areaMaxPc);
@@ -108,12 +131,12 @@ public class StatAreaInstance {
 		return this.area.getRankno();
 	}
 
-	public int getAreaLogin() {
-		return areaLogin;
+	/**
+	 * 指定区域是否属于本区域
+	 * @param area
+	 * @return
+	 */
+	public boolean isMine(StatAreaInstance area) {
+		return this.area.isMine(area.getCode());
 	}
-
-	public void setAreaLogin(int areaLogin) {
-		this.areaLogin = areaLogin;
-	}
-
 }

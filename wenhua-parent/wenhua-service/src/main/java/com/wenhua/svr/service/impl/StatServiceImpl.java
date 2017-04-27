@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.wenhua.svr.component.NetBarCacher;
 import com.wenhua.svr.component.StatAreaInstanceCacher;
 import com.wenhua.svr.dao.AreasCodeDao;
+import com.wenhua.svr.dao.NetBarDao;
 import com.wenhua.svr.dao.StatAreaDao;
 import com.wenhua.svr.dao.StatNetBarDao;
 import com.wenhua.svr.domain.AreasCode;
@@ -28,32 +29,12 @@ public class StatServiceImpl implements StatService {
 	/** 文化客户端运行多少分钟 认为已运行 */
 	private Integer wenhuaDuration = 30;
 	
+	private NetBarDao netBarDao;
 	private StatNetBarDao statNetBarDao;
 	private StatAreaDao statAreaDao;
 	private AreasCodeDao areasCodeDao;
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
-	
-	public void init() {
-		List<AreasCode> list = areasCodeDao.selectAll();
-		logger.info(String.format("##init the area cache [%d]", null == list ? 0 : list.size()));
-		if(null == list || 0 == list.size()) return;
-		
-		for(AreasCode code : list) {
-			if(code.isProvince()) {
-				continue;
-			}
-			
-			int areaMaxBar = 0;
-			int areaMaxPc = 0;
-			//TODO 获取该区域最大网吧数与PC数量
-			
-			StatAreaInstance instance = StatAreaInstance.newOne(code, areaMaxBar, areaMaxPc);
-			
-			StatAreaInstanceCacher.put(code.getAreasid(), instance);
-		}
-		
-	}
 	
 	@Override
 	public void activeBar(String barId) {
@@ -67,8 +48,14 @@ public class StatServiceImpl implements StatService {
 		StatAreaInstance areaInstance = StatAreaInstanceCacher.get(areaCode);
 		StatAreaInstance cityInstance = StatAreaInstanceCacher.get(cityCode);
 		
-		int areaCurrent = areaInstance.online(barId);
-		int cityCurrent = cityInstance.online(barId);
+		int areaCurrent = 0;
+		if(null != areaInstance) {
+			areaCurrent = areaInstance.online(barId);
+		}
+		int cityCurrent = 0;
+		if(null != cityInstance) {
+			 cityCurrent = cityInstance.online(barId);
+		}
 		
 		logger.info(
 				String.format(
@@ -96,8 +83,15 @@ public class StatServiceImpl implements StatService {
 		StatAreaInstance areaInstance = StatAreaInstanceCacher.get(areaCode);
 		StatAreaInstance cityInstance = StatAreaInstanceCacher.get(cityCode);
 		
-		int areaCurrent = areaInstance.offline(barId);
-		int cityCurrent = cityInstance.offline(barId);
+		int areaCurrent = 0;
+		if(null != areaInstance) {
+			areaCurrent = areaInstance.offline(barId);
+		}
+		int cityCurrent = 0;
+		if(null != cityInstance) {
+			 cityCurrent = cityInstance.offline(barId);
+		}
+		
 		
 		logger.info(
 				String.format(
@@ -188,10 +182,16 @@ public class StatServiceImpl implements StatService {
 	 * 根据网上传的实时客户机信息 实时更新该网吧的 在线终端数 离线终端数 有效终端数 登录人数
 	 */
 	@Override
-	public void countBarDaily(String barId, List<BarPcInstantInfo> infos) {
+	public void updateBarInstanceInfo(String barId, List<BarPcInstantInfo> infos) {
 		StatNetBar current = getCurrentStatNetBar(barId, infos);
+		
 		if(null == current) return;
 		
+		/** 1.更新该网吧所属区域的实时信息 */
+		StatAreaInstanceCacher.update(barId, current.getLogin());
+		
+		
+		/** 2.更新网吧信息 */
 		StatNetBar cache = NetBarCacher.get(current.getBarId());
 		StatNetBar needUpdate = null;
 		
@@ -201,9 +201,6 @@ public class StatServiceImpl implements StatService {
 			if(null == dbCache) {
 				statNetBarDao.insert(current);
 				NetBarCacher.put(current.getBarId(), current);
-				
-				//处理统计区域登录人数
-				StatAreaInstanceCacher.addLogin(barId, current.getLogin());
 				
 			} else {
 				needUpdate = current.compare(dbCache);
@@ -233,11 +230,6 @@ public class StatServiceImpl implements StatService {
 				statNetBarDao.updateByPrimaryKey(needUpdate);
 			}
 			
-		}
-		
-		//处理统计区域登录人数
-		if(null != needUpdate && needUpdate.getLogin() > current.getLogin()) {
-			StatAreaInstanceCacher.addLogin(barId, needUpdate.getLogin() - current.getLogin());
 		}
 		
 		
@@ -322,5 +314,20 @@ public class StatServiceImpl implements StatService {
 		return null;
 	}
 
+	public AreasCodeDao getAreasCodeDao() {
+		return areasCodeDao;
+	}
+
+	public void setAreasCodeDao(AreasCodeDao areasCodeDao) {
+		this.areasCodeDao = areasCodeDao;
+	}
+
+	public NetBarDao getNetBarDao() {
+		return netBarDao;
+	}
+
+	public void setNetBarDao(NetBarDao netBarDao) {
+		this.netBarDao = netBarDao;
+	}
 
 }

@@ -25,6 +25,7 @@
 	<!-- 消息处理 -->
 	<bean id="channelHandlerWenhuaMsg" class="com.wenhua.server.ChannelHandlerWenhuaMsg" scope="prototype">
 		<property name="authService" ref="authService" />
+		<property name="statService" ref="statService" />
 		<property name="codeMaps">
 			<map>
 				<entry key="0" 		value="调用成功" />

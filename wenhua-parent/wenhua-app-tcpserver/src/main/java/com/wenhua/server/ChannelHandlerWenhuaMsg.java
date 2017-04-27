@@ -118,7 +118,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 				invalidRequestCloseChannel(ctx, id, 1005);
 				return;
 			}
-			logger.debug(String.format("##BarId exist ChannelShortId: %s remoteId: %s barId: %s", getChannelShortId(ctx), getRemoteIp(ctx), barId));
+			logger.info(String.format("##BarId exist ChannelShortId: %s remoteId: %s barId: %s", getChannelShortId(ctx), getRemoteIp(ctx), barId));
 			
 			switch(method) {
 			
@@ -360,7 +360,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		String exceptMsg = null;
 		ByteString content = null;
 		try {
-			authService.updatePcInstantInfoList(barPcInstantInfoList);
+			statService.updateBarInstanceInfo(getBarId(ctx), barPcInstantInfoList);
 			content = ByteString.copyFromUtf8(String.valueOf(true));
 			exceptCode = 0;
 			exceptMsg = codeMaps.get(exceptCode);

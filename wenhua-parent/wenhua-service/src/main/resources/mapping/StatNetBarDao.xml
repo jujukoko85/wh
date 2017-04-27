@@ -22,7 +22,8 @@
       and stat_date = #{statDate,jdbcType=DATE}
   </select>
 
-
+<!-- ################### -->
+  <!-- 自定义SQL -->
   <select id="countAreaDaily" resultType="java.lang.Integer">
     select
     	ifnull(count(*),0)
@@ -60,6 +61,8 @@
     	and
     	city_code = #{areaCode, jdbcType=VARCHAR}
   </select>
+  
+  <!-- ################### -->
   
   <delete id="deleteByPrimaryKey" parameterType="com.wenhua.svr.domain.base.BaseStatNetBarKey">
     delete from t_stat_net_bar

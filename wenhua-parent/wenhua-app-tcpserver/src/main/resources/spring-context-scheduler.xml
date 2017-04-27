@@ -6,7 +6,8 @@
 
 	<description>定时服务</description>
 
-	<bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+	<!-- ###### -->
+	<bean id="jobDetail-01" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
         <property name="targetObject">  
             <ref bean="statService"/>  
         </property>  
@@ -15,20 +16,40 @@
         </property>  
     </bean>  
       
-    <bean id="trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+    <bean id="trigger-01" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
         <property name="jobDetail">  
-            <ref bean="jobDetail"/>  
+            <ref bean="jobDetail-01"/>  
         </property>  
         <property name="cronExpression">  
-            <value>${scheduler.interval}</value>  
+            <value>${scheduler.interval1}</value>  
+        </property>  
+    </bean>
+    
+    <!-- ### 定时更新实施区域信息 ### -->
+    <bean id="jobDetail-02" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+        <property name="targetObject">  
+            <ref bean="statAreaInstanceCacher"/>  
+        </property>  
+        <property name="targetMethod">  
+            <value>updateDaily</value>  
         </property>  
     </bean>  
+      
+    <bean id="trigger-02" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+        <property name="jobDetail">  
+            <ref bean="jobDetail-01"/>  
+        </property>  
+        <property name="cronExpression">  
+            <value>${scheduler.interval2}</value>  
+        </property>  
+    </bean>
       
       
     <bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
         <property name="triggers">  
             <list>  
-                <ref bean="trigger"/>  
+                <ref bean="trigger-01"/>
+                <ref bean="trigger-02"/>  
             </list>  
         </property>  
         <property name="autoStartup" value="true"></property>  

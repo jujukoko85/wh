@@ -41,7 +41,7 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 		
 		Thread.sleep(5 * 1000);
 		
-		message = getGetFileMessage();
+		message = getSetPcInstantInfoListMessage();
 
 		System.out.println(ByteUtil.bytes2hex(message.toByteArray()));
 		
@@ -100,7 +100,7 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 		return message;
 	}
 	
-	private WenhuaMsg.Message setPcInstantInfoList() {
+	private WenhuaMsg.Message getSetPcInstantInfoListMessage() {
 		
 		PcInstantInfoList list = Wenhua.PcInstantInfoList.newBuilder()
 			.addInfos(getPcInstantInfo())
@@ -185,7 +185,7 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 	 */
 	private WenhuaMsg.Message getAuthInfoMessage() {
 		
-		String barId = "1000";
+		String barId = "4103110001";
 		String when = DateUtils.getString(new Date());
 		String key = "hn123wh";
 		

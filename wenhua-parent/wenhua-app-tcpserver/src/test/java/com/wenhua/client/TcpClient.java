@@ -70,8 +70,8 @@ public class TcpClient implements Runnable {
 	
 	public static void main(String[] args) throws InterruptedException {
 //		for(int i = 0; i < 10000; i++) {
-//			TcpClient client = new TcpClient("127.0.0.1", 9527, 1);
-			TcpClient client = new TcpClient("202.109.114.115", 9527, 1);
+			TcpClient client = new TcpClient("127.0.0.1", 9527, 1);
+//			TcpClient client = new TcpClient("202.109.114.115", 9527, 1);
 			Thread t = new Thread(client);
 			t.start();
 			

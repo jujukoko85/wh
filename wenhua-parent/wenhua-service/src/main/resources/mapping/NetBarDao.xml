@@ -31,6 +31,42 @@
     from t_net_bar
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  
+  <!-- ################### -->
+  <!-- 自定义SQL -->
+  <select id="countAreaPc" resultType="java.lang.Integer">
+    select
+    	ifnull(sum(client_total),0)
+    from t_net_bar
+    where 
+    	area_code = #{areaCode, jdbcType=VARCHAR}
+  </select>
+  <select id="countCityPc" resultType="java.lang.Integer">
+    select
+    	ifnull(sum(client_total),0)
+    from t_net_bar
+    where 
+    	city_code = #{areaCode, jdbcType=VARCHAR}
+  </select>
+  
+  <select id="countAreaBar" resultType="java.lang.Integer">
+    select
+    	ifnull(count(*),0)
+    from t_net_bar
+    where 
+    	area_code = #{areaCode, jdbcType=VARCHAR}
+  </select>
+  
+  <select id="countCityBar" resultType="java.lang.Integer">
+    select
+    	ifnull(count(*),0)
+    from t_net_bar
+    where 
+    	city_code = #{areaCode, jdbcType=VARCHAR}
+  </select>
+  
+  <!-- ################### -->
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from t_net_bar
     where id = #{id,jdbcType=VARCHAR}

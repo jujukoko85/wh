@@ -17,6 +17,15 @@
 	<bean id="statService" class="com.wenhua.svr.service.impl.StatServiceImpl">
 		<property name="wenhuaDuration" value="${wenhuaDuration}" />
 		<property name="statNetBarDao" ref="statNetBarDao" />
+		<property name="statAreaDao" ref="statAreaDao" />
+		<property name="areasCodeDao" ref="areasCodeDao" />
+		<property name="netBarDao" ref="netBarDao" />
+	</bean>
+	
+	<!-- 区域实时信息的缓存 -->
+	<bean id="statAreaInstanceCacher" class="com.wenhua.svr.component.StatAreaInstanceCacher" init-method="init">
+		<property name="areasCodeDao" ref="areasCodeDao" />
+		<property name="netBarDao" ref="netBarDao" />
 	</bean>
 	
 </beans>

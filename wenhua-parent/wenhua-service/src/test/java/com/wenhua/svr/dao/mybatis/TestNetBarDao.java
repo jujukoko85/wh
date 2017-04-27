@@ -1,5 +1,8 @@
 package com.wenhua.svr.dao.mybatis;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.junit.Test;
@@ -23,7 +26,8 @@ public class TestNetBarDao {
 	
 	@Test
 	public void test0() {
-		NetBar bar = NetBar.newOne("4101020001", "1234567890", "me");
+		NetBar bar = NetBar.newOne("4101020004", "1234567894", "me");
+		bar.setClientTotal(10);
 		netBarDao.insert(bar);
 		
 	}
@@ -43,5 +47,37 @@ public class TestNetBarDao {
 	public void test2() {
 		NetBar target = netBarDao.selectByPrimaryKey("4101020001");
 		System.out.println(target.getContactName());
+	}
+	
+	@Test
+	public void test3() {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("areaCode", "411001");
+		int count = netBarDao.countAreaBar(params);
+		System.out.println(count);
+	}
+
+	@Test
+	public void test4() {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("areaCode", "411000");
+		int count = netBarDao.countCityBar(params);
+		System.out.println(count);
+	}
+	
+	@Test
+	public void test5() {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("areaCode", "411001");
+		int count = netBarDao.countAreaPc(params);
+		System.out.println(count);
+	}
+	
+	@Test
+	public void test6() {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("areaCode", "411000");
+		int count = netBarDao.countCityPc(params);
+		System.out.println(count);
 	}
 }

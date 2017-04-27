@@ -6,7 +6,6 @@ import com.wenhua.svr.domain.BarAuthInfo;
 import com.wenhua.svr.domain.BarConfig;
 import com.wenhua.svr.domain.BarFileBar;
 import com.wenhua.svr.domain.BarFileInfo;
-import com.wenhua.svr.domain.BarPcInstantInfo;
 import com.wenhua.svr.domain.BarSoftwareVersion;
 import com.wenhua.svr.domain.PcInfo;
 import com.wenhua.svr.domain.ServerInfo;
@@ -53,11 +52,11 @@ public interface AuthService {
 	 */
 	public void updatePcInfoList(List<PcInfo> pcInfoList);
 	
-	/**
-	 * 更新网吧实时PC信息
-	 * @param barPcInstantInfoList
-	 */
-	public void updatePcInstantInfoList(List<BarPcInstantInfo> barPcInstantInfoList);
+//	/**
+//	 * 更新网吧实时PC信息
+//	 * @param barPcInstantInfoList
+//	 */
+//	public void updatePcInstantInfoList(List<BarPcInstantInfo> barPcInstantInfoList);
 	
 	/**
 	 * 获取文件信息列表
