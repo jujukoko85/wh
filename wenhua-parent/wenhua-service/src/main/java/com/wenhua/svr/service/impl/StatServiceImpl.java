@@ -133,7 +133,7 @@ public class StatServiceImpl implements StatService {
 			
 			logger.info(String.format("##Begin AreaStat [%s][%s]", code.getAreasid(), code.getAreasname()));
 			try {
-				countAreaDaily(code.getAreasid(), yesterday);
+				countAreaDaily(code, yesterday);
 			} catch (Exception e) {
 				logger.error(String.format("##AreaStat [%s][%s] error", code.getAreasid(), code.getAreasname()), e);
 			}
@@ -142,8 +142,8 @@ public class StatServiceImpl implements StatService {
 	}
 	
 	@Override
-	public void countAreaDaily(String areaCode, Date statDate) {
-		if(!AreasCode.isValidCode(areaCode)) {
+	public void countAreaDaily(AreasCode areaCode, Date statDate) {
+		if(!AreasCode.isValidCode(areaCode.getAreasid())) {
 			logger.error(String.format("##CountAreaDaily error, wrong areaCode, areaCode: %s", areaCode));
 			return;
 		}
@@ -160,7 +160,7 @@ public class StatServiceImpl implements StatService {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("areaCode", areaCode);
 		params.put("statDate", statDate);
-		if(areaCode.endsWith("00")) {
+		if(areaCode.isCity()) {
 			//统计 市
 			online = statNetBarDao.countCityDaily(params);
 		} else {
@@ -174,13 +174,13 @@ public class StatServiceImpl implements StatService {
 		
 		//C.1 
 		int login = 0;
-		if(areaCode.endsWith("00")) {
+		if(areaCode.isCity()) {
 			login = statNetBarDao.countLoginCityDaily(params);
 		} else {
 			login = statNetBarDao.countLoginAreaDaily(params);
 		}
 		
-		StatArea sa = StatArea.newOne(areaCode, statDate, online, offline, login);
+		StatArea sa = StatArea.newOne(areaCode.getAreasid(), statDate, online, offline, login, areaCode.getRankno());
 		statAreaDao.insert(sa);
 	}
 	

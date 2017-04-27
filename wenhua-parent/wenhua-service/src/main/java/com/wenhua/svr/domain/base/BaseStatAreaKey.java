@@ -3,7 +3,6 @@ package com.wenhua.svr.domain.base;
 import java.util.Date;
 
 public class BaseStatAreaKey {
-	
     private String areaCode;
 
     private Date statDate;

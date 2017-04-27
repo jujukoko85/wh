@@ -23,13 +23,14 @@ public class StatArea extends BaseStatArea {
 	 * @param login
 	 * @return
 	 */
-	public static StatArea newOne(String areaCode, Date statDate, int online, int offline, int login) {
+	public static StatArea newOne(String areaCode, Date statDate, int online, int offline, int login, String rankno) {
 		StatArea sa = new StatArea();
 		sa.setAreaCode(areaCode);
 		sa.setStatDate(statDate);
 		sa.setOnline(online);
 		sa.setOffline(offline);
 		sa.setLogin(login);
+		sa.setRankno(rankno);
 		return sa;
 	}
 

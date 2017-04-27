@@ -1,7 +1,6 @@
 package com.wenhua.svr.dao;
 
 import com.wenhua.svr.domain.StatArea;
-import com.wenhua.svr.domain.base.BaseStatArea;
 import com.wenhua.svr.domain.base.BaseStatAreaKey;
 
 public interface StatAreaDao {
@@ -11,7 +10,7 @@ public interface StatAreaDao {
 
     int insertSelective(StatArea record);
 
-    BaseStatArea selectByPrimaryKey(BaseStatAreaKey key);
+    StatArea selectByPrimaryKey(BaseStatAreaKey key);
 
     int updateByPrimaryKeySelective(StatArea record);
 

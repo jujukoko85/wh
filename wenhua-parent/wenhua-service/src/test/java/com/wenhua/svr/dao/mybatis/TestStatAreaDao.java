@@ -26,7 +26,7 @@ public class TestStatAreaDao {
 	public void test1() {
 		System.out.println(statAreaDao);
 		
-		StatArea sa = StatArea.newOne("123456", DateUtils.getChinaDay(), 1000, 20, 40000);
+		StatArea sa = StatArea.newOne("123456", DateUtils.getChinaDay(), 1000, 20, 40000, "1");
 		statAreaDao.insert(sa);
 		
 	}

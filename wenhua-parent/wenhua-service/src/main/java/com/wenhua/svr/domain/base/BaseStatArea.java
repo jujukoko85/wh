@@ -1,12 +1,13 @@
 package com.wenhua.svr.domain.base;
 
 public class BaseStatArea extends BaseStatAreaKey {
-	
-    private Integer online = 0;
+    private Integer online;
 
-    private Integer offline = 0;
+    private Integer offline;
 
-    private Integer login = 0;
+    private Integer login;
+
+    private String rankno;
 
     public Integer getOnline() {
         return online;
@@ -30,5 +31,13 @@ public class BaseStatArea extends BaseStatAreaKey {
 
     public void setLogin(Integer login) {
         this.login = login;
+    }
+
+    public String getRankno() {
+        return rankno;
+    }
+
+    public void setRankno(String rankno) {
+        this.rankno = rankno;
     }
 }
