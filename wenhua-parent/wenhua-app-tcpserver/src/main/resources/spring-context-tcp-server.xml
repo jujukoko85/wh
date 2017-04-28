@@ -20,7 +20,9 @@
 		<property name="workerGroup" ref="workerGroup" />
 	</bean>
 
-	<bean id="tcpServerInitializer" class="com.wenhua.server.TcpServerInitializer" />
+	<bean id="tcpServerInitializer" class="com.wenhua.server.TcpServerInitializer" >
+		<property name="timeoutSeconds" value="${freqInstantPcInfo}" />
+	</bean>
 
 	<!-- 消息处理 -->
 	<bean id="channelHandlerWenhuaMsg" class="com.wenhua.server.ChannelHandlerWenhuaMsg" scope="prototype">

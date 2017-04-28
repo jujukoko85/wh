@@ -13,10 +13,12 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
+import io.netty.handler.timeout.ReadTimeoutHandler;
 
 public class TcpServerInitializer extends ChannelInitializer<SocketChannel> implements ApplicationContextAware {
 
 	private ApplicationContext applicationContext;
+	private int timeoutSeconds;
 	
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
@@ -28,6 +30,7 @@ public class TcpServerInitializer extends ChannelInitializer<SocketChannel> impl
 		pipeline.addLast(new LengthFieldBasedFrameDecoder(1024 * 1024 * 10, 0, 4, 0, 4));
 		pipeline.addLast(new ProtobufDecoder(WenhuaMsg.Message.getDefaultInstance()));
 		
+		pipeline.addLast(new ReadTimeoutHandler(timeoutSeconds * 3));
 		//business logical
 		pipeline.addLast(this.applicationContext.getBean("channelHandlerWenhuaMsg", ChannelHandlerWenhuaMsg.class));
 	}
@@ -35,6 +38,14 @@ public class TcpServerInitializer extends ChannelInitializer<SocketChannel> impl
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
+	}
+
+	public int getTimeoutSeconds() {
+		return timeoutSeconds;
+	}
+
+	public void setTimeoutSeconds(int timeoutSeconds) {
+		this.timeoutSeconds = timeoutSeconds;
 	}
 
 }

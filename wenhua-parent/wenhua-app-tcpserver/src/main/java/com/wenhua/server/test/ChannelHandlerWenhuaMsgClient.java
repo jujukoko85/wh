@@ -1,4 +1,4 @@
-package com.wenhua.client;
+package com.wenhua.server.test;
 
 import java.util.Date;
 
@@ -27,6 +27,7 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
+	
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 

@@ -1,4 +1,4 @@
-package com.wenhua.client;
+package com.wenhua.server.test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +30,7 @@ public class TcpClient implements Runnable {
 		this.port = port;
 		this.clientNum = clientNum;
 		System.out.println("Create " + clientNum + "; " + remoteAddress + " ;" + port);
+		
 	}
 
 	public void start(String remoteAddress, int port) throws Exception {
@@ -70,7 +71,7 @@ public class TcpClient implements Runnable {
 	
 	public static void main(String[] args) throws InterruptedException {
 //		for(int i = 0; i < 10000; i++) {
-			TcpClient client = new TcpClient("127.0.0.1", 9527, 1);
+			TcpClient client = new TcpClient("127.0.0.1", 9528, 1);
 //			TcpClient client = new TcpClient("202.109.114.115", 9527, 1);
 			Thread t = new Thread(client);
 			t.start();

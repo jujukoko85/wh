@@ -47,6 +47,7 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelId;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.handler.timeout.TimeoutException;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
 
@@ -69,7 +70,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		
 		logger.debug(String.format("##Active ChannelShortId: %s remoteId: %s", getChannelShortId(ctx), getRemoteIp(ctx)));
 		
-		ChannelGroups.add(ctx.channel());
+		ChannelGroups.add(ctx);
 		
 		super.channelActive(ctx);
 	}
@@ -85,9 +86,11 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 		logger.debug(String.format("##Inactive ChannelShortId: %s remoteId: %s", getChannelShortId(ctx), getRemoteIp(ctx)));
 		
-		ChannelGroups.discard(ctx.channel());
-		
+		ChannelGroups.discard(ctx);
+
 		StatAreaInstanceCacher.inactiveBar(getBarId(ctx));
+		
+		ctx.close();
 		
 		super.channelInactive(ctx);
 	}
@@ -162,7 +165,15 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 	}
 
 	private String getBarId(ChannelHandlerContext ctx) {
-		String barId = (String)ctx.channel().attr(AttributeKey.valueOf(BAR_ID)).get();
+		Channel channel = ctx.channel();
+		Attribute<Object> attr = channel.attr(AttributeKey.valueOf(BAR_ID));
+		
+		if(null == attr) return null;
+		Object target = attr.get();
+		
+		if(null == target) return null;
+		
+		String barId = (String)target;
 		return barId;
 	}
 
@@ -538,7 +549,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		ctx.writeAndFlush(response);
 	}
 
-	private String getRemoteIp(ChannelHandlerContext ctx) {
+	protected static String getRemoteIp(ChannelHandlerContext ctx) {
 		InetSocketAddress remoteAddress = (InetSocketAddress)ctx.channel().remoteAddress();
 		String ip = remoteAddress.getAddress().getHostAddress();
 		return ip;
@@ -653,12 +664,11 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 	
 	private void logMsg(ChannelHandlerContext ctx, WenhuaMsg.Message message) {
 		String content = String.format(
-			"##From ChannelShortId: %s remoteIp: [%s] ReceivedMsg: Id[%d] Method[%s] Content[%s] ReturnCode[%d] ReturnMsg[%s]", 
+			"##From ChannelShortId: %s remoteIp: [%s] ReceivedMsg: Id[%d] Method[%s] ReturnCode[%d] ReturnMsg[%s]", 
 			getChannelShortId(ctx),
 			getRemoteIp(ctx),
 			message.getId(),
 			message.getMethod(), 
-			message.getContent().toStringUtf8(), 
 			message.getExceptCode(),
 			message.getExceptMsg()
 			);
@@ -675,7 +685,13 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 	
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		logger.error(String.format("##exceptionCaught ChannelShortId: %s remoteId: %s excpetionMsg: %s", getChannelShortId(ctx), getRemoteIp(ctx), cause.getMessage()), cause);
+		
+		if(cause instanceof TimeoutException) {
+			logger.info(String.format("##Time out ChannelShortId: %s remoteId: %s barId: %s", getChannelShortId(ctx), getRemoteIp(ctx), getBarId(ctx)));
+		} else {
+			logger.error(String.format("##exceptionCaught ChannelShortId: %s remoteId: %s excpetionMsg: %s", getChannelShortId(ctx), getRemoteIp(ctx), cause.getMessage()), cause);
+		}
+		ctx.close();
 //		super.exceptionCaught(ctx, cause);
 	}
 
