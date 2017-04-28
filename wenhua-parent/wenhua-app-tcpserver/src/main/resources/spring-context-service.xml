@@ -12,20 +12,21 @@
 		<property name="netBarDao" ref="netBarDao" />
 		<property name="serverInfoDao" ref="serverInfoDao" />
 		<property name="pcInfoDao" ref="pcInfoDao" />
+		<property name="fileBarDao" ref="fileBarDao" />
+		<property name="fileInfoDao" ref="fileInfoDao" />
+		<property name="areasCodeDao" ref="areasCodeDao" />
+		<property name="statAreaDao" ref="statAreaDao" />
+		<property name="statNetBarDao" ref="statNetBarDao" />
 	</bean>
 	
 	<!-- 区域实时信息的缓存 -->
 	<bean id="statAreaInstanceCacher" class="com.wenhua.svr.component.StatAreaInstanceCacher" init-method="init">
-		<property name="areasCodeDao" ref="areasCodeDao" />
-		<property name="netBarDao" ref="netBarDao" />
-		<property name="statAreaDao" ref="statAreaDao" />
+		<property name="authService" ref="authService" />
 	</bean>
 	
 	<!-- 网吧实时信息的缓存 -->
 	<bean id="statBarInstancerCacher" class="com.wenhua.svr.component.StatBarInstancerCacher" init-method="init">
-		<property name="netBarDao" ref="netBarDao" />
-		<property name="statNetBarDao" ref="statNetBarDao" />
-		<property name="wenhuaDuration" value="${wenhuaDuration}" />
+		<property name="authService" ref="authService" />
 	</bean>
 	
 </beans>

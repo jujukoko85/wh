@@ -1,0 +1,1 @@
+java -jar -Xms1024M -Xmx-1024M 9527 8088

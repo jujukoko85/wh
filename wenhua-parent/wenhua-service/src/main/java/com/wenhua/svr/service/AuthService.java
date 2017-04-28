@@ -1,7 +1,9 @@
 package com.wenhua.svr.service;
 
+import java.util.Date;
 import java.util.List;
 
+import com.wenhua.svr.domain.AreasCode;
 import com.wenhua.svr.domain.BarAuthInfo;
 import com.wenhua.svr.domain.BarConfig;
 import com.wenhua.svr.domain.BarFileBar;
@@ -10,6 +12,8 @@ import com.wenhua.svr.domain.BarSoftwareVersion;
 import com.wenhua.svr.domain.NetBar;
 import com.wenhua.svr.domain.PcInfo;
 import com.wenhua.svr.domain.ServerInfo;
+import com.wenhua.svr.domain.StatArea;
+import com.wenhua.svr.domain.StatNetBar;
 import com.wenhua.svr.exception.AuthBarNotExistException;
 import com.wenhua.svr.exception.AuthBarNotValidException;
 import com.wenhua.svr.exception.AuthSignNotValidException;
@@ -17,7 +21,7 @@ import com.wenhua.svr.exception.FileNotExistException;
 import com.wenhua.svr.exception.SystemException;
 
 /**
- * 验证接口
+ * 统一接口
  * @author zhuzhaohua
  *
  */
@@ -30,7 +34,7 @@ public interface AuthService {
 	 * @throws AuthSignNotValidException
 	 * @throws AuthBarNotValidException 
 	 */
-	public NetBar auth(BarAuthInfo barAuthInfo) throws AuthBarNotExistException, AuthSignNotValidException, AuthBarNotValidException;
+	public NetBar isAuth(BarAuthInfo barAuthInfo) throws AuthBarNotExistException, AuthSignNotValidException, AuthBarNotValidException;
 	
 	/**
 	 * 获取网吧配置信息
@@ -52,12 +56,6 @@ public interface AuthService {
 	 * @param barPcInfoList
 	 */
 	public void updatePcInfoList(List<PcInfo> pcInfoList);
-	
-//	/**
-//	 * 更新网吧实时PC信息
-//	 * @param barPcInstantInfoList
-//	 */
-//	public void updatePcInstantInfoList(List<BarPcInstantInfo> barPcInstantInfoList);
 	
 	/**
 	 * 获取文件信息列表
@@ -92,5 +90,87 @@ public interface AuthService {
 	 * @throws AuthBarNotExistException 
 	 */
 	public void updateVersion(String barId, String serverVersion, String clientVersion) throws AuthBarNotExistException;
+	
+	/**
+	 * 查询所有地区代码
+	 * @return
+	 */
+	public List<AreasCode> selectAllAreasCode();
+	
+	/**
+	 * 查询指定 区 代码 区域中的网吧总数
+	 * @param areaCode
+	 * @return
+	 */
+	public int countNetBarByAreaCode(String areaCode);
+	
+	/**
+	 * 查询指定 区 代码 区域中的网吧PC机总数
+	 * @param areaCode
+	 * @return
+	 */
+	public int countNetBarPcByAreaCode(String areaCode);
+	
+	/**
+	 * 查询指定 市 代码 区域中的网吧总数
+	 * @param areaCode
+	 * @return
+	 */
+	public int countNetBarByCityCode(String cityCode);
+	
+	/**
+	 * 查询指定 市 代码 区域中的网吧PC机总数
+	 * @param areaCode
+	 * @return
+	 */
+	public int countNetBarPcByCityCode(String cityCode);
+	
+	/**
+	 * 查询指定时间 区域 的区域统计数据
+	 * @param areaCode 区域代码  区 + 市
+	 * @param statDate
+	 * @return
+	 */
+	public StatArea getStatAreaById(String areaCode, Date statDate);
+	
+	/**
+	 * 保存一条区域统计数据
+	 * @param statArea
+	 */
+	public void saveStatArea(StatArea statArea);
+	
+	/**
+	 * 更新一条区域统计数据
+	 * @param statArea
+	 */
+	public void updateStatArea(StatArea statArea);
+	
+	/**
+	 * 获取所有网吧信息
+	 * @return
+	 */
+	public List<NetBar> getAllBar();
+	
+	/**
+	 * 根据ID查询指定网吧统计记录
+	 * @param barId
+	 * @param statDate
+	 * @return
+	 */
+	public StatNetBar getStatNetBarById(String barId, Date statDate);
+	
+	/**
+	 * 保存网吧统计记录
+	 * @param statNetBar
+	 */
+	public void saveStatNetBar(StatNetBar statNetBar);
+	
+	/**
+	 * 更新网吧统计记录
+	 * @param statNetBar
+	 */
+	public void updateStatNetBar(StatNetBar statNetBar);
+	
+	
 	
 }

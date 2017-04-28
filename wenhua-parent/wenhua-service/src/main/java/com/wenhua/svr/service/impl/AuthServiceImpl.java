@@ -3,17 +3,24 @@ package com.wenhua.svr.service.impl;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.ResourceUtils;
 
 import com.google.common.collect.Lists;
+import com.wenhua.svr.dao.AreasCodeDao;
 import com.wenhua.svr.dao.FileBarDao;
 import com.wenhua.svr.dao.FileInfoDao;
 import com.wenhua.svr.dao.NetBarDao;
 import com.wenhua.svr.dao.PcInfoDao;
 import com.wenhua.svr.dao.ServerInfoDao;
+import com.wenhua.svr.dao.StatAreaDao;
+import com.wenhua.svr.dao.StatNetBarDao;
+import com.wenhua.svr.domain.AreasCode;
 import com.wenhua.svr.domain.BarAuthInfo;
 import com.wenhua.svr.domain.BarConfig;
 import com.wenhua.svr.domain.BarFileBar;
@@ -23,6 +30,10 @@ import com.wenhua.svr.domain.FileBar;
 import com.wenhua.svr.domain.NetBar;
 import com.wenhua.svr.domain.PcInfo;
 import com.wenhua.svr.domain.ServerInfo;
+import com.wenhua.svr.domain.StatArea;
+import com.wenhua.svr.domain.StatNetBar;
+import com.wenhua.svr.domain.base.BaseStatAreaKey;
+import com.wenhua.svr.domain.base.BaseStatNetBarKey;
 import com.wenhua.svr.exception.AuthBarNotExistException;
 import com.wenhua.svr.exception.AuthBarNotValidException;
 import com.wenhua.svr.exception.AuthSignNotValidException;
@@ -43,12 +54,18 @@ public class AuthServiceImpl implements AuthService {
 	
 	private FileInfoDao fileInfoDao;
 	
+	private AreasCodeDao areasCodeDao;
+	
+	private StatAreaDao statAreaDao;
+	
+	private StatNetBarDao statNetBarDao;
+	
 	private String key = "hn123wh";
 	/** 客户机上报信息频率 */
 	private int freqInstantPcInfo = 60;
 
 	@Override
-	public NetBar auth(BarAuthInfo barAuthInfo) throws AuthBarNotExistException, AuthSignNotValidException, AuthBarNotValidException {
+	public NetBar isAuth(BarAuthInfo barAuthInfo) throws AuthBarNotExistException, AuthSignNotValidException, AuthBarNotValidException {
 		if(null == barAuthInfo) throw new AuthBarNotExistException();
 
 		if(!barAuthInfo.isValid(key)) {
@@ -105,12 +122,6 @@ public class AuthServiceImpl implements AuthService {
 		}
 		
 	}
-
-//	@Override
-//	public void updatePcInstantInfoList(List<BarPcInstantInfo> barPcInstantInfoList) {
-//		// TODO 更新网吧实时PC信息
-//		
-//	}
 
 	@Override
 	public List<BarFileInfo> getBarFileInfoList(String barId, BarSoftwareVersion version) {
@@ -230,4 +241,97 @@ public class AuthServiceImpl implements AuthService {
 		this.fileInfoDao = fileInfoDao;
 	}
 
+	@Override
+	public List<AreasCode> selectAllAreasCode() {
+		return this.areasCodeDao.selectAll();
+	}
+
+	@Override
+	public int countNetBarByAreaCode(String areaCode) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("areaCode", areaCode);
+		return this.netBarDao.countAreaBar(params);
+	}
+
+	@Override
+	public int countNetBarPcByAreaCode(String areaCode) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("areaCode", areaCode);
+		return this.netBarDao.countAreaPc(params);
+	}
+
+	@Override
+	public int countNetBarByCityCode(String cityCode) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("areaCode", cityCode);
+		return this.netBarDao.countCityBar(params);
+	}
+
+	@Override
+	public int countNetBarPcByCityCode(String cityCode) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("areaCode", cityCode);
+		return this.netBarDao.countCityPc(params);
+	}
+
+	@Override
+	public StatArea getStatAreaById(String areaCode, Date statDate) {
+		return this.statAreaDao.selectByPrimaryKey(BaseStatAreaKey.newOne(areaCode, statDate));
+	}
+
+	@Override
+	public void saveStatArea(StatArea statArea) {
+		this.statAreaDao.insert(statArea);
+	}
+
+	@Override
+	public void updateStatArea(StatArea statArea) {
+		this.statAreaDao.updateByPrimaryKey(statArea);
+	}
+
+	@Override
+	public List<NetBar> getAllBar() {
+		return this.netBarDao.selectAll();
+	}
+
+	@Override
+	public StatNetBar getStatNetBarById(String barId, Date statDate) {
+		return this.statNetBarDao.selectByPrimaryKey(BaseStatNetBarKey.newOne(barId, statDate));
+	}
+
+	@Override
+	public void saveStatNetBar(StatNetBar statNetBar) {
+		this.statNetBarDao.insert(statNetBar);
+	}
+
+	@Override
+	public void updateStatNetBar(StatNetBar statNetBar) {
+		this.statNetBarDao.updateByPrimaryKey(statNetBar);
+	}
+
+	public AreasCodeDao getAreasCodeDao() {
+		return areasCodeDao;
+	}
+
+	public void setAreasCodeDao(AreasCodeDao areasCodeDao) {
+		this.areasCodeDao = areasCodeDao;
+	}
+
+	public StatAreaDao getStatAreaDao() {
+		return statAreaDao;
+	}
+
+	public void setStatAreaDao(StatAreaDao statAreaDao) {
+		this.statAreaDao = statAreaDao;
+	}
+
+	public StatNetBarDao getStatNetBarDao() {
+		return statNetBarDao;
+	}
+
+	public void setStatNetBarDao(StatNetBarDao statNetBarDao) {
+		this.statNetBarDao = statNetBarDao;
+	}
+
+	
 }

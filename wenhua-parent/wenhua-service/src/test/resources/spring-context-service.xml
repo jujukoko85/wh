@@ -12,6 +12,11 @@
 		<property name="netBarDao" ref="netBarDao" />
 		<property name="serverInfoDao" ref="serverInfoDao" />
 		<property name="pcInfoDao" ref="pcInfoDao" />
+		<property name="fileBarDao" ref="fileBarDao" />
+		<property name="fileInfoDao" ref="fileInfoDao" />
+		<property name="areasCodeDao" ref="areasCodeDao" />
+		<property name="statAreaDao" ref="statAreaDao" />
+		<property name="statNetBarDao" ref="statNetBarDao" />
 	</bean>
 	
 </beans>

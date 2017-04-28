@@ -614,7 +614,7 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		boolean close = false;
 		
 		try {
-			NetBar bar = authService.auth(new BarAuthInfo(barID, authInfo.getWhen(), authInfo.getSign()));
+			NetBar bar = authService.isAuth(new BarAuthInfo(barID, authInfo.getWhen(), authInfo.getSign()));
 			exceptCode = 0;
 			exceptMsg = codeMaps.get(exceptCode);
 			content = ByteString.copyFromUtf8(String.valueOf(true));

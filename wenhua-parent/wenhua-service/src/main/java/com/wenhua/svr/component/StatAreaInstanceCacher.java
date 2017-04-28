@@ -11,15 +11,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.wenhua.svr.dao.AreasCodeDao;
-import com.wenhua.svr.dao.NetBarDao;
-import com.wenhua.svr.dao.StatAreaDao;
 import com.wenhua.svr.domain.AreasCode;
 import com.wenhua.svr.domain.StatArea;
 import com.wenhua.svr.domain.StatAreaInstance;
 import com.wenhua.svr.domain.StatAreaInstanceArea;
 import com.wenhua.svr.domain.StatAreaInstanceCity;
-import com.wenhua.svr.domain.base.BaseStatAreaKey;
+import com.wenhua.svr.service.AuthService;
 import com.wenhua.util.BarIdUtils;
 import com.wenhua.util.tools.DateUtils;
 
@@ -34,9 +31,7 @@ public class StatAreaInstanceCacher {
 
 	private static final Map<String, StatAreaInstance> STAT_AREA_INSTANCE_CACHER = new ConcurrentHashMap<String, StatAreaInstance>();
 	
-	private AreasCodeDao areasCodeDao;
-	private NetBarDao netBarDao;
-	private StatAreaDao statAreaDao;
+	private AuthService authService;
 	
 	public StatAreaInstanceCacher() {
 	}
@@ -56,7 +51,7 @@ public class StatAreaInstanceCacher {
 	}
 	
 	public void init() {
-		List<AreasCode> list = areasCodeDao.selectAll();
+		List<AreasCode> list = authService.selectAllAreasCode();
 		logger.info(String.format("##init the area cache [%d]", null == list ? 0 : list.size()));
 		if(null == list || 0 == list.size()) return;
 		
@@ -71,11 +66,13 @@ public class StatAreaInstanceCacher {
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("areaCode", code.getAreasid());
 			if(code.isCity()) {
-				areaMaxBar = netBarDao.countCityBar(params);
-				areaMaxPc = netBarDao.countCityPc(params);
+				areaMaxBar = authService.countNetBarByCityCode(code.getAreasid());
+				areaMaxPc = authService.countNetBarPcByCityCode(code.getAreasid());
 			} else if(code.isArea()) {
-				areaMaxBar = netBarDao.countAreaBar(params);
-				areaMaxPc = netBarDao.countAreaPc(params);
+				areaMaxBar = authService.countNetBarByAreaCode(code.getAreasid());
+				areaMaxPc = authService.countNetBarPcByAreaCode(code.getAreasid());
+			} else {
+				continue;
 			}
 			
 			StatAreaInstance instance = StatAreaInstance.newOne(code, areaMaxBar, areaMaxPc);
@@ -115,13 +112,13 @@ public class StatAreaInstanceCacher {
 		Date today = DateUtils.getChinaDay();
 		
 		for(StatAreaInstance instance : instances) {
-			StatArea old = statAreaDao.selectByPrimaryKey(BaseStatAreaKey.newOne(instance.getCode(), today));
+			StatArea old = authService.getStatAreaById(instance.getCode(), today);
 			
 			int areaMaxLoginDaily = instance.getAreaMaxLoginDaily().get();
 			int areaMaxBarDaily = instance.getAreaMaxBarDaily().get();
 			if(null == old) {
 				
-				statAreaDao.insert(
+				authService.saveStatArea(
 						StatArea.newOne(
 								instance.getCode(), 
 								today, 
@@ -137,7 +134,7 @@ public class StatAreaInstanceCacher {
 				int offline = instance.getAreaMaxBar() - areaMaxBarDaily;
 				old.setOffline(old.getOffline() > offline ? old.getOffline() : offline);
 				
-				statAreaDao.updateByPrimaryKey(old);
+				authService.updateStatArea(old);
 			}
 			
 		}
@@ -149,7 +146,7 @@ public class StatAreaInstanceCacher {
 	 * 每天定时更新 区域拥有的网吧数 与 区域拥有的PC数
 	 */
 	public void updateDaily() {
-		List<AreasCode> list = areasCodeDao.selectAll();
+		List<AreasCode> list = authService.selectAllAreasCode();
 		logger.info("###############################");
 		logger.info(String.format("##update the area cache [%d]", null == list ? 0 : list.size()));
 		
@@ -166,11 +163,11 @@ public class StatAreaInstanceCacher {
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("areaCode", code.getAreasid());
 			if(code.isCity()) {
-				areaMaxBar = netBarDao.countCityBar(params);
-				areaMaxPc = netBarDao.countCityPc(params);
+				areaMaxBar = authService.countNetBarByCityCode(code.getAreasid());
+				areaMaxPc = authService.countNetBarPcByCityCode(code.getAreasid());
 			} else if(code.isArea()) {
-				areaMaxBar = netBarDao.countAreaBar(params);
-				areaMaxPc = netBarDao.countAreaPc(params);
+				areaMaxBar = authService.countNetBarByAreaCode(code.getAreasid());
+				areaMaxPc = authService.countNetBarPcByAreaCode(code.getAreasid());
 			}
 			
 			StatAreaInstance instance = STAT_AREA_INSTANCE_CACHER.get(code.getAreasid());
@@ -321,28 +318,12 @@ public class StatAreaInstanceCacher {
 						));
 	}
 
-	public AreasCodeDao getAreasCodeDao() {
-		return areasCodeDao;
+	public AuthService getAuthService() {
+		return authService;
 	}
 
-	public void setAreasCodeDao(AreasCodeDao areasCodeDao) {
-		this.areasCodeDao = areasCodeDao;
-	}
-
-	public NetBarDao getNetBarDao() {
-		return netBarDao;
-	}
-
-	public void setNetBarDao(NetBarDao netBarDao) {
-		this.netBarDao = netBarDao;
-	}
-
-	public StatAreaDao getStatAreaDao() {
-		return statAreaDao;
-	}
-
-	public void setStatAreaDao(StatAreaDao statAreaDao) {
-		this.statAreaDao = statAreaDao;
+	public void setAuthService(AuthService authService) {
+		this.authService = authService;
 	}
 	
 }

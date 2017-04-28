@@ -11,14 +11,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.wenhua.svr.dao.NetBarDao;
-import com.wenhua.svr.dao.StatNetBarDao;
 import com.wenhua.svr.domain.AreasCode;
 import com.wenhua.svr.domain.BarPcInstantInfo;
 import com.wenhua.svr.domain.NetBar;
 import com.wenhua.svr.domain.StatBarInstance;
 import com.wenhua.svr.domain.StatNetBar;
-import com.wenhua.svr.domain.base.BaseStatNetBarKey;
+import com.wenhua.svr.service.AuthService;
 import com.wenhua.util.tools.DateUtils;
 
 /**
@@ -36,8 +34,7 @@ public class StatBarInstancerCacher {
 	/** 单位分钟 文化客户端需要运行的时间 */
 	private static int wenhuaDuration = 60;
 	
-	private NetBarDao netBarDao;
-	private StatNetBarDao statNetBarDao;
+	private AuthService authService;
 	
 	public StatBarInstancerCacher() {
 	}
@@ -82,8 +79,9 @@ public class StatBarInstancerCacher {
 	 * 初始化所有网吧信息 系统启动时运行
 	 */
 	public void init() {
-		List<NetBar> bars = netBarDao.selectAll();
 		logger.info("###############################");
+		logger.info("##Begin get all net bar info.");
+		List<NetBar> bars = authService.getAllBar();
 		logger.info(String.format("##update the bar cache [%d]", null == bars ? 0 : bars.size()));
 		
 		if(null == bars || 0 == bars.size()) return;
@@ -120,10 +118,10 @@ public class StatBarInstancerCacher {
 		
 		Date today = DateUtils.getChinaDay();
 		for(StatBarInstance instance : instances) {
-			StatNetBar old = statNetBarDao.selectByPrimaryKey(BaseStatNetBarKey.newOne(instance.getBarId(), today));
+			StatNetBar old = authService.getStatNetBarById(instance.getBarId(), today);
 			
 			if(null == old) {
-				statNetBarDao.insert(
+				authService.saveStatNetBar(
 						StatNetBar.newOne(
 								instance.getBarId(), 
 								today, 
@@ -136,7 +134,7 @@ public class StatBarInstancerCacher {
 				old.setOffline(old.getOffline() > instance.getOffline() ? old.getOffline() : instance.getMaxOffline());
 				old.setValid(old.getValid() > instance.getMaxValid() ? old.getValid() : instance.getMaxValid());
 				old.setLogin(old.getLogin() > instance.getMaxLogin() ? old.getLogin() : instance.getLogin());
-				statNetBarDao.updateByPrimaryKey(old);
+				authService.updateStatNetBar(old);
 			}
 			
 		}
@@ -161,14 +159,6 @@ public class StatBarInstancerCacher {
 		
 	}
 	
-	public NetBarDao getNetBarDao() {
-		return netBarDao;
-	}
-
-	public void setNetBarDao(NetBarDao netBarDao) {
-		this.netBarDao = netBarDao;
-	}
-
 	public int getWenhuaDuration() {
 		return wenhuaDuration;
 	}
@@ -177,13 +167,12 @@ public class StatBarInstancerCacher {
 		StatBarInstancerCacher.wenhuaDuration = wenhuaDuration;
 	}
 
-	public StatNetBarDao getStatNetBarDao() {
-		return statNetBarDao;
+	public AuthService getAuthService() {
+		return authService;
 	}
 
-	public void setStatNetBarDao(StatNetBarDao statNetBarDao) {
-		this.statNetBarDao = statNetBarDao;
+	public void setAuthService(AuthService authService) {
+		this.authService = authService;
 	}
-	
 	
 }

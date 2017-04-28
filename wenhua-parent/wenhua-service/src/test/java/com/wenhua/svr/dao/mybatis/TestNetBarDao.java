@@ -27,7 +27,7 @@ public class TestNetBarDao {
 	
 	@Test
 	public void test0() {
-		NetBar bar = NetBar.newOne("4101020004", "1234567894", "me");
+		NetBar bar = NetBar.newOne("4101020017", "1234567123", "me");
 		bar.setClientTotal(10);
 		netBarDao.insert(bar);
 		
