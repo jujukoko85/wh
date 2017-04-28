@@ -1,1 +1,1 @@
-java -jar -Xms1024M -Xmx-1024M 9527 8088
+java -Xms2048M -Xmx2048M -jar wenhua-app-tcpserver.jar 9527 8088 
