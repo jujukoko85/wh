@@ -13,7 +13,6 @@ import com.wenhua.proto.Wenhua.PcInfo;
 import com.wenhua.proto.Wenhua.PcInfoList;
 import com.wenhua.proto.Wenhua.PcInstantInfo;
 import com.wenhua.proto.Wenhua.PcInstantInfoList;
-import com.wenhua.proto.Wenhua.SoftwareVersion;
 import com.wenhua.proto.WenhuaMsg;
 import com.wenhua.proto.WenhuaMsg.Message;
 import com.wenhua.svr.domain.BarAuthInfo;
@@ -92,12 +91,7 @@ public class ChannelHandlerWenhuaMsgClient extends ChannelInboundHandlerAdapter 
 	@SuppressWarnings("unused")
 	private WenhuaMsg.Message getFileInfoList() {
 		
-		SoftwareVersion version = Wenhua.SoftwareVersion.newBuilder()
-			.setClientVersion("client version")
-			.setServerVersion("Server version")
-			.build();
-		
-		Message message = getNormalMessageBuilder(System.currentTimeMillis(), "GetFileInfoList", version.toByteString(), 0, "OK").build();
+		Message message = getNormalMessageBuilder(System.currentTimeMillis(), "GetFileInfoList", null, 0, "OK").build();
 		
 		return message;
 	}

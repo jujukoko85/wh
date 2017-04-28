@@ -22,7 +22,6 @@ import com.wenhua.proto.Wenhua.PcInfoList;
 import com.wenhua.proto.Wenhua.PcInstantInfo;
 import com.wenhua.proto.Wenhua.PcInstantInfoList;
 import com.wenhua.proto.Wenhua.ServerInfo;
-import com.wenhua.proto.Wenhua.SoftwareVersion;
 import com.wenhua.proto.WenhuaMsg;
 import com.wenhua.proto.WenhuaMsg.Message;
 import com.wenhua.svr.component.StatAreaInstanceCacher;
@@ -32,7 +31,6 @@ import com.wenhua.svr.domain.BarConfig;
 import com.wenhua.svr.domain.BarFileBar;
 import com.wenhua.svr.domain.BarFileInfo;
 import com.wenhua.svr.domain.BarPcInstantInfo;
-import com.wenhua.svr.domain.BarSoftwareVersion;
 import com.wenhua.svr.domain.NetBar;
 import com.wenhua.svr.domain.StatBarInstance;
 import com.wenhua.svr.exception.AuthBarNotExistException;
@@ -181,11 +179,26 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 		byte[] target = null;
 		Message response = null;
 		try {
-			target = authService.getFileById(fileId);
-			response = getResponseMsg(ctx, message.getId(), 1006, codeMaps.get(1006), ByteString.copyFrom(target), message.getMethod());
+			com.wenhua.svr.domain.FileInfo fileInfo = authService.getFileById(fileId);
+			
+			target = fileInfo.getData();
+			response = getResponseMsg(ctx, message.getId(), 0, codeMaps.get(0), ByteString.copyFrom(target), message.getMethod());
+			
+			if(logger.isInfoEnabled()) {
+				logger.info(
+						String.format(
+								"##GetFile ChannelShortId: %s  RemoteIp: %s return fildId: %s fileName: %s fileSize: %d", 
+								getChannelShortId(ctx), 
+								getRemoteIp(ctx), 
+								String.valueOf(fileId),
+								fileInfo.getFilename(),
+								target.length
+								));;
+			}
+			
 		} catch (FileNotExistException e) {
 			logger.error(String.format("##GetFile ChannelShortId: %s  RemoteIp: %s fildId: %s error FileNotFound", getChannelShortId(ctx), getRemoteIp(ctx), String.valueOf(fileId)));
-			response = getResponseMsg(ctx, message.getId(), 0, codeMaps.get(0), ByteString.copyFrom(target), message.getMethod());
+			response = getResponseMsg(ctx, message.getId(), 1006, codeMaps.get(106), ByteString.copyFrom(target), message.getMethod());
 		} catch (SystemException e) {
 			response = getResponseMsg(ctx, message.getId(), 1007, codeMaps.get(1007), ByteString.copyFrom(target), message.getMethod());
 		}
@@ -289,33 +302,18 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 	 * @param message
 	 */
 	private void doGetFileInfoList(ChannelHandlerContext ctx, Message message) {
-		SoftwareVersion softwareVersion = null;
-		try {
-			softwareVersion = Wenhua.SoftwareVersion.parseFrom(message.getContent());
-		} catch (InvalidProtocolBufferException e) {
-			invalidRequestCloseChannel(ctx, message.getId(), 1009, message.getMethod(), e);
-			return;
-		}
-		String clientVersion = null == softwareVersion ? null : softwareVersion.getClientVersion();
-		String serverVersion = null == softwareVersion ? null : softwareVersion.getServerVersion();
 		String barId = getBarId(ctx);
 		
-		logger.info(String.format("##GetFileInfoList ChannelShortId: %s  RemoteIp: %s ClientVersion: %s ServerVersion: %s barId:%s", getChannelShortId(ctx), getRemoteIp(ctx), clientVersion, serverVersion, barId));
-		if(null == softwareVersion) return;
-		
-		BarSoftwareVersion version = new BarSoftwareVersion();
-		version.setClientVersion(softwareVersion.getClientVersion());
-		version.setServerVersion(softwareVersion.getServerVersion());
+		logger.info(String.format("##GetFileInfoList ChannelShortId: %s  RemoteIp: %s barId:%s", getChannelShortId(ctx), getRemoteIp(ctx), barId));
 		
 		int exceptCode =0;
 		String exceptMsg = null;
 		ByteString content = null;
 		
 		try {
-			authService.updateVersion(barId, serverVersion, clientVersion);
-			//TODO 确认是否需要返回文件内容
-			List<BarFileInfo> barFileInfoList = authService.getBarFileInfoList(barId, version);
-			List<BarFileBar> barFileBarList = authService.getBarFileBarList(barId, version);
+//			authService.updateVersion(barId, serverVersion, clientVersion);
+			List<BarFileInfo> barFileInfoList = authService.getBarFileInfoList(barId);
+			List<BarFileBar> barFileBarList = authService.getBarFileBarList(barId);
 			
 			Wenhua.FileInfoList fileInfoList = getFromPair(barFileInfoList, barFileBarList);
 			exceptCode = 0;
@@ -336,10 +334,6 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 				
 			}
 			
-		} catch (AuthBarNotExistException e) {
-			exceptCode = 1002;
-			exceptMsg = codeMaps.get(exceptCode);
-			content = ByteString.copyFromUtf8(String.valueOf(false));
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			exceptCode = 1004;

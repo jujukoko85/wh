@@ -2,8 +2,8 @@ package com.wenhua.svr.dao.mybatis;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -48,5 +48,11 @@ public class TestFileInfoDao {
 		fileInfoDao.insert(fileInfo);
 		
 		fis.close();
+	}
+	
+	@Test
+	public void test3() {
+		List<FileInfo> list = fileInfoDao.selectBaseAll();
+		System.out.println(list.size());
 	}
 }

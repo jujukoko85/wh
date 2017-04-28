@@ -19,4 +19,6 @@ public interface FileBarDao {
     int updateByPrimaryKey(FileBar record);
     
     List<FileBar> selectAllByBarId(String barId);
+    
+    List<FileBar> selectAll();
 }

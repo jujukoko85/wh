@@ -1,15 +1,9 @@
 package com.wenhua.svr.service.impl;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.util.FileCopyUtils;
-import org.springframework.util.ResourceUtils;
 
 import com.google.common.collect.Lists;
 import com.wenhua.svr.dao.AreasCodeDao;
@@ -25,8 +19,8 @@ import com.wenhua.svr.domain.BarAuthInfo;
 import com.wenhua.svr.domain.BarConfig;
 import com.wenhua.svr.domain.BarFileBar;
 import com.wenhua.svr.domain.BarFileInfo;
-import com.wenhua.svr.domain.BarSoftwareVersion;
 import com.wenhua.svr.domain.FileBar;
+import com.wenhua.svr.domain.FileInfo;
 import com.wenhua.svr.domain.NetBar;
 import com.wenhua.svr.domain.PcInfo;
 import com.wenhua.svr.domain.ServerInfo;
@@ -124,52 +118,76 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public List<BarFileInfo> getBarFileInfoList(String barId, BarSoftwareVersion version) {
-		// TODO 重新实现
+	public List<BarFileInfo> getBarFileInfoList(String barId) {
+		
+		List<FileInfo> files = fileInfoDao.selectBaseAll();
+		if(null == files || 0 == files.size()) return Lists.newArrayList();
+		
 		List<BarFileInfo> list = Lists.newArrayList();
-		BarFileInfo bfb1 = new BarFileInfo();
-		bfb1.setAction(1);
-		bfb1.setApplyAllBar(true);
-		bfb1.setFileName("fileName");
-		bfb1.setFlag(1);
-		bfb1.setId(222);
-		bfb1.setMd5("md5");
-		bfb1.setType(1);
-		bfb1.setVersion("version");
 		
-		list.add(bfb1);
-		
+		for(FileInfo file : files) {
+			BarFileInfo bfb1 = new BarFileInfo();
+			bfb1.setAction(Integer.parseInt(file.getAction()));
+			bfb1.setApplyAllBar(Boolean.valueOf(file.getIsApply()));
+			bfb1.setFileName(file.getFilename());
+			bfb1.setFlag(Integer.parseInt(file.getFlag()));
+			bfb1.setId(Integer.parseInt(String.valueOf(file.getId())));
+			bfb1.setMd5(file.getMd5());
+			bfb1.setType(Integer.parseInt(file.getType()));
+			bfb1.setVersion(file.getVersion());
+			
+			list.add(bfb1);
+		}
 		return list;
 	}
 
 	@Override
-	public List<BarFileBar> getBarFileBarList(String barId, BarSoftwareVersion version) {
+	public List<BarFileBar> getBarFileBarList(String barId) {
 		
-		List<FileBar> fileBars = fileBarDao.selectAllByBarId(barId);
+		List<FileBar> fileBars = fileBarDao.selectAll();
+		
+		if(null == fileBars || 0 == fileBars.size()) return Lists.newArrayList();
+		
+		Map<Integer, BarFileBar> map = new HashMap<Integer, BarFileBar>();
+		
+		for(FileBar fileBar : fileBars) {
+			BarFileBar bfb = map.get(fileBar.getFileid());
+			
+			if(null == bfb) {
+				bfb = new BarFileBar();
+				bfb.setFileId(Integer.parseInt(String.valueOf(fileBar.getFileid())));
+				List<String> barIds = Lists.newArrayList();
+				barIds.add(fileBar.getBarid());
+				bfb.setBarIdList(barIds);
+				
+				map.put(Integer.parseInt(String.valueOf(fileBar.getFileid())), bfb);
+				
+			} else {
+				
+				bfb.getBarIdList().add(fileBar.getBarid());
+				
+			}
+			
+		}
+		
 		List<BarFileBar> list = Lists.newArrayList();
-		if(null == fileBars || 0 == fileBars.size()) return list;
-		
-		for(FileBar fb : fileBars) {
-			BarFileBar bfb = new BarFileBar();
-//			bfb.se
+		for(BarFileBar b : map.values()) {
+			list.add(b);
 		}
-		
 		
 		return list;
 	}
 
 	@Override
-	public byte[] getFileById(int fileId) throws FileNotExistException, SystemException {
-		byte[] target = null;
-		try {
-			File cfgFile = ResourceUtils.getFile("classpath:test.txt");
-			target = FileCopyUtils.copyToByteArray(cfgFile);
-		} catch (FileNotFoundException e) {
+	public FileInfo getFileById(int fileId) throws FileNotExistException, SystemException {
+		
+		FileInfo fileInfo = this.fileInfoDao.selectByPrimaryKey((long)fileId);
+		
+		if(null == fileInfo) {
 			throw new FileNotExistException();
-		} catch (IOException e) {
-			throw new SystemException();
 		}
-		return target;
+		
+		return fileInfo;
 	}
 
 	public NetBarDao getNetBarDao() {
@@ -212,18 +230,18 @@ public class AuthServiceImpl implements AuthService {
 		this.freqInstantPcInfo = freqInstantPcInfo;
 	}
 
-	@Override
-	public void updateVersion(String barId, String serverVersion, String clientVersion) throws AuthBarNotExistException {
-		NetBar bar = netBarDao.selectByPrimaryKey(barId);
-		if(null == bar) {
-			throw new AuthBarNotExistException();
-		}
-		
-		bar.setClientVersion(clientVersion);
-		bar.setServerVersion(serverVersion);
-		
-		netBarDao.updateByPrimaryKey(bar);
-	}
+//	@Override
+//	public void updateVersion(String barId, String serverVersion, String clientVersion) throws AuthBarNotExistException {
+//		NetBar bar = netBarDao.selectByPrimaryKey(barId);
+//		if(null == bar) {
+//			throw new AuthBarNotExistException();
+//		}
+//		
+//		bar.setClientVersion(clientVersion);
+//		bar.setServerVersion(serverVersion);
+//		
+//		netBarDao.updateByPrimaryKey(bar);
+//	}
 
 	public FileBarDao getFileBarDao() {
 		return fileBarDao;

@@ -20,6 +20,12 @@
     	barid = #{barId, jdbcType=VARCHAR}
     	
   </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+		*
+    from t_file_bar
+  </select>
   <!-- #################### -->
   
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">

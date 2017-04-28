@@ -25,6 +25,18 @@
   <sql id="Blob_Column_List">
     data
   </sql>
+  
+  <!-- ############################## -->
+  <!-- 自定义SQL -->
+  
+  <select id="selectBaseAll" resultMap="BaseResultMap">
+    select 
+		<include refid="Base_Column_List" />
+    from t_file_info
+  </select>
+  
+  <!-- ############################## -->
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />

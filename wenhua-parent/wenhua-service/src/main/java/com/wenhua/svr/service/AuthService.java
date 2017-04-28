@@ -8,7 +8,7 @@ import com.wenhua.svr.domain.BarAuthInfo;
 import com.wenhua.svr.domain.BarConfig;
 import com.wenhua.svr.domain.BarFileBar;
 import com.wenhua.svr.domain.BarFileInfo;
-import com.wenhua.svr.domain.BarSoftwareVersion;
+import com.wenhua.svr.domain.FileInfo;
 import com.wenhua.svr.domain.NetBar;
 import com.wenhua.svr.domain.PcInfo;
 import com.wenhua.svr.domain.ServerInfo;
@@ -63,7 +63,7 @@ public interface AuthService {
 	 * @param version
 	 * @return
 	 */
-	public List<BarFileInfo> getBarFileInfoList(String barId, BarSoftwareVersion version);
+	public List<BarFileInfo> getBarFileInfoList(String barId);
 	
 	/**
 	 * 
@@ -71,7 +71,7 @@ public interface AuthService {
 	 * @param version
 	 * @return
 	 */
-	public List<BarFileBar> getBarFileBarList(String barId, BarSoftwareVersion version);
+	public List<BarFileBar> getBarFileBarList(String barId);
 	
 	/**
 	 * 根据文件ID获取文件字节数组
@@ -80,16 +80,16 @@ public interface AuthService {
 	 * @throws FileNotExistException 
 	 * @throws SystemException 
 	 */
-	public byte[]	getFileById(int fileId) throws FileNotExistException, SystemException;
+	public FileInfo getFileById(int fileId) throws FileNotExistException, SystemException;
 	
-	/**
-	 * 更新网吧软件版本信息
-	 * @param barId
-	 * @param serverVersion
-	 * @param clientVersion
-	 * @throws AuthBarNotExistException 
-	 */
-	public void updateVersion(String barId, String serverVersion, String clientVersion) throws AuthBarNotExistException;
+//	/**
+//	 * 更新网吧软件版本信息
+//	 * @param barId
+//	 * @param serverVersion
+//	 * @param clientVersion
+//	 * @throws AuthBarNotExistException 
+//	 */
+//	public void updateVersion(String barId, String serverVersion, String clientVersion) throws AuthBarNotExistException;
 	
 	/**
 	 * 查询所有地区代码
