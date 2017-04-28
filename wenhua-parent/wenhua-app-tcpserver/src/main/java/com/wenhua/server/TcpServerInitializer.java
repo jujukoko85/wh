@@ -25,7 +25,7 @@ public class TcpServerInitializer extends ChannelInitializer<SocketChannel> impl
 		pipeline.addLast(new LengthFieldPrepender(4));
 		pipeline.addLast(new ProtobufEncoder());
 		
-		pipeline.addLast(new LengthFieldBasedFrameDecoder(1024 * 1024, 0, 4, 0, 4));
+		pipeline.addLast(new LengthFieldBasedFrameDecoder(1024 * 1024 * 10, 0, 4, 0, 4));
 		pipeline.addLast(new ProtobufDecoder(WenhuaMsg.Message.getDefaultInstance()));
 		
 		//business logical

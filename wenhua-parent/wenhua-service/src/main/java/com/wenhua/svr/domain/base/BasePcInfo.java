@@ -18,6 +18,8 @@ public class BasePcInfo extends AbstractEntity<String, BasePcInfo> {
     private Integer osType;
 
     private String osVersion;
+    
+    private String wenhuaVer;
 
     private String creator;
 
@@ -86,4 +88,13 @@ public class BasePcInfo extends AbstractEntity<String, BasePcInfo> {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+	public String getWenhuaVer() {
+		return wenhuaVer;
+	}
+
+	public void setWenhuaVer(String wenhuaVer) {
+		this.wenhuaVer = wenhuaVer;
+	}
+
 }

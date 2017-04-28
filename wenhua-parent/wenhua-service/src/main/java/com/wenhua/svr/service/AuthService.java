@@ -38,7 +38,7 @@ public interface AuthService {
 	 * @return
 	 * @throws AuthBarNotExistException
 	 */
-	public BarConfig getBarConfig(int barId) throws AuthBarNotExistException;
+	public BarConfig getBarConfig(String barId) throws AuthBarNotExistException;
 	
 	/**
 	 * 上报网吧服务器信息
@@ -61,17 +61,19 @@ public interface AuthService {
 	
 	/**
 	 * 获取文件信息列表
+	 * @param barId
 	 * @param version
 	 * @return
 	 */
-	public List<BarFileInfo> getBarFileInfoList(BarSoftwareVersion version);
+	public List<BarFileInfo> getBarFileInfoList(String barId, BarSoftwareVersion version);
 	
 	/**
 	 * 
+	 * @param barId
 	 * @param version
 	 * @return
 	 */
-	public List<BarFileBar> getBarFileBarList(BarSoftwareVersion version);
+	public List<BarFileBar> getBarFileBarList(String barId, BarSoftwareVersion version);
 	
 	/**
 	 * 根据文件ID获取文件字节数组
@@ -90,4 +92,5 @@ public interface AuthService {
 	 * @throws AuthBarNotExistException 
 	 */
 	public void updateVersion(String barId, String serverVersion, String clientVersion) throws AuthBarNotExistException;
+	
 }

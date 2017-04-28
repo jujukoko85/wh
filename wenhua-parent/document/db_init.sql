@@ -6,6 +6,7 @@ use qcms;
 SET global auto_increment_increment=1;
 SET global auto_increment_offset=1;
 
+DROP TABLE IF EXISTS `t_server_info`;
 CREATE TABLE `t_server_info` (
 	`id` VARCHAR(50) NOT NULL COMMENT '服务器MAC地址',
 	`bar_id` VARCHAR(50) NOT NULL COMMENT '网吧ID',
@@ -13,6 +14,7 @@ CREATE TABLE `t_server_info` (
 	`pc_name` VARCHAR(50) NOT NULL COMMENT '服务器名称',
 	`os_type` INT(11) NOT NULL COMMENT '服务器操作系统类型',
 	`os_version` VARCHAR(50) NOT NULL COMMENT '服务器操作系统版本',
+	`wenhua_ver` VARCHAR(50) NOT NULL COMMENT '文化客户端把那本',
 	`creator` VARCHAR(50) NOT NULL COMMENT '创建者',
 	`create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
 	PRIMARY KEY (`id`)
@@ -22,6 +24,7 @@ COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
 
+DROP TABLE IF EXISTS `t_pc_info`;
 CREATE TABLE `t_pc_info` (
 	`id` VARCHAR(50) NOT NULL COMMENT '客户机MAC地址',
 	`bar_id` VARCHAR(50) NOT NULL COMMENT '网吧ID',
@@ -29,6 +32,7 @@ CREATE TABLE `t_pc_info` (
 	`pc_name` VARCHAR(50) NOT NULL COMMENT '客户机主机名',
 	`os_type` INT(11) NOT NULL COMMENT '客户机操作系统类型',
 	`os_version` VARCHAR(50) NOT NULL COMMENT '客户机操作系统版本',
+	`wenhua_ver` VARCHAR(50) NOT NULL COMMENT '文化客户端版本',
 	`creator` VARCHAR(50) NOT NULL COMMENT '创建者',
 	`create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
 	PRIMARY KEY (`id`)
@@ -38,6 +42,7 @@ COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
 
+DROP TABLE IF EXISTS `t_stat_net_bar`;
 CREATE TABLE `t_stat_net_bar` (
 	`bar_id` VARCHAR(10) NOT NULL COMMENT '网吧注册号',
 	`stat_date` DATE NOT NULL COMMENT ' 统计日期',
@@ -53,6 +58,7 @@ COMMENT='网吧日统计信息'
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 
+DROP TABLE IF EXISTS `t_stat_area`;
 CREATE TABLE `t_stat_area` (
 	`area_code` VARCHAR(6) NOT NULL COMMENT '区域代码',
 	`stat_date` DATE NOT NULL COMMENT '统计日期',

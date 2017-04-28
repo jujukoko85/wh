@@ -17,7 +17,7 @@ public class HttpServer implements Runnable {
 	private EventLoopGroup bossGroup = null; // (1)
 	private EventLoopGroup workerGroup = null;
 	
-	private int port = 8088;
+	private int defaultPort = 8088;
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -34,8 +34,9 @@ public class HttpServer implements Runnable {
 
 		try {
 			ServerBootstrap b = getProtobufBootstrap(bossGroup, workerGroup);
-			ChannelFuture f = b.bind(port).sync();
+			ChannelFuture f = b.bind(defaultPort).sync();
 			
+			logger.info("##HttpServer start at [" + defaultPort + "]...");
 			f.channel().closeFuture().sync();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -72,12 +73,12 @@ public class HttpServer implements Runnable {
 		this.workerGroup = workerGroup;
 	}
 
-	public int getPort() {
-		return port;
+	public int getDefaultPort() {
+		return defaultPort;
 	}
 
-	public void setPort(int port) {
-		this.port = port;
+	public void setDefaultPort(int defaultPort) {
+		this.defaultPort = defaultPort;
 	}
 
 	public ChannelInitializer<SocketChannel> getInitializer() {

@@ -25,13 +25,14 @@ public class PcInfo extends BasePcInfo {
 	 * @param creator
 	 * @return
 	 */
-	public static PcInfo newOne(String id, String ip, String pcName, Integer osType, String osVersion, String barId, String creator) {
+	public static PcInfo newOne(String id, String ip, String pcName, Integer osType, String osVersion, String wenhuaVer, String barId, String creator) {
 		PcInfo pi = new PcInfo();
 		pi.setId(id);
 		pi.setIp(ip);
 		pi.setPcName(pcName);
 		pi.setOsType(osType);
 		pi.setOsVersion(osVersion);
+		pi.setWenhuaVer(wenhuaVer);
 		pi.setBarId(barId);
 		pi.setCreator(creator);
 		pi.setCreateTime(new Date());

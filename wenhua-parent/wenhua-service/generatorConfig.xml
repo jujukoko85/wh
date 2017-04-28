@@ -91,6 +91,24 @@
             selectByExampleQueryId="false">
         </table>
          -->
+         
+		<table tableName="t_file_info" domainObjectName="BaseFileInfo" mapperName="FileInfoDao"
+			enableCountByExample="false" 
+			enableUpdateByExample="false"  
+            enableDeleteByExample="false" 
+            enableSelectByExample="false" 
+            selectByExampleQueryId="false">
+            <generatedKey column="ID" sqlStatement="MySql"/>
+        </table>
+        
+        <table tableName="t_file_bar" domainObjectName="BaseFileBar" mapperName="FileBarDao"
+			enableCountByExample="false" 
+			enableUpdateByExample="false"  
+            enableDeleteByExample="false" 
+            enableSelectByExample="false" 
+            selectByExampleQueryId="false">
+            <generatedKey column="ID" sqlStatement="MySql"/>
+        </table>
       
 	</context>
 </generatorConfiguration>

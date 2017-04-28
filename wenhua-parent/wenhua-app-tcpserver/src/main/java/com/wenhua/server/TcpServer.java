@@ -35,7 +35,7 @@ public class TcpServer {
 
 			// Bind and start to accept incoming connections.
 			ChannelFuture f = b.bind(port).sync(); // (7)
-			logger.info("##Server start at [" + port + "]...");
+			logger.info("##TcpServer start at [" + port + "]...");
 			// Wait until the server socket is closed.
 			// In this example, this does not happen, but you can do that to
 			// gracefully
@@ -71,28 +71,29 @@ public class TcpServer {
 		TcpServer tcpServer = ap.getBean("tcpServer", TcpServer.class);
 		HttpServer httpServer = ap.getBean("httpServer", HttpServer.class);
 		
-		int port = 0;
+		int tcpPort = 9527;
+		int httpPort = 8088;
 		if(null == args || 0 == args.length) {
-			port = tcpServer.getDefaultPort();
+			tcpPort = tcpServer.getDefaultPort();
 		} else {
 			try {
-				port = Integer.parseInt(args[0]);
+				tcpPort = Integer.parseInt(args[0]);
+			} catch (Exception e) {
+				tcpPort = tcpServer.getDefaultPort();
+			}
+			
+			try {
+				httpPort = Integer.parseInt(args[1]);
+				httpServer.setDefaultPort(httpPort);
 			} catch (NumberFormatException e) {
-				port = tcpServer.getDefaultPort();
+				httpPort = httpServer.getDefaultPort();
 			}
 		}
-		
-		
 		
 		Thread httpThread = new Thread(httpServer);
 		httpThread.start();
 		
-		
-		
-		
-		
-		logger.info("##TcpServer begin start, port is [" + port +"]");
-		tcpServer.start(port);
+		tcpServer.start(tcpPort);
 		
 	}
 

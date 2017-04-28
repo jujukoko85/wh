@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.omg.PortableServer.SERVANT_RETENTION_POLICY_ID;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -32,7 +33,17 @@ public class TestServerInfoDao {
 	}
 
 	private ServerInfo getServerInfo() {
-		return ServerInfo.newOne(RandomNumberGenerator.generateNumber(), RandomNumberGenerator.generateNumber(), "192.168.1.1", "PC-SERVER", 1, "WIN7", "TCP_SERVER");
+		return ServerInfo.newOne(RandomNumberGenerator.generateNumber(), RandomNumberGenerator.generateNumber(), "192.168.1.1", "PC-SERVER", 1, "WIN7", "WENHUA_VER", "TCP_SERVER");
+	}
+	
+	@Test
+	public void test3() {
+		
+		ServerInfo serverInfo = getServerInfo();
+		serverInfo.setId("27956843");
+		serverInfo.setOsVersion("WIN8");
+		serverInfo.setWenhuaVer("WENHUA_VER_2");
+		serverInfoDao.updateByPrimaryKey(serverInfo);
 	}
 	
 	@Test

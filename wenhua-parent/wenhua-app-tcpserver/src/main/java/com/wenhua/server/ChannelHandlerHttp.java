@@ -3,6 +3,7 @@ package com.wenhua.server;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,8 @@ import com.wenhua.util.BarIdUtils;
 import com.wenhua.util.base.AjaxResult;
 
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
@@ -68,8 +71,7 @@ public class ChannelHandlerHttp extends ChannelInboundHandlerAdapter {
 		if (msg instanceof HttpContent) {
 			
 			if(null == uri) {
-				//DO NOTHING
-				System.out.println("do nothing");
+				invalidRequestCloseChannel(ctx);
 				return;
 				
 			} else if(uri.startsWith(URL_PROVINCE)) {
@@ -88,8 +90,7 @@ public class ChannelHandlerHttp extends ChannelInboundHandlerAdapter {
 				list = doArea(param);
 				
 			} else {
-				//DO NOTHING
-				System.out.println("do nothing");
+				invalidRequestCloseChannel(ctx);
 				return;
 			}
 			
@@ -158,5 +159,31 @@ public class ChannelHandlerHttp extends ChannelInboundHandlerAdapter {
 			list.add(v);
 		}
 		return list;
+	}
+	
+	/**
+	 * 请求不合法 关闭Channel
+	 * @param ctx
+	 * @param id
+	 * @param exceptCode
+	 * @param methodName
+	 * @throws UnsupportedEncodingException 
+	 */
+	private void invalidRequestCloseChannel(ChannelHandlerContext ctx) throws UnsupportedEncodingException {
+		AjaxResult result = AjaxResult.getError(String.format("##HttpServer invalid uri: %s", request.uri()));
+		String res = JSON.toJSONString(result);
+		logger.info(String.format("response: %s", res));
+
+		FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK,
+				Unpooled.wrappedBuffer(res.getBytes("UTF-8")));
+		response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain");
+		response.headers().set(HttpHeaderNames.CONTENT_LENGTH, response.content().readableBytes());
+		if (HttpUtil.isKeepAlive(request)) {
+			response.headers().set(HttpHeaderNames.CONNECTION, "keep-alive");
+		}
+		ChannelFuture future = ctx.write(response);
+		ctx.flush();
+		logger.warn(String.format("##HttpServer request invalid. Return response: %s", res));
+		future.addListener(ChannelFutureListener.CLOSE);
 	}
 }

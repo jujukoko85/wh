@@ -9,6 +9,8 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.util.ResourceUtils;
 
 import com.google.common.collect.Lists;
+import com.wenhua.svr.dao.FileBarDao;
+import com.wenhua.svr.dao.FileInfoDao;
 import com.wenhua.svr.dao.NetBarDao;
 import com.wenhua.svr.dao.PcInfoDao;
 import com.wenhua.svr.dao.ServerInfoDao;
@@ -17,6 +19,7 @@ import com.wenhua.svr.domain.BarConfig;
 import com.wenhua.svr.domain.BarFileBar;
 import com.wenhua.svr.domain.BarFileInfo;
 import com.wenhua.svr.domain.BarSoftwareVersion;
+import com.wenhua.svr.domain.FileBar;
 import com.wenhua.svr.domain.NetBar;
 import com.wenhua.svr.domain.PcInfo;
 import com.wenhua.svr.domain.ServerInfo;
@@ -35,6 +38,10 @@ public class AuthServiceImpl implements AuthService {
 	private ServerInfoDao serverInfoDao;
 	
 	private PcInfoDao pcInfoDao;
+	
+	private FileBarDao fileBarDao;
+	
+	private FileInfoDao fileInfoDao;
 	
 	private String key = "hn123wh";
 	/** 客户机上报信息频率 */
@@ -59,7 +66,7 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public BarConfig getBarConfig(int barId) throws AuthBarNotExistException {
+	public BarConfig getBarConfig(String barId) throws AuthBarNotExistException {
 		
 		BarConfig config = new BarConfig();
 		config.setFreqInstantPcInfo(this.getFreqInstantPcInfo());
@@ -106,7 +113,7 @@ public class AuthServiceImpl implements AuthService {
 //	}
 
 	@Override
-	public List<BarFileInfo> getBarFileInfoList(BarSoftwareVersion version) {
+	public List<BarFileInfo> getBarFileInfoList(String barId, BarSoftwareVersion version) {
 		// TODO 重新实现
 		List<BarFileInfo> list = Lists.newArrayList();
 		BarFileInfo bfb1 = new BarFileInfo();
@@ -125,20 +132,18 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public List<BarFileBar> getBarFileBarList(BarSoftwareVersion version) {
-		//TODO 重新实现
+	public List<BarFileBar> getBarFileBarList(String barId, BarSoftwareVersion version) {
 		
+		List<FileBar> fileBars = fileBarDao.selectAllByBarId(barId);
 		List<BarFileBar> list = Lists.newArrayList();
-		BarFileBar bfb1 = new BarFileBar();
-		bfb1.setFileId(222);
+		if(null == fileBars || 0 == fileBars.size()) return list;
 		
-		List<String> barIds = Lists.newArrayList();
-		barIds.add("1");
-		barIds.add("2222");
+		for(FileBar fb : fileBars) {
+			BarFileBar bfb = new BarFileBar();
+//			bfb.se
+		}
 		
-		bfb1.setBarIdList(barIds);
 		
-		list.add(bfb1);
 		return list;
 	}
 
@@ -207,6 +212,22 @@ public class AuthServiceImpl implements AuthService {
 		bar.setServerVersion(serverVersion);
 		
 		netBarDao.updateByPrimaryKey(bar);
+	}
+
+	public FileBarDao getFileBarDao() {
+		return fileBarDao;
+	}
+
+	public void setFileBarDao(FileBarDao fileBarDao) {
+		this.fileBarDao = fileBarDao;
+	}
+
+	public FileInfoDao getFileInfoDao() {
+		return fileInfoDao;
+	}
+
+	public void setFileInfoDao(FileInfoDao fileInfoDao) {
+		this.fileInfoDao = fileInfoDao;
 	}
 
 }

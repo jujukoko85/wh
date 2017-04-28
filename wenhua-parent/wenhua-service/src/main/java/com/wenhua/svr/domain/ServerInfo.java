@@ -25,7 +25,7 @@ public class ServerInfo extends BaseServerInfo {
 	 * @param creator
 	 * @return
 	 */
-	public static ServerInfo newOne(String barId, String mac, String ip, String pcName, Integer osType, String osVersion, String creator) {
+	public static ServerInfo newOne(String barId, String mac, String ip, String pcName, Integer osType, String osVersion, String wenhuaVer, String creator) {
 		
 		ServerInfo si = new ServerInfo();
 		si.setCreateTime(new Date());
@@ -34,6 +34,7 @@ public class ServerInfo extends BaseServerInfo {
 		si.setId(mac);
 		si.setOsType(osType);
 		si.setOsVersion(osVersion);
+		si.setWenhuaVer(wenhuaVer);
 		si.setIp(ip);
 		si.setPcName(pcName);
 		return si;
