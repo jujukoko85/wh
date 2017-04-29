@@ -450,8 +450,8 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 					info.getIp(), 
 					info.getPcname(), 
 					info.getOsType(), 
-					info.getWenhuaVer(),
 					info.getOsVersion(), 
+					info.getWenhuaVer(),
 					String.valueOf(getBarId(ctx)), 
 					TCP_SERVER);
 			
