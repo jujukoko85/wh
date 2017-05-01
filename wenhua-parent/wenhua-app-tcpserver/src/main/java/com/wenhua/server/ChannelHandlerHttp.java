@@ -41,6 +41,9 @@ public class ChannelHandlerHttp extends ChannelInboundHandlerAdapter {
 	private static final String URL_PROVINCE = "/province/";
 	private static final String URL_CITY = "/city/";
 	private static final String URL_AREA = "/area/";
+	private static final String URL_UPDATE_AREA = "/update_area/";
+	
+	private static final String SEP = "/";
 
 	private HttpRequest request = null;
 	private String uri = null;
@@ -88,6 +91,29 @@ public class ChannelHandlerHttp extends ChannelInboundHandlerAdapter {
 				param = uri.substring(URL_AREA.length(), uri.length());
 				logger.info(String.format("##Uri begin with: %s, param is: %s", URL_AREA, param));
 				list = doArea(param);
+			} else if(uri.startsWith(URL_UPDATE_AREA)) {
+				param = uri.substring(URL_AREA.length(), uri.length());
+				
+				String[] params = param.split(SEP);
+				
+				if(null == params || 3 != params.length) {
+					invalidRequestCloseChannel(ctx);
+					return;
+				}
+				
+				int maxbar = 0;
+				int maxPc = 0;
+				String areaCode = params[0];
+				try {
+					maxbar = Integer.parseInt(params[1]);
+					maxPc = Integer.parseInt(params[2]);
+				} catch (Exception e) {
+					invalidRequestCloseChannel(ctx);
+					return;
+				}
+				
+				//更新 区域的网吧数与PC数
+				StatAreaInstanceCacher.updateArea(areaCode, maxbar, maxPc);
 				
 			} else {
 				invalidRequestCloseChannel(ctx);

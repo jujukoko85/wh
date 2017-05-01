@@ -351,5 +351,15 @@ public class AuthServiceImpl implements AuthService {
 		this.statNetBarDao = statNetBarDao;
 	}
 
+	@Override
+	public int countNetBarPcInProvince() {
+		return this.netBarDao.countProvincePc();
+	}
+
+	@Override
+	public int countNetBarInProvince() {
+		return this.netBarDao.countProvinceBar();
+	}
+
 	
 }

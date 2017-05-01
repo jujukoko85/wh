@@ -52,4 +52,16 @@ public interface NetBarDao {
      * @return
      */
     List<NetBar> selectAll();
+    
+    /**
+     * 查出省内所有网吧数量
+     * @return
+     */
+    int countProvinceBar();
+    
+    /**
+     * 查出省内所有网吧PC数量
+     * @return
+     */
+    int countProvincePc();
 }

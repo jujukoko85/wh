@@ -87,4 +87,16 @@ public class TestNetBarDao {
 		List<NetBar> list = netBarDao.selectAll();
 		System.out.println(list.size());
 	}
+	
+	@Test
+	public void test8() {
+		int num = netBarDao.countProvinceBar();
+		System.out.println(num);
+	}
+	
+	@Test
+	public void test9() {
+		int num = netBarDao.countProvincePc();
+		System.out.println(num);
+	}
 }

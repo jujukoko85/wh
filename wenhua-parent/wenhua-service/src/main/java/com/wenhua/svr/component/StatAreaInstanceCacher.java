@@ -16,6 +16,7 @@ import com.wenhua.svr.domain.StatArea;
 import com.wenhua.svr.domain.StatAreaInstance;
 import com.wenhua.svr.domain.StatAreaInstanceArea;
 import com.wenhua.svr.domain.StatAreaInstanceCity;
+import com.wenhua.svr.domain.StatAreaInstanceProvince;
 import com.wenhua.svr.service.AuthService;
 import com.wenhua.util.BarIdUtils;
 import com.wenhua.util.tools.DateUtils;
@@ -34,6 +35,63 @@ public class StatAreaInstanceCacher {
 	private AuthService authService;
 	
 	public StatAreaInstanceCacher() {
+	}
+	
+	/**
+	 * 根据 区 代码 更新相关地区的最大网吧数 与 PC数
+	 * @param areaCode
+	 * @param maxBar
+	 * @param maxPc
+	 */
+	public static void updateArea(String areaCode, int maxBar, int maxPc) {
+		StatAreaInstance areaInstance = STAT_AREA_INSTANCE_CACHER.get(areaCode);
+		
+		if(null == areaInstance) {
+			logger.info(String.format("##Update area instance. Instance not found. AreaCode: %s, MaxBar: %d, MaxPc: %d", areaCode, maxBar, maxPc));
+			return;
+		}
+		
+		if(!areaInstance.isArea()) {
+			logger.info(String.format("##Update area instance. AreaCode is not area. AreaCode: %s, MaxBar: %d, MaxPc: %d", areaCode, maxBar, maxPc));
+			return;
+		}
+		
+		int beforeMaxBar = areaInstance.getAreaMaxBar();
+		int beforeMaxPc = areaInstance.getAreaMaxPc();
+		//增加了的网吧数量
+		int addedMaxBar = maxBar - beforeMaxBar;
+		//增加了的PC数量
+		int addedMaxPc = maxPc = beforeMaxPc;
+		
+		areaInstance.setAreaMaxBar(maxBar);
+		areaInstance.setAreaMaxPc(maxPc);
+		
+		String cityCode = AreasCode.getCityCode(areaCode);
+		StatAreaInstance cityInstance = STAT_AREA_INSTANCE_CACHER.get(cityCode);
+		if(null != cityInstance) {
+			cityInstance.setAreaMaxBar(cityInstance.getAreaMaxBar() + addedMaxBar);
+			cityInstance.setAreaMaxPc(cityInstance.getAreaMaxPc() + addedMaxPc);
+		}
+		
+		
+		String provinceCode = AreasCode.getProvinceCode(areaCode);
+		StatAreaInstance provinceAreaInstance = STAT_AREA_INSTANCE_CACHER.get(provinceCode);
+		if(null != provinceAreaInstance) {
+			provinceAreaInstance.setAreaMaxBar(provinceAreaInstance.getAreaMaxBar() + addedMaxBar);
+			provinceAreaInstance.setAreaMaxPc(provinceAreaInstance.getAreaMaxPc() + addedMaxPc);
+		}
+		logger.info(String.format(
+				"##Update area instance over. [AreaCode: %s, MaxBar: %d, MaxPc: %d] Area: %d %d City: %d %d Province: %d %d", 
+				areaCode, 
+				maxBar, 
+				maxPc,
+				null == areaInstance ? 0 : areaInstance.getAreaMaxBar(),
+				null == areaInstance ? 0 : areaInstance.getAreaMaxPc(),
+				null == cityInstance ? 0 : cityInstance.getAreaMaxBar(),
+				null == cityInstance ? 0 : cityInstance.getAreaMaxPc(),
+				null == provinceAreaInstance ? 0 : provinceAreaInstance.getAreaMaxBar(),
+				null == provinceAreaInstance ? 0 : provinceAreaInstance.getAreaMaxPc()
+				));
 	}
 	
 	/**
@@ -56,9 +114,9 @@ public class StatAreaInstanceCacher {
 		if(null == list || 0 == list.size()) return;
 		
 		for(AreasCode code : list) {
-			if(code.isProvince()) {
-				continue;
-			}
+//			if(code.isProvince()) {
+//				continue;
+//			}
 			
 			int areaMaxBar = 0;
 			int areaMaxPc = 0;
@@ -71,6 +129,9 @@ public class StatAreaInstanceCacher {
 			} else if(code.isArea()) {
 				areaMaxBar = authService.countNetBarByAreaCode(code.getAreasid());
 				areaMaxPc = authService.countNetBarPcByAreaCode(code.getAreasid());
+			} else if(code.isProvince()) {
+				areaMaxBar = authService.countNetBarInProvince();
+				areaMaxPc = authService.countNetBarPcInProvince();
 			} else {
 				continue;
 			}
@@ -82,7 +143,23 @@ public class StatAreaInstanceCacher {
 		
 		Collection<StatAreaInstance> instances = STAT_AREA_INSTANCE_CACHER.values();
 		
-		// 组织上下关系
+		// 组织上下关系 省 与 市
+		for(StatAreaInstance father : instances) {
+			if(!father.isProvince()) continue;
+			
+			//如果是城市,找出其下属的区
+			for(StatAreaInstance child : instances) {
+				if(!child.isCity()) continue;
+				
+				if(!father.isMine(child)) continue;
+			
+				StatAreaInstanceProvince fatherCity = (StatAreaInstanceProvince)father;
+				StatAreaInstanceCity childArea = (StatAreaInstanceCity)child;
+				fatherCity.put(childArea);
+			}
+		}
+		
+		// 组织上下关系 市 与 区
 		for(StatAreaInstance father : instances) {
 			if(!father.isCity()) continue;
 			
@@ -153,9 +230,9 @@ public class StatAreaInstanceCacher {
 		if(null == list || 0 == list.size()) return;
 		
 		for(AreasCode code : list) {
-			if(code.isProvince()) {
-				continue;
-			}
+//			if(code.isProvince()) {
+//				continue;
+//			}
 			
 			int areaMaxBar = 0;
 			int areaMaxPc = 0;
@@ -168,6 +245,9 @@ public class StatAreaInstanceCacher {
 			} else if(code.isArea()) {
 				areaMaxBar = authService.countNetBarByAreaCode(code.getAreasid());
 				areaMaxPc = authService.countNetBarPcByAreaCode(code.getAreasid());
+			} else if(code.isProvince()) {
+				areaMaxBar = authService.countNetBarInProvince();
+				areaMaxPc = authService.countNetBarPcInProvince();
 			}
 			
 			StatAreaInstance instance = STAT_AREA_INSTANCE_CACHER.get(code.getAreasid());
@@ -257,9 +337,11 @@ public class StatAreaInstanceCacher {
 		}
 		String areaCode = BarIdUtils.getAreaCode(barId);
 		String cityCode = BarIdUtils.getCityCode(barId);
+		String provinceCode = BarIdUtils.getProvinceCode(barId);
 		
 		StatAreaInstance areaInstance = StatAreaInstanceCacher.get(areaCode);
 		StatAreaInstance cityInstance = StatAreaInstanceCacher.get(cityCode);
+		StatAreaInstance provinceInstance = StatAreaInstanceCacher.get(provinceCode);
 		
 		int areaCurrent = 0;
 		if(null != areaInstance) {
@@ -269,11 +351,18 @@ public class StatAreaInstanceCacher {
 		if(null != cityInstance) {
 			 cityCurrent = cityInstance.online(barId);
 		}
+		int provinceCurrent = 0;
+		if(null != provinceInstance) {
+			provinceCurrent = provinceInstance.online(barId);
+		}
 		
 		logger.info(
 				String.format(
-						"##ActiveBar id: %s, Area: %s %s CurrentActive Bar: %d City: %s %s CurrentActive Bar: %d", 
+						"##ActiveBar id: %s,Province: %s %s CurrentActive Bar: %d Area: %s %s CurrentActive Bar: %d City: %s %s CurrentActive Bar: %d", 
 						barId,
+						provinceCode,
+						provinceInstance.getName(),
+						provinceCurrent,
 						areaCode,
 						areaInstance.getName(),
 						areaCurrent,
@@ -291,9 +380,11 @@ public class StatAreaInstanceCacher {
 		
 		String areaCode = BarIdUtils.getAreaCode(barId);
 		String cityCode = BarIdUtils.getCityCode(barId);
+		String provinceCode = BarIdUtils.getProvinceCode(barId);
 		
 		StatAreaInstance areaInstance = StatAreaInstanceCacher.get(areaCode);
 		StatAreaInstance cityInstance = StatAreaInstanceCacher.get(cityCode);
+		StatAreaInstance provinceInstance = StatAreaInstanceCacher.get(provinceCode);
 		
 		int areaCurrent = 0;
 		if(null != areaInstance) {
@@ -303,12 +394,18 @@ public class StatAreaInstanceCacher {
 		if(null != cityInstance) {
 			 cityCurrent = cityInstance.offline(barId);
 		}
-		
+		int provinceCurrent = 0;
+		if(null != provinceInstance) {
+			provinceCurrent = provinceInstance.offline(barId);
+		}
 		
 		logger.info(
 				String.format(
-						"##InactiveBar id: %s, Area: %s %s CurrentActive Bar: %d City: %s %s CurrentActive Bar: %d", 
+						"##InactiveBar id: %s, Province: %s %s CurrentActive Bar: %d Area: %s %s CurrentActive Bar: %d City: %s %s CurrentActive Bar: %d", 
 						barId,
+						provinceCode,
+						provinceInstance.getName(),
+						provinceCurrent,
 						areaCode,
 						areaInstance.getName(),
 						areaCurrent,

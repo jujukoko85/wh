@@ -112,6 +112,12 @@ public interface AuthService {
 	public int countNetBarPcByAreaCode(String areaCode);
 	
 	/**
+	 * 查询省内所有网吧PC数量
+	 * @return
+	 */
+	public int countNetBarPcInProvince();
+	
+	/**
 	 * 查询指定 市 代码 区域中的网吧总数
 	 * @param areaCode
 	 * @return
@@ -124,6 +130,12 @@ public interface AuthService {
 	 * @return
 	 */
 	public int countNetBarPcByCityCode(String cityCode);
+	
+	/**
+	 * 查询所有省内网吧数量
+	 * @return
+	 */
+	public int countNetBarInProvince();
 	
 	/**
 	 * 查询指定时间 区域 的区域统计数据

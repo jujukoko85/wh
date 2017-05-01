@@ -105,4 +105,37 @@ public class AreasCode extends BaseAreasCode {
 		
 		return isMine(areaCode);
 	}
+	
+	/**
+	 * 根据区域代码返回省代码
+	 * @param code
+	 * @return
+	 */
+	public static String getProvinceCode(String code) {
+		if(!isValidCode(code)) return null;
+		if(code.endsWith("000000")) return null;
+		return code.substring(0, 2) + "0000";
+	}
+	
+	/**
+	 * 根据区域代码返回市代码
+	 * @param code
+	 * @return
+	 */
+	public static String getCityCode(String code) {
+		if(!isValidCode(code)) return null;
+		if(code.endsWith("0000")) return null;
+		return code.substring(0, 4) + "00";
+	}
+	
+	/**
+	 * 根据区域代码返回区代码
+	 * @param code
+	 * @return
+	 */
+	public static String getAreaCode(String code) {
+		if(!isValidCode(code)) return null;
+		if(code.endsWith("00")) return null;
+		return code;
+	}
 }

@@ -48,6 +48,11 @@
     where 
     	city_code = #{areaCode, jdbcType=VARCHAR}
   </select>
+  <select id="countProvincePc" resultType="java.lang.Integer">
+    select
+    	ifnull(sum(client_total),0)
+    from t_net_bar
+  </select>
   
   <select id="countAreaBar" resultType="java.lang.Integer">
     select
@@ -56,13 +61,17 @@
     where 
     	area_code = #{areaCode, jdbcType=VARCHAR}
   </select>
-  
   <select id="countCityBar" resultType="java.lang.Integer">
     select
     	ifnull(count(*),0)
     from t_net_bar
     where 
     	city_code = #{areaCode, jdbcType=VARCHAR}
+  </select>
+  <select id="countProvinceBar" resultType="java.lang.Integer">
+    select
+    	ifnull(count(*),0)
+    from t_net_bar
   </select>
   
   <select id="selectAll" resultMap="BaseResultMap">

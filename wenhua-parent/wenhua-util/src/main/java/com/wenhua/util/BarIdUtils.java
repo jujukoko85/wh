@@ -23,6 +23,16 @@ public class BarIdUtils {
 	}
 	
 	/**
+	 * 从网吧注册号获取省代码
+	 * @param barId
+	 * @return
+	 */
+	public static String getProvinceCode(String barId) {
+		if(!isValid(barId)) return null;
+		return barId.substring(0, 2) + "0000";
+	}
+	
+	/**
 	 * 检验网吧注册号是否合法
 	 * @param barId
 	 * @return
