@@ -39,6 +39,7 @@ import com.wenhua.svr.exception.AuthSignNotValidException;
 import com.wenhua.svr.exception.FileNotExistException;
 import com.wenhua.svr.exception.SystemException;
 import com.wenhua.svr.service.AuthService;
+import com.wenhua.util.BarIdUtils;
 import com.wenhua.util.tools.NumberUtil;
 
 import io.netty.channel.Channel;
@@ -630,6 +631,11 @@ public class ChannelHandlerWenhuaMsg extends ChannelInboundHandlerAdapter {
 			
 			StatAreaInstanceCacher.activeBar(barID);
 			StatBarInstancerCacher.addOrUpdate(bar);
+			
+			String areaCode = BarIdUtils.getAreaCode(barID);
+			int maxBar = authService.countNetBarByAreaCode(areaCode);
+			int maxPc = authService.countNetBarPcByAreaCode(areaCode);
+			StatAreaInstanceCacher.updateArea(areaCode, maxBar, maxPc);
 			
 		} catch (AuthBarNotExistException e) {
 			close = true;

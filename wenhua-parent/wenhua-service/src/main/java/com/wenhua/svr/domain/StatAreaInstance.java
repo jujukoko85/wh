@@ -66,6 +66,8 @@ public abstract class StatAreaInstance {
 			sai = new StatAreaInstanceArea();
 		} else if(area.isCity()) {
 			sai = new StatAreaInstanceCity();
+		} else if(area.isProvince()) {
+			sai = new StatAreaInstanceProvince();
 		} else {
 			return null;
 		}

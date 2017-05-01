@@ -183,6 +183,4 @@ public interface AuthService {
 	 */
 	public void updateStatNetBar(StatNetBar statNetBar);
 	
-	
-	
 }
